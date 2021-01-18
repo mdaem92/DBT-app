@@ -274,7 +274,7 @@ export const data = [
 export const moodData = [
   {
     "id": "Mood",
-    "color": "hsl(174, 70%, 50%)",
+    "color": "hsl(209, 100%, 55%)",
     "data": [
       {
         "x": "Monday",
@@ -299,6 +299,39 @@ export const moodData = [
       {
         "x": "Saturday",
         "y": 1
+      },
+    ]
+  }
+]
+
+export const tensionData = [
+  {
+    "id": "Tension",
+    "color": "hsl(174, 70%, 50%)",
+    "data": [
+      {
+        "x": "Monday",
+        "y": 50
+      },
+      {
+        "x": "Tuesday",
+        "y": 40
+      },
+      {
+        "x": "Wednesday",
+        "y": 35
+      },
+      {
+        "x": "Thursday",
+        "y": 50
+      },
+      {
+        "x": "Friday",
+        "y": 55
+      },
+      {
+        "x": "Saturday",
+        "y": 35
       },
     ]
   }
