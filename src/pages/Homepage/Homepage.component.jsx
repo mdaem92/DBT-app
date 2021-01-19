@@ -21,6 +21,7 @@ const Homepage = () => {
                 <TabsContainer>
                     <HomepageTabs/>
                 </TabsContainer>
+                
             </Container>
         </div>
 

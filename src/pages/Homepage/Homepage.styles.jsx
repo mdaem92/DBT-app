@@ -5,7 +5,7 @@ export const Container= styled.div`
     display:grid;
     grid-template-columns: repeat(3,1fr);
     grid-template-rows: 2fr repeat(2,3fr);
-    height:100vh ;
+    /* height:100vh ; */
     
 `
 export const ChartContainer = styled.div`
