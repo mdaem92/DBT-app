@@ -5,8 +5,8 @@ const {TabPane} = Tabs
 export const TabPaneContainer = styled((props)=><TabPane {...props}/>)`
     display:flex;
     flex-direction:row;
-    /* justify-content:space-evenly; */
-    border: 1px solid red;
-    /* height:500px;
-    width:100%; */
+    justify-content:space-evenly;
+    /* border: 1px solid red; */
+    /* align-items:center; */
+
 `

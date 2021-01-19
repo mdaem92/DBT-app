@@ -1,12 +1,16 @@
 import {FormActionTypes}from './form.types'
 
 const formDefaultState = {
+
     date:undefined,
+    isDeadlineMissed:false,
+    lastNightSummary:'',
     goalDescription:'',
     isMorningReport:true,
     mood:undefined,
     tension:undefined,
     selfEsteemReport:'',
+    positiveReport:'',
     additionalNotes:''
 }
 

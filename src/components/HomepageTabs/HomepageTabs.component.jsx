@@ -1,12 +1,15 @@
 import React from 'react'
 import {Tabs} from 'antd'
 import MyResponsiveLine from '../Responsive-Chart/ResponsiveChart.component'
-import { moodData, tensionData } from '../../data/dummy-data'
 import { TabPaneContainer } from './HomepageTabs.styles'
+import {connect} from 'react-redux'
+import { createStructuredSelector } from 'reselect'
+import { moodsSelector, tensionsSelector } from '../../Redux/journals/journals.selectors'
+import NewResponsiveChart from '../../playground/NewResponsiveChart'
 
 const {TabPane} = Tabs
 
-const HomepageTabs = () => {
+const HomepageTabs = ({moodData,tensionData}) => {
 
     const handleChange = ()=>{
 
@@ -14,8 +17,10 @@ const HomepageTabs = () => {
     return (
         <Tabs defaultActiveKey="1" onChange={handleChange}>
             <TabPaneContainer tab={'My Stats'} key="1">
-                <MyResponsiveLine yAxisTitle={'Date'} xAxisTitle={' Mood'} />
-                <MyResponsiveLine yAxisTitle={'Date'} xAxisTitle={'Tension'}  min={0} max={100}  dataKey={'Tension'}/>
+                {/* <MyResponsiveLine yAxisTitle={'Date'} xAxisTitle={' Mood'} />
+                <MyResponsiveLine yAxisTitle={'Date'} xAxisTitle={'Tension'}  min={0} max={100}  dataKey={'Tension'}/> */}
+                <NewResponsiveChart yAxisTitle = {'Mood'} xAxisTitle={'Date'} data={moodData} label={'Mood'} domain={[-2,2]}/>
+                <NewResponsiveChart yAxisTitle = {'Tension'} xAxisTitle={'Date'} data={tensionData} label={'Tension'} domain={[0,100]}/>
             </TabPaneContainer>
             <TabPane tab={'Teammate\'s'} key="2">
                 teammate's stats
@@ -24,4 +29,8 @@ const HomepageTabs = () => {
     )
 }
 
-export default HomepageTabs
+const mapStateToProps = createStructuredSelector({
+    moodData:moodsSelector,
+    tensionData:tensionsSelector
+})
+export default  connect(mapStateToProps)(HomepageTabs)
