@@ -17,8 +17,6 @@ const HomepageTabs = ({moodData,tensionData}) => {
     return (
         <Tabs defaultActiveKey="1" onChange={handleChange}>
             <TabPaneContainer tab={'My Stats'} key="1">
-                {/* <MyResponsiveLine yAxisTitle={'Date'} xAxisTitle={' Mood'} />
-                <MyResponsiveLine yAxisTitle={'Date'} xAxisTitle={'Tension'}  min={0} max={100}  dataKey={'Tension'}/> */}
                 <NewResponsiveChart yAxisTitle = {'Mood'} xAxisTitle={'Date'} data={moodData} label={'Mood'} domain={[-2,2]}/>
                 <NewResponsiveChart yAxisTitle = {'Tension'} xAxisTitle={'Date'} data={tensionData} label={'Tension'} domain={[0,100]}/>
             </TabPaneContainer>
