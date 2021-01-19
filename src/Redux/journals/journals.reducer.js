@@ -27,10 +27,10 @@ const journalsDefaultState = [
 
 const journalsReducer = (state=journalsDefaultState,action)=>{
     switch (action.type) {
-        case JournalsActionTypes.ADD_JOURNAL:
+        case JournalsActionTypes.SUBMIT_JOURNAL:
             return[
                 ...state,
-                action.newJournal  
+                action.journal 
             ]
         case JournalsActionTypes.EDIT_JOURNAL:
             return editJournal(state,action.index,action.updates)

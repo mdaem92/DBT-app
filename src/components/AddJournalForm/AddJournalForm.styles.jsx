@@ -1,24 +1,26 @@
+import {Form} from "antd";
 import styled from "styled-components";
 
-export const FormContainer = styled.div`
-    .form{
+export const FormContainer = styled((props)=><Form {...props}/>)`
+
+    padding:5% 20%; 
+    .switch{
+        margin:10px 0;
         .ant-switch-inner{
-            display:flex;
+            display: flex;
             justify-content:center;
-            align-items:center;
-            flex-wrap:wrap;
-            flex-direction:row;
-            /* svg{
-                display:flex;
-                justify-self:center;
-            } */
         }
     }
 `
 
-export const Seperator = styled.div`
+
+export const ItemContainer = styled.div`
+    width: 40vw;
+
+`
+export const ItemRow = styled.div`
     display:flex;
-    flex-direction:row;
+    flex-direction:column;
     justify-content:space-evenly;
-    padding:10px;
+
 `
