@@ -11,16 +11,30 @@ export const FormContainer = styled((props)=><Form {...props}/>)`
             justify-content:center;
         }
     }
+
+    .ant-form-item{
+        width:40vw;
+        justify-content:flex-end;
+    }
 `
 
 
-export const ItemContainer = styled.div`
-    width: 40vw;
-
-`
 export const ItemRow = styled.div`
     display:flex;
     flex-direction:column;
     justify-content:space-evenly;
+
+`
+export const RowContainer = styled.div`
+    display:flex;
+    flex-direction:row;
+    justify-content:space-between;
+    .ant-picker{
+        height: 32px;
+    }
+    .ant-form-item{
+        width:fit-content;
+        /* justify-content:flex-end; */
+    }
 
 `

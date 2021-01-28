@@ -1,12 +1,15 @@
-import logo from './logo.svg';
-// import './App.css';
-import Homepage from './pages/Homepage/Homepage.component';
+import useCurrentUser from './hooks/useCurrentUser';
+
 import Approuter from './Routers/AppRouter.component';
 
+
 function App() {
+
+  const currentUser = useCurrentUser()
+  console.log('usr from app.js ',currentUser);
   return (
     <div >
-        <Approuter/>
+        <Approuter currentUser={currentUser}/>
     </div>
   );
 }
