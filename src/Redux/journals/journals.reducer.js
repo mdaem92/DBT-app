@@ -1,5 +1,5 @@
 import {JournalsActionTypes} from './journals.types'
-import {editJournal,removeJournal} from './journals.utils'
+import {editJournal,removeJournal, submitAndMergeJournal} from './journals.utils'
 
 
 const journalsDefaultState = [
@@ -29,10 +29,12 @@ const journalsDefaultState = [
 const journalsReducer = (state=journalsDefaultState,action)=>{
     switch (action.type) {
         case JournalsActionTypes.SUBMIT_JOURNAL_SUCCESS:
-            return[
-                ...state,
-                action.journal 
-            ]
+            // return[
+            //     ...state,
+            //     action.journal 
+            // ]
+            return submitAndMergeJournal(state,action.journal)
+            
         case JournalsActionTypes.EDIT_JOURNAL:
             return editJournal(state,action.index,action.updates)
 
