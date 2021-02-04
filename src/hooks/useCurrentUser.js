@@ -8,9 +8,9 @@ const useCurrentUser = () => {
             
             createUserProfile(userAuth).then((userRef)=>{
                 if (userRef) {
-                    console.log('user ref is: ',userRef);
+                    // console.log('user ref is: ',userRef);
                     userRef.onSnapshot(snapshot => {
-                        console.log('snapshot id:', snapshot.id);
+                        // console.log('snapshot id:', snapshot.id);
                         setUser({...snapshot.data()})
                     })
                 } 

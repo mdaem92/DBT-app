@@ -33,16 +33,15 @@ const AddJournalForm = ({ submit, setFieldValue }) => {
     }, [state])
 
 
-    // const {uid,displayName} = useCurrentUser()
     const user = useCurrentUser()
-    console.log('user from form: ',user);
     const { isMorningReport } = state
     const currentDate = useCurrentTime()
+
     const onFinish = (values) => {
 
-        const {uid,displayName} = user
+        const { uid, displayName } = user
         console.log('Success:', values);
-        submit({ ...values,uid,displayName })
+        submit({ ...values, uid, displayName, isMorningReport })
 
     };
 
@@ -55,7 +54,7 @@ const AddJournalForm = ({ submit, setFieldValue }) => {
             e.preventDefault()
         }
     }
-    const storeDataOnBlur = ({ target:{id,value} }) => {
+    const storeDataOnBlur = ({ target: { id, value } }) => {
         console.log(id);
         console.log(value);
         console.log(`going to store  on blur`);
@@ -87,7 +86,7 @@ const AddJournalForm = ({ submit, setFieldValue }) => {
             </RowContainer>
 
             {
-                state.isMorningReport &&
+                isMorningReport &&
 
                 <Form.Item
                     rules={[{ required: true, message: 'Last night summary is required' }]}
@@ -99,13 +98,24 @@ const AddJournalForm = ({ submit, setFieldValue }) => {
 
             }
 
-            <Form.Item
-                rules={[{ required: true, message: 'Today\'s goal is required' }]}
-                name={'goalDescription'}
-            >
-                <TextArea placeholder={state.isMorningReport ? 'Today\'s goal' : 'Today\' goal overview'} autoSize onBlur={storeDataOnBlur} />
-            </Form.Item>
+            {
+                isMorningReport ?
+                <Form.Item
+                    rules={[{ required: true, message: 'Today\'s goal is required' }]}
+                    name={'todaysGoal'}
+                >
+                    <TextArea placeholder={'Today\'s goal'} autoSize onBlur={storeDataOnBlur} />
+                </Form.Item>
+                :
+                <Form.Item
+                    rules={[{ required: true, message: 'Goal description is required' }]}
+                    name={'goalDescription'}
+                >
+                    <TextArea placeholder={'Today\' goal overview'} autoSize onBlur={storeDataOnBlur} />
+                </Form.Item>
+            }
 
+            
 
             <Form.Item
                 rules={[{ required: true, message: 'Mood is required' }]}
@@ -152,12 +162,24 @@ const AddJournalForm = ({ submit, setFieldValue }) => {
 
             }
 
-            <Form.Item
-                rules={[{ required: false }]}
-                name={'additionalNotes'}
-            >
-                <TextArea placeholder={'Additional notes'} autoSize onBlur={storeDataOnBlur} />
-            </Form.Item>
+
+            {
+                isMorningReport ?
+                    <Form.Item
+                        rules={[{ required: false }]}
+                        name={'additionalNotesMorning'}
+                    >
+                        <TextArea placeholder={'Additional notes'} autoSize onBlur={storeDataOnBlur} />
+                    </Form.Item>
+                    :
+                    <Form.Item
+                        rules={[{ required: false }]}
+                        name={'additionalNotesEvening'}
+                    >
+                        <TextArea placeholder={'Additional notes'} autoSize onBlur={storeDataOnBlur} />
+                    </Form.Item>
+            }
+
 
 
             <Form.Item>
