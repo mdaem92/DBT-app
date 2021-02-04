@@ -4,8 +4,14 @@ import {persistStore,persistReducer,createTransform}from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import {parse,stringify} from'flatted/esm'
 import rootReducer from './rootReducer'
+import createSagaMiddleware from 'redux-saga'
+// import { rootSaga } from './rootSaga'
+import {submitJournalStart} from './journals/journals.sagas'
 
-const middlewares = []
+const sagaMiddleware = createSagaMiddleware()
+
+const middlewares = [sagaMiddleware]
+
 if(process.env.NODE_ENV ==='development'){
     middlewares.push(logger)
 }
@@ -21,7 +27,9 @@ const persistConfig = {
     transforms:[transformCircular]
 }
 const persistedReducer = persistReducer(persistConfig,rootReducer)
-const store = createStore(persistedReducer,applyMiddleware(...middlewares))
 
+
+const store = createStore(persistedReducer,applyMiddleware(...middlewares))
+sagaMiddleware.run(submitJournalStart)
 export default store
 export const persistor = persistStore(store)

@@ -5,9 +5,10 @@ import { FormContainer, ItemContainer, RowContainer } from './AddJournalForm.sty
 import { Input, Select, Switch, Form, InputNumber, DatePicker } from 'antd'
 import { FiSun, FiMoon } from "react-icons/fi";
 import { connect } from 'react-redux'
-import { submitJournal } from '../../Redux/journals/journals.actions'
+import { submitJournalStart } from '../../Redux/journals/journals.actions'
 import useCurrentTime from '../../hooks/useCurrentTime'
 import { setFieldValue } from '../../Redux/form/form.actions'
+import useCurrentUser from '../../hooks/useCurrentUser'
 
 const { TextArea } = Input
 const { Option } = Select
@@ -31,12 +32,17 @@ const AddJournalForm = ({ submit, setFieldValue }) => {
 
     }, [state])
 
+
+    // const {uid,displayName} = useCurrentUser()
+    const user = useCurrentUser()
+    console.log('user from form: ',user);
     const { isMorningReport } = state
     const currentDate = useCurrentTime()
     const onFinish = (values) => {
 
+        const {uid,displayName} = user
         console.log('Success:', values);
-        submit({ ...values })
+        submit({ ...values,uid,displayName })
 
     };
 
@@ -166,7 +172,7 @@ const AddJournalForm = ({ submit, setFieldValue }) => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-    submit: (journal) => dispatch(submitJournal(journal)),
+    submit: (journal) => dispatch(submitJournalStart(journal)),
     setFieldValue: (name, value) => dispatch(setFieldValue(name, value))
 })
 

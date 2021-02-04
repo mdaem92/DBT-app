@@ -1,6 +1,7 @@
 import {JournalsActionTypes} from './journals.types'
 import {editJournal,removeJournal} from './journals.utils'
 
+
 const journalsDefaultState = [
     {
         name: 'Mon', mood: 0, tension: 50, mood2: 1, tension2: 40
@@ -27,7 +28,7 @@ const journalsDefaultState = [
 
 const journalsReducer = (state=journalsDefaultState,action)=>{
     switch (action.type) {
-        case JournalsActionTypes.SUBMIT_JOURNAL:
+        case JournalsActionTypes.SUBMIT_JOURNAL_SUCCESS:
             return[
                 ...state,
                 action.journal 
