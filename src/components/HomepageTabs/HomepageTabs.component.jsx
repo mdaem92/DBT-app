@@ -1,11 +1,10 @@
 import React from 'react'
 import {Tabs} from 'antd'
-import MyResponsiveLine from '../Responsive-Chart/ResponsiveChart.component'
 import { TabPaneContainer } from './HomepageTabs.styles'
 import {connect} from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import { moodsSelector, tensionsSelector } from '../../Redux/journals/journals.selectors'
-import NewResponsiveChart from '../../playground/NewResponsiveChart'
+import NewResponsiveChart from '../Responsive-Chart/ResponsiveChart'
 
 const {TabPane} = Tabs
 

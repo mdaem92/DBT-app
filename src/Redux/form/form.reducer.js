@@ -16,11 +16,11 @@ const formDefaultState = {
 
 const formReducer =  (state=formDefaultState,action)=>{
     switch (action.type) {
-        case FormActionTypes.SET_FIELD_VALUE:
-            return {
-                ...state,
-                [action.name]:action.value
-            }
+        // case FormActionTypes.SET_FIELD_VALUE:
+        //     return {
+        //         ...state,
+        //         [action.name]:action.value
+        //     }
         case FormActionTypes.RESET_FORM:
             return formDefaultState
         default:

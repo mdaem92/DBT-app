@@ -10,7 +10,7 @@ export const submitAndMergeJournal = (state, journal) => {
 
     const newJournalTimestamp = journal.timestamp
     const newJournalDate = moment.unix(newJournalTimestamp).format("MM/DD/YYYY");
-    console.log('journal ',journal);
+    
     const index = state.findIndex(({ timestamp }) => {
         const journalDate = moment.unix(timestamp).format("MM/DD/YYYY");
         return journalDate === newJournalDate

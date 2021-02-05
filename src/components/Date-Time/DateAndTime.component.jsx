@@ -7,7 +7,6 @@ import moment from 'moment'
 
 const DateAndTime = () => {
     const rawdate = useCurrentTime()
-    console.log('new date: ' ,rawdate);
     const date = moment(rawdate).format("dddd Do MMM YYYY")
 
     return (

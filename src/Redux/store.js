@@ -5,7 +5,7 @@ import storage from 'redux-persist/lib/storage'
 import {parse,stringify} from'flatted/esm'
 import rootReducer from './rootReducer'
 import createSagaMiddleware from 'redux-saga'
-// import { rootSaga } from './rootSaga'
+import { rootSaga } from './rootSaga'
 import {submitJournalStart} from './journals/journals.sagas'
 
 const sagaMiddleware = createSagaMiddleware()
@@ -30,6 +30,6 @@ const persistedReducer = persistReducer(persistConfig,rootReducer)
 
 
 const store = createStore(persistedReducer,applyMiddleware(...middlewares))
-sagaMiddleware.run(submitJournalStart)
+sagaMiddleware.run(rootSaga)
 export default store
 export const persistor = persistStore(store)

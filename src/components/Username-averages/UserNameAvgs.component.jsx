@@ -1,5 +1,5 @@
 import React from 'react'
-import {Form, Statistic,} from 'antd'
+import { Statistic} from 'antd'
 import {UserNameAvgsContainer , NameContainer ,AvgsContainer} from './UserNameAvgs.styles'
 import {FormOutlined , SmileOutlined , FireOutlined} from '@ant-design/icons'
 

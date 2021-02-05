@@ -1,17 +1,8 @@
-import { takeEvery, call, all, put, take } from 'redux-saga/effects'
+import { takeLatest, put} from 'redux-saga/effects'
 import { JournalsActionTypes } from './journals.types'
 import { firestore, Timestamp } from '../../firebase/firebase.utils'
-import { submitJournalSuccess } from './journals.actions'
-
-// function* submitJournalAsync({ uid, displayName, ...journalData }) {
-//     yield console.log('attempting to submit');
-//     // try {
-//     //     yield firestore.doc(`users/${uid}`).set({ ...journalData }, { merge: true })
-//     //     yield put(submitJournalSuccess({uid,displayName,...journalData}))   
-//     // } catch (e) {
-//     //     console.log(e);
-//     // }
-// }
+import { submitJournalSuccess,fetchJournalsFailure,fetchJournalsSuccess } from './journals.actions'
+import moment from 'moment';
 
 
 export function* submitJournalAsync({ journal: { uid, displayName, date, isMorningReport, ...journalData } }) {
@@ -34,9 +25,41 @@ export function* submitJournalAsync({ journal: { uid, displayName, date, isMorni
     }
 }
 
+const getJournalsFromSnapshot = (snapshot)=>{
+    return snapshot.docs.map((doc)=>{
+        const {date,...otherprops} = doc.data()
+        console.log('db date: ',date.seconds);
+        return {
+            ...otherprops,
+            date:moment.unix(date.seconds).format('DMMM YY')
+        }
+        // return doc.data()
+    })
+}
+export function* fetchJournalsAsync({uid}){
+    
+    try {
+        const journalsRef = yield firestore.doc(`users/${uid}`).collection('journals')
+        const snapshot = yield journalsRef.get()
+        const journals = yield getJournalsFromSnapshot(snapshot)
+        yield put(fetchJournalsSuccess(journals))
+
+    } catch (error) {
+        
+        yield put(fetchJournalsFailure())
+        console.log(error);
+    }
+}
+
 export function* submitJournalStart() {
-    yield takeEvery(
+    yield takeLatest(
         JournalsActionTypes.SUBMIT_JOURNAL_START,
         submitJournalAsync
+    )
+}
+export function* fetchJournalsStart(){
+    yield takeLatest(
+        JournalsActionTypes.FETCH_JOURNALS_START,
+        fetchJournalsAsync
     )
 }
