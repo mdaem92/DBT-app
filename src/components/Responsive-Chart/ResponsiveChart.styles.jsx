@@ -1,10 +1,15 @@
 import styled from 'styled-components'
 
 export const Container = styled.div`
-/* height:100vh; */
-width:40vw;
-display: flex;
-justify-content:center;
-/* border:1px solid green; */
+
+    display: flex;
+    justify-content:center;
+    flex-direction:column;
+    position:relative;
+    /* border:1px solid green; */
+    .recharts-wrapper{
+        width:40vw;
+    }
 
 `
+

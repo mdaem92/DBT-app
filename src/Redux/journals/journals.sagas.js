@@ -18,7 +18,7 @@ export function* submitJournalAsync({ journal: { uid, displayName, date, isMorni
             .doc(`${date.format('DD MM YYYY')}`)
             .set({ ...journalData, date: timestamp }, { merge: true })
             
-        yield put(submitJournalSuccess({ ...journalData, uid, displayName, timestamp, isMorningReport }))
+        yield put(submitJournalSuccess({ ...journalData, uid, displayName, date:date.format('DMMM YY'), isMorningReport }))
 
     } catch (error) {
         console.log(error);

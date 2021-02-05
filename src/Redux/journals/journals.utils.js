@@ -8,13 +8,15 @@ export const removeJournal = () => {
 
 export const submitAndMergeJournal = (state, journal) => {
 
-    const newJournalTimestamp = journal.timestamp
-    const newJournalDate = moment.unix(newJournalTimestamp).format("MM/DD/YYYY");
+    const newJournalDate = journal.date
+    console.log('date of new journal: ',journal);
+    // const newJournalDate = moment.unix(newJournalTimestamp).format("MM/DD/YYYY");
     
-    const index = state.findIndex(({ timestamp }) => {
-        const journalDate = moment.unix(timestamp).format("MM/DD/YYYY");
-        return journalDate === newJournalDate
-
+    const index = state.findIndex(({ date }) => {
+        // const journalDate = moment.unix(timestamp).format("MM/DD/YYYY");
+        // console.log(`${date} vs ${newJournalDate}`);
+        
+        return date === newJournalDate
     })
 
     if (index>=0){

@@ -13,9 +13,9 @@ const Header = () => {
             <Menu.Item >
                 <NavLink exact activeClassName={'active'} className={'anchor'} to='/'>Homepage</NavLink>
             </Menu.Item>
-            {/* <Menu.Item >
-                <NavLink exact activeClassName={'active'} className={'anchor'} to='/charts'>Charts</NavLink>
-            </Menu.Item> */}
+            <Menu.Item >
+                <NavLink exact activeClassName={'active'} className={'anchor'} to='/journals'>Journals</NavLink>
+            </Menu.Item>
             <Menu.Item >
                 <NavLink exact activeClassName={'active'} className={'anchor'} to='/add-journal'>Add Journal</NavLink>
             </Menu.Item>
@@ -31,7 +31,7 @@ const Header = () => {
                     
                         <NavContainer>
                             <NavLink exact activeClassName={'active'} className={'anchor'} to='/'>Homepage</NavLink>
-                            {/* <NavLink exact activeClassName={'active'} className={'anchor'} to='/charts'>Charts</NavLink> */}
+                            <NavLink exact activeClassName={'active'} className={'anchor'} to='/journals'>Journals</NavLink>
                             <NavLink exact activeClassName={'active'} className={'anchor'} to='/add-journal'>Add Journal</NavLink>
 
                         </NavContainer>

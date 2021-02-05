@@ -1,7 +1,5 @@
-import React, { useState, useEffect , useRef } from 'react'
+import React from 'react'
 import { Route, Redirect } from 'react-router-dom'
-import { auth } from '../firebase/firebase.utils'
-import useCurrentUser from '../hooks/useCurrentUser'
 
 const PrivateRouter = ({
     currentUser,
@@ -10,20 +8,21 @@ const PrivateRouter = ({
     ...otherProps
 }) => {
 
-
     return (
 
         <Route {...otherProps} component={(props) => (
-            !!currentUser?
+            !!currentUser ?
                 (
                     <Component {...props} />
                 )
                 :
                 (
-                    <Redirect to={{
-                        pathname: 'login',
-                        state: { url: path }
-                    }} />
+                    <Redirect 
+                        to={{
+                            pathname: 'login',
+                            state: { url: path }
+                        }}
+                    />
                 )
         )} />
     )

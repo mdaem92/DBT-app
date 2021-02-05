@@ -5,6 +5,7 @@ import Header from '../components/Header/Header.component'
 import AddJournalPage from '../pages/AddJournalpage/AddJournalPage.component'
 import PrivateRouter from './PrivateRouter.component'
 import GoogleLogIn from '../pages/GoogleLogInpage/GoogleLogIn.component'
+import JournalsPage from '../pages/JournalsPage/JournalsPage.component'
 
 export const history =createBrowserHistory("../pages/Homepage/Homepage.component")
 // console.log('history: ',history)
@@ -14,8 +15,8 @@ const Approuter = ({currentUser})=>(
         <Header/>
         <Switch>
             <PrivateRouter exact path="/" component={Homepage} currentUser={currentUser}/>
-            {/* <PrivateRouter exact path="/charts" component={<div>charts page</div>} isAuthenticated/> */}
-            <PrivateRouter  path="/add-journal" component={AddJournalPage}  currentUser={currentUser} />
+            <PrivateRouter exact path="/journals" component={JournalsPage} currentUser={currentUser}/>
+            <PrivateRouter exact path="/add-journal" component={AddJournalPage}  currentUser={currentUser} />
             <Route  path="/login" component={GoogleLogIn}/>
         </Switch>
     </Router>
