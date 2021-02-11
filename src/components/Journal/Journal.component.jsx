@@ -1,10 +1,11 @@
 import React from 'react'
+import {JournalContainer} from './Journal.styles'
 
 const Journal = ({date}) => {
     return (
-        <div>
-           {date} 
-        </div>
+        <JournalContainer>
+            {date}
+        </JournalContainer>
     )
 }
 
