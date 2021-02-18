@@ -4,7 +4,15 @@ import { Button ,Modal } from 'antd'
 import { DownOutlined } from '@ant-design/icons'
 import SummaryItem from '../Summary-Item/SummaryItem.component'
 import { useState } from 'react'
+import JournalModalTabs from '../Journal-Modal-Tabs/JournalModalTabs.component'
 
+const moodHandler = {
+    '2': '++',
+    '1': '+',
+    '0': '+-',
+    '-1': '-',
+    '-2': '--'
+}
 const Journal = (
     {
         date,
@@ -12,14 +20,7 @@ const Journal = (
         mood2,
         tension,
         tension2,
-        additionalNotesEvening,
-        additionalNotesMorning,
-        displayName,
-        goalDescription,
-        lastNightSummary,
-        positiveReport,
-        selfEsteemReport,
-        todaysGoal,
+        ...otherProps
     }) => {
     const [isModalVisible,setModalVisible] = useState(false)
     const handleOk = ()=>{
@@ -41,8 +42,8 @@ const Journal = (
                 {date}
             </DateContainer>
             <SummaryContainer>
-                <SummaryItem morning mood={mood} tension={tension} />
-                <SummaryItem mood={mood2} tension={tension2} />
+                <SummaryItem morning mood={moodHandler[mood]} tension={tension} />
+                <SummaryItem mood={moodHandler[mood2]} tension={tension2} />
             </SummaryContainer>
             <ModalButtonArea>
                 <Button
@@ -51,10 +52,14 @@ const Journal = (
                 >
                     View more
                 </Button>
-                <Modal title={date} visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
-                    <p>Some contents...</p>
-                    <p>Some contents...</p>
-                    <p>Some contents...</p>
+                <Modal 
+                    title={date} 
+                    visible={isModalVisible} 
+                    onOk={handleOk} 
+                    onCancel={handleCancel}
+                    bodyStyle={{padding:'0 24px'}}
+                >
+                    <JournalModalTabs {...{...otherProps,mood,mood2,tension,tension2}}/>
                 </Modal>
             </ModalButtonArea>
 

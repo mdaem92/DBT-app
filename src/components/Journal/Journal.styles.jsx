@@ -29,6 +29,7 @@ export const ModalButtonArea = styled.div`
     .ant-btn{
         /* display:none; */
     }
+    
 
 `
 export const DateContainer = styled.div`

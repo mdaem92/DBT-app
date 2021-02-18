@@ -100,22 +100,28 @@ const AddJournalForm = ({ submit, setFieldValue }) => {
 
             {
                 isMorningReport ?
-                <Form.Item
-                    rules={[{ required: true, message: 'Today\'s goal is required' }]}
-                    name={'todaysGoal'}
-                >
-                    <TextArea placeholder={'Today\'s goal'} autoSize onBlur={storeDataOnBlur} />
-                </Form.Item>
-                :
-                <Form.Item
-                    rules={[{ required: true, message: 'Goal description is required' }]}
-                    name={'goalDescription'}
-                >
-                    <TextArea placeholder={'Today\' goal overview'} autoSize onBlur={storeDataOnBlur} />
-                </Form.Item>
+                    <Form.Item
+                        rules={[{ required: true, message: 'Today\'s goal is required' }]}
+                        name={'todaysGoal'}
+                    >
+                        <TextArea placeholder={'Today\'s goal'} autoSize onBlur={storeDataOnBlur} />
+                    </Form.Item>
+                    :
+                    <Form.Item
+                        rules={[{ required: true, message: 'Goal description is required' }]}
+                        name={'goalDescription'}
+                    >
+                        <TextArea placeholder={'Today\' goal overview'} autoSize onBlur={storeDataOnBlur} />
+                    </Form.Item>
             }
+            <Form.Item
+                rules={[{ required: true, message: 'Strongest emotion is required' }]}
+                name={isMorningReport ? 'strongestEmotion' : 'strongestEmotion2'}
+            >
+                <TextArea placeholder={'Your strongest emotion'} autoSize onBlur={storeDataOnBlur} />
 
-            
+            </Form.Item>
+
 
             <Form.Item
                 rules={[{ required: true, message: 'Mood is required' }]}
