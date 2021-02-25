@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {Menu} from 'antd'
+import { Menu } from 'antd'
 
 export const JournalsContainer = styled.div`
     display:flex;
@@ -7,15 +7,33 @@ export const JournalsContainer = styled.div`
     flex-direction:row;
     flex-wrap:wrap;
     gap:20px;
+    @media screen and (max-width:800px){
+        flex-direction:column;
+        /* flex-wrap:nowrap; */
+        gap:unset;
+        justify-content:center;
+        align-items:center;
+        row-gap:10px;
+       
+    }
+   
 `
 
-export const SidePanelContainer = styled(props=><Menu {...props}/>)`
+export const SidePanelContainer = styled(props => <Menu {...props} />)`
     height:fit-content;
     color:white;
+    /* justify-self:center; */
+    
     .ant-menu-submenu-arrow{
         color:white;
     }
-    
+    @media screen and (max-width:800px){
+
+        width:95vw;
+        margin:10px 0;
+        align-self:center;
+   
+    }
 
 `
 export const JournalsPageContainer = styled.div`
@@ -23,6 +41,9 @@ export const JournalsPageContainer = styled.div`
     grid-template-rows:1fr;
     grid-template-columns:1fr 5fr;
     column-gap:20px;
-    
-
+@media screen and (max-width:800px){
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
 `

@@ -6,8 +6,8 @@ import DeadlineCountdown from '../../components/DeadlineCountdown/DeadlineCountd
 const AddJournalPage = () => {
     return (
         <PageLayout>
-            <AddJournalForm/>
             <DeadlineCountdown/>
+            <AddJournalForm/>
         </PageLayout>
     )
 }

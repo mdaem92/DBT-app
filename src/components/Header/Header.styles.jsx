@@ -26,6 +26,10 @@ export const HeaderContainer = styled.div`
         /* font-size:20px; */
         font-weight:bold
     }
+
+    /* @media screen and (max-width:800px){
+
+    } */
 `
 export const IconContainer = styled.div`
     color: #1890ff;

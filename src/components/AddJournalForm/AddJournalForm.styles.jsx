@@ -3,7 +3,12 @@ import styled from "styled-components";
 
 export const FormContainer = styled((props)=><Form {...props}/>)`
 
-    padding:5% 20%; 
+    width:60vw; 
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-self:center;
+
     .switch{
         margin:10px 0;
         .ant-switch-inner{
@@ -13,8 +18,11 @@ export const FormContainer = styled((props)=><Form {...props}/>)`
     }
 
     .ant-form-item{
-        width:40vw;
-        justify-content:flex-end;
+        /* justify-content:flex-end; */
+        justify-self:center;
+    }
+    @media screen and (max-width:800px){
+        width:80vw;
     }
 `
 
@@ -29,12 +37,16 @@ export const RowContainer = styled.div`
     display:flex;
     flex-direction:row;
     justify-content:space-between;
+    width:60vw;
     .ant-picker{
         height: 32px;
     }
     .ant-form-item{
         width:fit-content;
         /* justify-content:flex-end; */
+    }
+    @media screen and (max-width:800px){
+        width:80vw;
     }
 
 `

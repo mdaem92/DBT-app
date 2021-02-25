@@ -2,8 +2,9 @@ import styled from "styled-components";
 
 export const PageLayout = styled.div`
     display: flex;
-    justify-content:space-evenly;
-    border:1px solid black;
-    /* height:100vh ; */
-
+    /* justify-content:center; */
+    flex-direction:column;
+    @media screen and(max-width:800px){
+        height:100vh;
+    }
 `

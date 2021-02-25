@@ -8,9 +8,12 @@ import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect';
 import { entriesPerChartSelector } from '../../Redux/journals/journals.selectors'
 import { setFieldValue } from '../../Redux/journals/journals.actions'
+import useWindowSize from '../../hooks/useWindowSize';
 
 
 const { Option } = Select
+
+
 const ResponsiveLine = ({ xAxisTitle, yAxisTitle, min, max, data, label, domain, entriesPerChart }) => {
 
     const moodAxis = {
@@ -20,7 +23,11 @@ const ResponsiveLine = ({ xAxisTitle, yAxisTitle, min, max, data, label, domain,
         '-1': '-',
         '-2': '--'
     }
+
     const moodTickFormatter = (tick) => !!moodAxis[tick.toString()] ? moodAxis[tick.toString()] : tick
+
+    const width = useWindowSize()
+
     const legendFormat = {
         'mood': 'Morning',
         'tension': 'Morning',
@@ -46,17 +53,25 @@ const ResponsiveLine = ({ xAxisTitle, yAxisTitle, min, max, data, label, domain,
     const handleEntriesPerChart = () => {
 
     }
-
+    console.log('window width: ', width);
     return data.length > 0 ?
         (
             <Container>
                 <LineChart
-                    width={700}
+                    width={width * 0.9}
+                    // width={'100vw'}
                     height={400}
                     data={data}
-                    margin={{
-                        top: 5, right: 50, left: 50, bottom: 5,
-                    }}
+                    margin={width >= 800 ?
+                        {
+                            top: 5, right: 50, left: 50, bottom: 5,
+                        }
+                        :
+                        {
+                            top: 20, right: 5, left: 5, bottom: 20
+                        }
+                    }
+                    
                 >
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey={date} />
@@ -82,7 +97,7 @@ const ResponsiveLine = ({ xAxisTitle, yAxisTitle, min, max, data, label, domain,
                     <Legend formatter={legendFormatter} />
                     <Line type="monotone" yAxisId='left' dataKey={morningDataKey} stroke="#1890ff" activeDot={{ r: 8 }} />
                     <Line type="monotone" yAxisId='left' dataKey={eveningDataKey} stroke="#5f5f5f" activeDot={{ r: 8 }} />
-                    
+
                 </LineChart>
             </Container>
 

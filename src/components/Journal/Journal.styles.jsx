@@ -9,6 +9,9 @@ export const JournalContainer = styled.div`
     grid-template-rows:1fr 2fr 2fr;
     background: rgb(11,53,92);
     /* background: linear-gradient(0deg, rgba(11,53,92,1) 0%, rgba(255,255,255,1) 72%); */
+    @media screen and (max-width:800px){
+        width:95vw;
+    }
 
 ` 
 
