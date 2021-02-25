@@ -58,8 +58,7 @@ const ResponsiveLine = ({ xAxisTitle, yAxisTitle, min, max, data, label, domain,
         (
             <Container>
                 <LineChart
-                    width={width >= 800 ? 700 : width * 0.9}
-                    // width={'100vw'}
+                    width={width >= 800 ? width*0.45 : width * 0.9}
                     height={400}
                     data={data}
                     margin={width >= 800 ?

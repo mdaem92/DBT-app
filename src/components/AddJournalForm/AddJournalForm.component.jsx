@@ -18,14 +18,7 @@ const AddJournalForm = ({ submit, setFieldValue }) => {
     const [state, setState] = useState({
         date: undefined,
         isDeadlineMissed: false,
-        // lastNightSummary: '',
-        // goalDescription: '',
         isMorningReport: true,
-        // mood: undefined,
-        // tension: undefined,
-        // selfEsteemReport: '',
-        // positiveReport: '',
-        // additionalNotes: ''
     })
     useEffect(() => {
         console.log("state updated: ", state);
@@ -54,10 +47,19 @@ const AddJournalForm = ({ submit, setFieldValue }) => {
             e.preventDefault()
         }
     }
+    const retrieveUniqueWordsFromString = (sentence)=>{
+        // return sentence.match(/("[^"]+"|[^"\s]+)/g).filter((item,index,self)=>self.indexOf(item)===index)
+        return [...new Set(sentence.match(/("[^"]+"|[^"\s]+)/g))]
+    }
     const storeDataOnBlur = ({ target: { id, value } }) => {
-        console.log(id);
-        console.log(value);
-        console.log(`going to store  on blur`);
+        if(value){
+            console.log(id);
+            console.log(value);
+            console.log(`going to store  on blur`);
+            const results = retrieveUniqueWordsFromString(value)
+            console.log('words',results);
+        }
+       
     }
 
     return (
@@ -167,8 +169,6 @@ const AddJournalForm = ({ submit, setFieldValue }) => {
                 </Form.Item>
 
             }
-
-
             {
                 isMorningReport ?
                     <Form.Item
