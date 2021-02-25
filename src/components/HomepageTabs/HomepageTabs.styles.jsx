@@ -15,7 +15,7 @@ export const TabPaneContainer = styled((props)=><TabPane {...props}/>)`
 export const ChartsContainer = styled.div`
     display:flex;
     flex-direction:row;
-    border: 1px solid red;
+    /* border: 1px solid red; */
     @media screen and (max-width:800px){
         flex-direction:column;
     }
