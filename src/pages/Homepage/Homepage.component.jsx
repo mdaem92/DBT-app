@@ -8,6 +8,7 @@ import { createStructuredSelector } from 'reselect'
 import { fetchJournalsStart } from '../../Redux/journals/journals.actions'
 import { isJournalsFetchedSelector } from '../../Redux/journals/journals.selectors'
 import useCurrentUser from '../../hooks/useCurrentUser'
+import TestComponent, { Page, WelcomeTitle } from '../../playground/TestComponent.component'
 
 const Homepage = ({ fetchJournals, isJournalsFetched }) => {
 
@@ -19,9 +20,10 @@ const Homepage = ({ fetchJournals, isJournalsFetched }) => {
             fetchJournals(currentUser.uid)
         }
     }, [isJournalsFetched,fetchJournals,currentUser])
+    
 
     return (
-
+        
         <Container>
             <UserNameAvgsContainer>
                 <UserNameAvgs />
@@ -33,6 +35,9 @@ const Homepage = ({ fetchJournals, isJournalsFetched }) => {
                 <HomepageTabs />
             </TabsContainer>
         </Container>
+        // <div>
+        //     <WelcomeTitle primary/>
+        // </div>
 
     )
 }

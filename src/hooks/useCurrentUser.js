@@ -12,6 +12,7 @@ const useCurrentUser = () => {
                     userRef.onSnapshot(snapshot => {
                         // console.log('snapshot id:', snapshot.id);
                         setUser({...snapshot.data()})
+                        console.log({...snapshot.data()});
                     })
                 } 
             })

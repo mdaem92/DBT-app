@@ -6,6 +6,7 @@ export const JournalsContainer = styled.div`
     /* justify-content:space-evenly; */
     flex-direction:row;
     flex-wrap:wrap;
+    height:fit-content;
     gap:20px;
     @media screen and (max-width:800px){
         flex-direction:column;
@@ -22,11 +23,10 @@ export const JournalsContainer = styled.div`
 export const SidePanelContainer = styled(props => <Menu {...props} />)`
     height:fit-content;
     color:white;
-    /* justify-self:center; */
-    
     .ant-menu-submenu-arrow{
         color:white;
     }
+
     @media screen and (max-width:800px){
 
         width:95vw;
@@ -34,6 +34,7 @@ export const SidePanelContainer = styled(props => <Menu {...props} />)`
         align-self:center;
    
     }
+
 
 `
 export const JournalsPageContainer = styled.div`
@@ -46,4 +47,8 @@ export const JournalsPageContainer = styled.div`
     flex-direction:column;
     justify-content:center;
 }
+`
+
+export const SidePanelProfileContainer = styled.div`
+    /* width:100px; */
 `
