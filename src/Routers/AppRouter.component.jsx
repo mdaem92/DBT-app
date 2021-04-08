@@ -14,9 +14,9 @@ const Approuter = ({currentUser})=>(
     <Router history={history}>
         <Header/>
         <Switch>
-            <PrivateRouter exact path="/" component={Homepage} currentUser={currentUser}/>
-            <PrivateRouter exact path="/journals" component={JournalsPage} currentUser={currentUser}/>
-            <PrivateRouter exact path="/add-journal" component={AddJournalPage}  currentUser={currentUser} />
+            <PrivateRouter exact path="/" component={Homepage} />
+            <PrivateRouter exact path="/journals" component={JournalsPage} />
+            <PrivateRouter exact path="/add-journal" component={AddJournalPage} />
             <Route  path="/login" component={GoogleLogIn}/>
         </Switch>
     </Router>

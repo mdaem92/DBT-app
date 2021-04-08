@@ -5,11 +5,11 @@ import Approuter from './Routers/AppRouter.component';
 
 function App() {
 
-  const currentUser = useCurrentUser()
+  // const currentUser = useCurrentUser()
 
   return (
     <div >
-        <Approuter currentUser={currentUser}/>
+        <Approuter />
     </div>
   );
 }

@@ -6,6 +6,7 @@ import {connect} from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import { entriesCountSelector, moodsAverageSelector, tensionsAverageSelector } from '../../Redux/journals/journals.selectors'
 import useCurrentUser from '../../hooks/useCurrentUser'
+import { currentUserSelector } from '../../Redux/user/user.selectors'
 
 const moodHandler = {
     '2': '++',
@@ -14,8 +15,8 @@ const moodHandler = {
     '-1': '-',
     '-2': '--'
 }
-const UserNameAvgs = ({entriesCount,moodAverage,tensionAverage}) => {
-    const currentUser = useCurrentUser()
+const UserNameAvgs = ({entriesCount,moodAverage,tensionAverage,currentUser}) => {
+    // const currentUser = useCurrentUser()
     
     return (
         <UserNameAvgsContainer >
@@ -23,7 +24,7 @@ const UserNameAvgs = ({entriesCount,moodAverage,tensionAverage}) => {
             <AvgsContainer>
                 <Statistic title={'Entries'} prefix={<FormOutlined/>} value={entriesCount} />
                 <Statistic title={'Mood Avg'} prefix={<SmileOutlined/>} value={moodHandler[moodAverage]}/>
-                <Statistic title={'Tension Avg'} prefix={<FireOutlined/>} value={tensionAverage}/>
+                <Statistic title={'Tension Avg'} prefix={<FireOutlined/>} value={tensionAverage || 0}/>
                 
             </AvgsContainer>
         </UserNameAvgsContainer>
@@ -34,6 +35,7 @@ const mapStateToProps = createStructuredSelector({
     entriesCount:entriesCountSelector,
     moodAverage:moodsAverageSelector,
     tensionAverage:tensionsAverageSelector,
+    currentUser:currentUserSelector
 })
 
 export default connect(mapStateToProps)(UserNameAvgs)

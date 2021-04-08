@@ -7,9 +7,10 @@ import { JournalsContainer, JournalsPageContainer, SidePanelContainer ,SidePanel
 import { Menu } from 'antd'
 import { MailOutlined, AppstoreOutlined, SettingOutlined } from '@ant-design/icons'
 import UserProfile from '../../components/User-profile/UserProfile.component'
+import { currentUserSelector } from '../../Redux/user/user.selectors'
 
 const { SubMenu } = Menu
-const JournalsPage = ({ journals }) => {
+const JournalsPage = ({ journals , currentUser }) => {
 
     const handleClick = () => {
         console.log('clicking');
@@ -69,7 +70,8 @@ const JournalsPage = ({ journals }) => {
 }
 
 const mapStateToProps = createStructuredSelector({
-    journals: journalsArraySelector
+    journals: journalsArraySelector,
+    currentUser:currentUserSelector
 })
 
 export default connect(mapStateToProps)(JournalsPage)

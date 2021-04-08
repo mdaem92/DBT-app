@@ -22,7 +22,7 @@ const googleAuthProvider = new firebase.auth.GoogleAuthProvider()
 googleAuthProvider.setCustomParameters({
   prompt: 'select_account'
 })
-export const sigInWithGoogle = () => auth.signInWithPopup(googleAuthProvider)
+export const signInWithGoogle = () => auth.signInWithPopup(googleAuthProvider)
 
 
 export const createUserProfile = async (userAuth) => {
@@ -45,6 +45,16 @@ export const createUserProfile = async (userAuth) => {
     }
   }
   return userRef
+}
+
+export const getUserAuth = ()=>{
+
+  return new Promise((resolve,reject)=>{
+    const unsubscribe = auth.onAuthStateChanged((userAuth)=>{
+      unsubscribe()
+      resolve(userAuth)
+    },reject)
+  },)
 }
 export const Timestamp = firebase.firestore.Timestamp
 export default firebase

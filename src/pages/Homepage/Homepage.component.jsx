@@ -9,10 +9,11 @@ import { fetchJournalsStart } from '../../Redux/journals/journals.actions'
 import { isJournalsFetchedSelector } from '../../Redux/journals/journals.selectors'
 import useCurrentUser from '../../hooks/useCurrentUser'
 import TestComponent, { Page, WelcomeTitle } from '../../playground/TestComponent.component'
+import { currentUserSelector } from '../../Redux/user/user.selectors'
 
-const Homepage = ({ fetchJournals, isJournalsFetched }) => {
+const Homepage = ({ fetchJournals, isJournalsFetched , currentUser }) => {
 
-    const currentUser = useCurrentUser()
+    // const currentUser = useCurrentUser()
     useEffect(() => {
 
         if (!isJournalsFetched && !!currentUser) {
@@ -43,7 +44,8 @@ const Homepage = ({ fetchJournals, isJournalsFetched }) => {
 }
 
 const mapStateToprops = createStructuredSelector({
-    isJournalsFetched: isJournalsFetchedSelector
+    isJournalsFetched: isJournalsFetchedSelector,
+    currentUser:currentUserSelector
 })
 
 const mapDispatchToProps = (dispatch) => ({

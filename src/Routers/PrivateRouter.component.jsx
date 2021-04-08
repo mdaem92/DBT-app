@@ -1,5 +1,8 @@
 import React from 'react'
 import { Route, Redirect } from 'react-router-dom'
+import {connect} from 'react-redux'
+import { createStructuredSelector } from 'reselect'
+import { currentUserSelector } from '../Redux/user/user.selectors'
 
 const PrivateRouter = ({
     currentUser,
@@ -28,4 +31,7 @@ const PrivateRouter = ({
     )
 }
 
-export default PrivateRouter
+const mapStateToProps = createStructuredSelector({
+    currentUser:currentUserSelector
+})
+export default connect(mapStateToProps)(PrivateRouter)
