@@ -36,7 +36,7 @@ const UserProfile = () => {
                         <Menu.Item key="1" onClick={copyToClipBoard}>{currentUser?.uid}</Menu.Item>
                     </SubMenu>
                     <SubMenu key="teammates" icon={<TeamOutlined />} title={'View Teammates'}>
-                        <Menu.Item key="2" onClick={copyToClipBoard}></Menu.Item>
+                        <Menu.Item key="2">something</Menu.Item>
                     </SubMenu>
                     {/* <Menu.Item key="3">Option 2</Menu.Item> */}
                 </SubMenu>

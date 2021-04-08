@@ -28,15 +28,11 @@ export const sigInWithGoogle = () => auth.signInWithPopup(googleAuthProvider)
 export const createUserProfile = async (userAuth) => {
   
   if (!userAuth) return
-  // console.log('creating user profile: ',userAuth);
   const {uid,displayName,email,photoURL} = userAuth
   const userRef = firestore.doc(`users/${uid}`)
-  // console.log('user ref: ',userRef);
   const userSnapshot = await userRef.get()
-  // console.log('user snapshot: ',userSnapshot);
   
   if (!userSnapshot.exists) {
-    // console.log('its a new user in db');
     try {
       userRef.set({
         displayName,
