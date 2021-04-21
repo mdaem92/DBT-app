@@ -7,7 +7,8 @@ import {
     signInFailure,
     signOutFailure,
     signOutStart,
-    signOutSuccess
+    signOutSuccess,
+    addTeammateFailure
 } from './user.actions'
 
 function* getSnapShotFromUserAuth(userAuth){
@@ -45,6 +46,14 @@ function* signOutAsync(){
     }
 }
 
+function* sendRequestAsync({uid}){
+    try{
+        yield console.log("got uid: ",uid);
+    }catch(e){
+        yield put(addTeammateFailure(e))
+    }
+}
+
 
 function* onSignInStart (){
     yield takeLatest(
@@ -60,9 +69,17 @@ function* onSignOutStart(){
     )
 }
 
+function* onSendRequestStart(){
+    yield takeLatest(
+        UserActionTypes.SEND_REQUEST_START,
+        sendRequestAsync
+    )
+}
+
 export function* userSagas(){
     yield all([
         call(onSignInStart),
-        call(onSignOutStart)
+        call(onSignOutStart),
+        call(onSendRequestStart)
     ])
 }

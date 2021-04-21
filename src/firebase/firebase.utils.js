@@ -1,6 +1,7 @@
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 import 'firebase/auth'
+import 'firebase/messaging'
 
 const config = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -16,6 +17,13 @@ firebase.initializeApp(config)
 
 export const firestore = firebase.firestore()
 export const auth = firebase.auth()
+let messaging;
+
+if (firebase.messaging.isSupported()){
+  messaging = firebase.messaging
+}
+
+export{ messaging};
 
 const googleAuthProvider = new firebase.auth.GoogleAuthProvider()
 

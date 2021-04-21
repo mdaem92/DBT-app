@@ -7,11 +7,11 @@ import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import { fetchJournalsStart } from '../../Redux/journals/journals.actions'
 import { isJournalsFetchedSelector } from '../../Redux/journals/journals.selectors'
-import useCurrentUser from '../../hooks/useCurrentUser'
-import TestComponent, { Page, WelcomeTitle } from '../../playground/TestComponent.component'
 import { currentUserSelector } from '../../Redux/user/user.selectors'
+import { isMembersFetchedSelector } from '../../Redux/members/members.selectors'
+import { fetchMembersStart } from '../../Redux/members/members.actions'
 
-const Homepage = ({ fetchJournals, isJournalsFetched , currentUser }) => {
+const Homepage = ({ fetchJournals, isJournalsFetched , currentUser , isMembersFetched , fetchMembers }) => {
 
     // const currentUser = useCurrentUser()
     useEffect(() => {
@@ -21,6 +21,16 @@ const Homepage = ({ fetchJournals, isJournalsFetched , currentUser }) => {
             fetchJournals(currentUser.uid)
         }
     }, [isJournalsFetched,fetchJournals,currentUser])
+
+    useEffect(()=>{
+        if(!isMembersFetched ){
+            console.log('members are not fetched ',isMembersFetched);
+            fetchMembers()
+        }
+
+    },[isMembersFetched,fetchMembers])
+
+
     
 
     return (
@@ -36,20 +46,21 @@ const Homepage = ({ fetchJournals, isJournalsFetched , currentUser }) => {
                 <HomepageTabs />
             </TabsContainer>
         </Container>
-        // <div>
-        //     <WelcomeTitle primary/>
-        // </div>
+
 
     )
 }
 
 const mapStateToprops = createStructuredSelector({
     isJournalsFetched: isJournalsFetchedSelector,
-    currentUser:currentUserSelector
+    currentUser:currentUserSelector,
+    isMembersFetched:isMembersFetchedSelector,
+
 })
 
 const mapDispatchToProps = (dispatch) => ({
-    fetchJournals: (uid) => dispatch(fetchJournalsStart(uid))
+    fetchJournals: (uid) => dispatch(fetchJournalsStart(uid)),
+    fetchMembers:()=>dispatch(fetchMembersStart())
 })
 
 export default connect(mapStateToprops, mapDispatchToProps)(Homepage)

@@ -36,8 +36,9 @@ export const addTeammateSuccess = (teammate)=>({
     teammate
 })
 
-export const addTeammateFailure = ()=>({
-    type:UserActionTypes.ADD_TEAMMATE_FAILURE
+export const addTeammateFailure = (errorMessage)=>({
+    type:UserActionTypes.ADD_TEAMMATE_FAILURE,
+    errorMessage
 })
 export const removeTeammateStart = ()=>({
     type:UserActionTypes.REMOVE_TEAMMATE_START
@@ -48,6 +49,12 @@ export const removeTeammateSuccess = (id)=>({
     id
 })
 
-export const removeTeammateFailure = ()=>({
-    type:UserActionTypes.REMOVE_TEAMMATE_FAILURE
+export const removeTeammateFailure = (errorMessage)=>({
+    type:UserActionTypes.REMOVE_TEAMMATE_FAILURE,
+    errorMessage
+})
+
+export const sendRequestStart = (uid)=>({
+    type:UserActionTypes.SEND_REQUEST_START,
+    uid
 })

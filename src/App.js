@@ -1,4 +1,3 @@
-import useCurrentUser from './hooks/useCurrentUser';
 import React from 'react'
 import Approuter from './Routers/AppRouter.component';
 
