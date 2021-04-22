@@ -10,10 +10,13 @@ import { isJournalsFetchedSelector } from '../../Redux/journals/journals.selecto
 import { currentUserSelector } from '../../Redux/user/user.selectors'
 import { isMembersFetchedSelector } from '../../Redux/members/members.selectors'
 import { fetchMembersStart } from '../../Redux/members/members.actions'
+import useLatestNotifications from '../../hooks/useLatestNotifications'
+import { firestore } from '../../firebase/firebase.utils'
 
 const Homepage = ({ fetchJournals, isJournalsFetched , currentUser , isMembersFetched , fetchMembers }) => {
 
-    // const currentUser = useCurrentUser()
+    useLatestNotifications(currentUser.uid)
+
     useEffect(() => {
 
         if (!isJournalsFetched && !!currentUser) {
@@ -30,9 +33,6 @@ const Homepage = ({ fetchJournals, isJournalsFetched , currentUser , isMembersFe
 
     },[isMembersFetched,fetchMembers])
 
-
-    
-
     return (
         
         <Container>
@@ -42,6 +42,7 @@ const Homepage = ({ fetchJournals, isJournalsFetched , currentUser , isMembersFe
             <DateAndTimeContainer>
                 <DateAndTime />
             </DateAndTimeContainer>
+            {/* <div>{notifications}</div> */}
             <TabsContainer>
                 <HomepageTabs />
             </TabsContainer>

@@ -24,21 +24,21 @@ const DeadlineCountdown = ()=> {
         if (currentHour>=12){
 
             if (eveningDeadline.diff(currentTime,'seconds')>0){
-                console.log('evening deadline isnt reached yet');
+                // console.log('evening deadline isnt reached yet');
                 return eveningDeadline
             }else{
-                console.log('evening deadline is reached');
-                console.log('next morning deadline: ',morningDeadline.add(12,'hours'));
+                // console.log('evening deadline is reached');
+                // console.log('next morning deadline: ',morningDeadline.add(12,'hours'));
                 return morningDeadline.add(12,'hours')
             } 
         }else{
             if (morningDeadline.diff(currentTime,'seconds')>0){
-                console.log('morning deadline isnt reached yet');
-                console.log(morningDeadline);
+                // console.log('morning deadline isnt reached yet');
+                // console.log(morningDeadline);
                 return morningDeadline
             }else{
-                console.log('morning deadline is reached');
-                console.log(eveningDeadline);
+                // console.log('morning deadline is reached');
+                // console.log(eveningDeadline);
                 return eveningDeadline
             }
         }

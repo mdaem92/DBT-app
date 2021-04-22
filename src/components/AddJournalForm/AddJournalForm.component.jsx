@@ -9,11 +9,13 @@ import { submitJournalStart } from '../../Redux/journals/journals.actions'
 import useCurrentTime from '../../hooks/useCurrentTime'
 import { setFieldValue } from '../../Redux/form/form.actions'
 import useCurrentUser from '../../hooks/useCurrentUser'
+import { createStructuredSelector } from 'reselect'
+import { currentUserSelector } from '../../Redux/user/user.selectors'
 
 const { TextArea } = Input
 const { Option } = Select
 
-const AddJournalForm = ({ submit, setFieldValue }) => {
+const AddJournalForm = ({ submit, setFieldValue ,currentUser:user }) => {
 
     const [state, setState] = useState({
         date: undefined,
@@ -26,7 +28,7 @@ const AddJournalForm = ({ submit, setFieldValue }) => {
     }, [state])
 
 
-    const user = useCurrentUser()
+    // const user = useCurrentUser()
     const { isMorningReport } = state
     const currentDate = useCurrentTime()
 
@@ -203,5 +205,8 @@ const mapDispatchToProps = (dispatch) => ({
     submit: (journal) => dispatch(submitJournalStart(journal)),
     setFieldValue: (name, value) => dispatch(setFieldValue(name, value))
 })
+const mapStateToProps = createStructuredSelector({
+    currentUser:currentUserSelector
+})
 
-export default connect(undefined, mapDispatchToProps)(AddJournalForm)
+export default connect(mapStateToProps, mapDispatchToProps)(AddJournalForm)

@@ -70,8 +70,8 @@ export const moodsAverageSelector = createSelector(
     entriesCountSelector,
     moodsSumSelector,
     (total, sum) => {
-        console.log(`total: ${total} sum: ${sum}`);
-        console.log(sum);
+        // console.log(`total: ${total} sum: ${sum}`);
+        // console.log(sum);
         return parseInt(sum / total)
     }
 )

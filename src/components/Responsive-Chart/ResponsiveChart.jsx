@@ -40,7 +40,6 @@ const ResponsiveLine = ({ xAxisTitle, yAxisTitle, min, max, data, label, domain,
     const extractDataKeys = () => {
         if (data.length > 0) {
             const keys = Object.keys(data[0])
-            // console.log('keys: ',keys);
             return keys
         }
         else return ['', '', '']
@@ -48,12 +47,11 @@ const ResponsiveLine = ({ xAxisTitle, yAxisTitle, min, max, data, label, domain,
     }
 
     const [date, morningDataKey, eveningDataKey] = extractDataKeys()
-    // console.log('data: ',data);
-    console.log('entries per chart: ', entriesPerChart);
+
     const handleEntriesPerChart = () => {
 
     }
-    console.log('window width: ', width);
+
     return data.length > 0 ?
         (
             <Container>
