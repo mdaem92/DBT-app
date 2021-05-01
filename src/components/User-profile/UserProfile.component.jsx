@@ -1,19 +1,23 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import { ProfileContainer, ProfileImage, AccountMenu } from './UserProfile.styles'
 // import useCurrentUser from '../../hooks/useCurrentUser'
-import { Menu, message } from 'antd'
-import { LogoutOutlined, SettingFilled, KeyOutlined, TeamOutlined , PlusOutlined } from '@ant-design/icons'
+import { Menu, message, Modal } from 'antd'
+import { LogoutOutlined, SettingFilled, KeyOutlined, TeamOutlined, PlusOutlined } from '@ant-design/icons'
 import { createStructuredSelector } from 'reselect'
 import { currentUserSelector } from '../../Redux/user/user.selectors'
 import { connect } from 'react-redux'
 import { signOutStart } from '../../Redux/user/user.actions'
 import UserSearchSelect from '../user-search-select/user-search-select.component'
 import { membersListSelector } from '../../Redux/members/members.selectors'
+import { notifErrorSelector } from '../../Redux/notifications/notifications.selectors'
+import { resetError } from '../../Redux/notifications/notifications.actions'
 
-const UserProfile = ({ currentUser, logOut }) => {
+
+const UserProfile = ({ currentUser, logOut, notifError, resetError }) => {
     const { SubMenu } = Menu
     // const currentUser = useCurrentUser()
     const [isExtended, setExtended] = useState(false)
+    const [isModalVisible, setIsModalVisible] = useState(!!notifError)
 
     const handleMoveProfileImage = () => {
         setExtended(!isExtended)
@@ -25,13 +29,40 @@ const UserProfile = ({ currentUser, logOut }) => {
         // console.log(e.item.props.children[1]);
         navigator.clipboard.writeText(text).then(() => {
             console.log('copied to clipboard');
-            message.success('key copied to clipboard',2)
+            message.success('key copied to clipboard', 2)
         })
     }
+
+    const clearError = () => {
+        resetError()
+    }
+
+    const handleOk = () => {
+        setIsModalVisible(false);
+    };
+
+    const handleCancel = () => {
+        setIsModalVisible(false);
+    };
+
+    useEffect(() => {
+        // setIsModalVisible(!!notifError)
+        if(!!notifError){
+            return Modal.error({
+                title:'Error finding user',
+                content:'The user with the given public key does not exist',
+                onOk:clearError
+                
+            })
+        }
+       
+
+    }, [notifError,clearError])
+
     return (
         <div>
             <ProfileContainer>
-                <ProfileImage imageUrl={currentUser?.photoURL} isHidden={isExtended} />
+                <ProfileImage imageUrl={currentUser?.photoURL} isHidden={isExtended} referrerpolicy="no-referrer" />
                 <AccountMenu
                     mode='inline'
                     // onClick={handleClick}
@@ -45,7 +76,7 @@ const UserProfile = ({ currentUser, logOut }) => {
                             <Menu.Item key="2">something</Menu.Item>
                         </SubMenu>
                         <SubMenu key="addNew" icon={<PlusOutlined />} title={'Add teammate'}>
-                            <UserSearchSelect/>
+                            <UserSearchSelect />
                         </SubMenu>
                         {/* <Menu.Item key="3">Option 2</Menu.Item> */}
                     </SubMenu>
@@ -53,6 +84,7 @@ const UserProfile = ({ currentUser, logOut }) => {
 
                 </AccountMenu>
             </ProfileContainer>
+            {/* <Modal title="Error" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} afterClose={clearError}>{notifError}</Modal> */}
 
         </div>
 
@@ -60,11 +92,13 @@ const UserProfile = ({ currentUser, logOut }) => {
 }
 
 const mapStateToProps = createStructuredSelector({
-    currentUser: currentUserSelector
+    currentUser: currentUserSelector,
+    notifError: notifErrorSelector
 })
 
 const mapDispatchToProps = (dispatch) => ({
-    logOut: () => dispatch(signOutStart())
+    logOut: () => dispatch(signOutStart()),
+    resetError: () => dispatch(resetError())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserProfile)

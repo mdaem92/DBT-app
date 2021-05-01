@@ -1,14 +1,14 @@
 import UserActionTypes from './user.types'
 import { removeTeammate } from './user.utils'
 
-const defaultUserReducer = {
+const defaultUserState = {
     currentUser:undefined,
     loading:false,
     errorMessage:undefined,
     teammates:[]
 }
 
-export const UserReducer = (state=defaultUserReducer,action)=>{
+export const UserReducer = (state=defaultUserState,action)=>{
     switch (action.type) {
         case UserActionTypes.SIGN_IN_START:
         case UserActionTypes.SIGN_OUT_START:
@@ -25,7 +25,7 @@ export const UserReducer = (state=defaultUserReducer,action)=>{
                 loading:false,
             }
         case UserActionTypes.SIGN_OUT_SUCCESS:
-            return defaultUserReducer
+            return defaultUserState
         case UserActionTypes.SIGN_OUT_FAILURE:
         case UserActionTypes.SIGN_IN_FAILURE:
         case UserActionTypes.ADD_TEAMMATE_FAILURE:

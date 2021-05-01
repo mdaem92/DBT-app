@@ -54,7 +54,3 @@ export const removeTeammateFailure = (errorMessage)=>({
     errorMessage
 })
 
-export const sendRequestStart = (uid)=>({
-    type:UserActionTypes.SEND_REQUEST_START,
-    uid
-})

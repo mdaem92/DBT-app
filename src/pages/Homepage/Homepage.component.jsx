@@ -12,11 +12,13 @@ import { isMembersFetchedSelector } from '../../Redux/members/members.selectors'
 import { fetchMembersStart } from '../../Redux/members/members.actions'
 import useLatestNotifications from '../../hooks/useLatestNotifications'
 import { firestore } from '../../firebase/firebase.utils'
+import { isNotificationsFetchedSelector, notificationsSelector } from '../../Redux/notifications/notifications.selectors'
+import { fetchNotificationsStart } from '../../Redux/notifications/notifications.actions'
 
-const Homepage = ({ fetchJournals, isJournalsFetched , currentUser , isMembersFetched , fetchMembers }) => {
+const Homepage = ({ fetchJournals, isJournalsFetched , currentUser , isMembersFetched , fetchMembers , isNotificationsFetched , fetchNotifications,notifications:currentNotifications }) => {
 
     useLatestNotifications(currentUser.uid)
-
+    console.log("current notifs: ",currentNotifications);
     useEffect(() => {
 
         if (!isJournalsFetched && !!currentUser) {
@@ -25,13 +27,19 @@ const Homepage = ({ fetchJournals, isJournalsFetched , currentUser , isMembersFe
         }
     }, [isJournalsFetched,fetchJournals,currentUser])
 
-    useEffect(()=>{
-        if(!isMembersFetched ){
-            console.log('members are not fetched ',isMembersFetched);
-            fetchMembers()
-        }
+    // useEffect(()=>{
+    //     if(!isMembersFetched ){
+    //         console.log('members are not fetched ',isMembersFetched);
+    //         fetchMembers()
+    //     }
 
-    },[isMembersFetched,fetchMembers])
+    // },[isMembersFetched,fetchMembers])
+
+    useEffect(()=>{
+        if(!isNotificationsFetched){
+            fetchNotifications(currentUser.uid)
+        }    
+    },[isNotificationsFetched,fetchNotifications,currentUser])
 
     return (
         
@@ -56,12 +64,15 @@ const mapStateToprops = createStructuredSelector({
     isJournalsFetched: isJournalsFetchedSelector,
     currentUser:currentUserSelector,
     isMembersFetched:isMembersFetchedSelector,
+    isNotificationsFetched:isNotificationsFetchedSelector,
+    notifications:notificationsSelector
 
 })
 
 const mapDispatchToProps = (dispatch) => ({
     fetchJournals: (uid) => dispatch(fetchJournalsStart(uid)),
-    fetchMembers:()=>dispatch(fetchMembersStart())
+    fetchMembers:()=>dispatch(fetchMembersStart()),
+    fetchNotifications:(uid)=>dispatch(fetchNotificationsStart(uid))
 })
 
 export default connect(mapStateToprops, mapDispatchToProps)(Homepage)

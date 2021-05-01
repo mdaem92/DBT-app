@@ -46,13 +46,13 @@ function* signOutAsync(){
     }
 }
 
-function* sendRequestAsync({uid}){
-    try{
-        yield console.log("got uid: ",uid);
-    }catch(e){
-        yield put(addTeammateFailure(e))
-    }
-}
+// function* sendRequestAsync({uid}){
+//     try{
+//         yield console.log("got uid: ",uid);
+//     }catch(e){
+//         yield put(addTeammateFailure(e))
+//     }
+// }
 
 
 function* onSignInStart (){
@@ -69,17 +69,17 @@ function* onSignOutStart(){
     )
 }
 
-function* onSendRequestStart(){
-    yield takeLatest(
-        UserActionTypes.SEND_REQUEST_START,
-        sendRequestAsync
-    )
-}
+// function* onSendRequestStart(){
+//     yield takeLatest(
+//         UserActionTypes.SEND_REQUEST_START,
+//         sendRequestAsync
+//     )
+// }
 
 export function* userSagas(){
     yield all([
         call(onSignInStart),
         call(onSignOutStart),
-        call(onSendRequestStart)
+        // call(onSendRequestStart)
     ])
 }
