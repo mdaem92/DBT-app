@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import {Container, DateAndTimeContainer, TabsContainer, UserNameAvgsContainer } from './Homepage.styles'
+import { Container, DateAndTimeContainer, TabsContainer, UserNameAvgsContainer } from './Homepage.styles'
 import UserNameAvgs from '../../components/Username-averages/UserNameAvgs.component'
 import DateAndTime from '../../components/Date-Time/DateAndTime.component'
 import HomepageTabs from '../../components/HomepageTabs/HomepageTabs.component'
@@ -11,21 +11,44 @@ import { currentUserSelector } from '../../Redux/user/user.selectors'
 import { isMembersFetchedSelector } from '../../Redux/members/members.selectors'
 import { fetchMembersStart } from '../../Redux/members/members.actions'
 import useLatestNotifications from '../../hooks/useLatestNotifications'
-import { firestore } from '../../firebase/firebase.utils'
 import { isNotificationsFetchedSelector, notificationsSelector } from '../../Redux/notifications/notifications.selectors'
-import { fetchNotificationsStart } from '../../Redux/notifications/notifications.actions'
+import { fetchNotificationsStart, setCurrentNotifications } from '../../Redux/notifications/notifications.actions'
+import _ from 'lodash'
 
-const Homepage = ({ fetchJournals, isJournalsFetched , currentUser , isMembersFetched , fetchMembers , isNotificationsFetched , fetchNotifications,notifications:currentNotifications }) => {
+const Homepage = ({
+    fetchJournals,
+    isJournalsFetched,
+    currentUser,
+    isMembersFetched,
+    fetchMembers,
+    isNotificationsFetched,
+    fetchNotifications,
+    notifications: currentNotifications,
+    setCurrentNotifications
+}) => {
 
-    useLatestNotifications(currentUser.uid)
-    console.log("current notifs: ",currentNotifications);
+    // const latestNotifications = useLatestNotifications(currentUser.uid)
+    // console.log("current notifs: ", currentNotifications);
+    // console.log("latest notifs: ", latestNotifications);
+
+    
+    // useEffect(() => {
+
+    //     if (!_.isEqual(latestNotifications,currentNotifications)) {
+    //         console.log('difference in notifications');
+    //         const intersection = latestNotifications.filter((element,index) => !_.isEqual(element,currentNotifications[index]));
+    //         console.log("intersection: ",intersection);
+    //         setCurrentNotifications(intersection)
+    //     }
+    // },[setCurrentNotifications,currentNotifications,latestNotifications])
+
     useEffect(() => {
 
         if (!isJournalsFetched && !!currentUser) {
-            console.log(`journals are not fetched: `,isJournalsFetched);
+            console.log(`journals are not fetched: `, isJournalsFetched);
             fetchJournals(currentUser.uid)
         }
-    }, [isJournalsFetched,fetchJournals,currentUser])
+    }, [isJournalsFetched, fetchJournals, currentUser])
 
     // useEffect(()=>{
     //     if(!isMembersFetched ){
@@ -35,14 +58,14 @@ const Homepage = ({ fetchJournals, isJournalsFetched , currentUser , isMembersFe
 
     // },[isMembersFetched,fetchMembers])
 
-    useEffect(()=>{
-        if(!isNotificationsFetched){
+    useEffect(() => {
+        if (!isNotificationsFetched) {
             fetchNotifications(currentUser.uid)
-        }    
-    },[isNotificationsFetched,fetchNotifications,currentUser])
+        }
+    }, [isNotificationsFetched, fetchNotifications, currentUser])
 
     return (
-        
+
         <Container>
             <UserNameAvgsContainer>
                 <UserNameAvgs />
@@ -62,17 +85,18 @@ const Homepage = ({ fetchJournals, isJournalsFetched , currentUser , isMembersFe
 
 const mapStateToprops = createStructuredSelector({
     isJournalsFetched: isJournalsFetchedSelector,
-    currentUser:currentUserSelector,
-    isMembersFetched:isMembersFetchedSelector,
-    isNotificationsFetched:isNotificationsFetchedSelector,
-    notifications:notificationsSelector
+    currentUser: currentUserSelector,
+    isMembersFetched: isMembersFetchedSelector,
+    isNotificationsFetched: isNotificationsFetchedSelector,
+    notifications: notificationsSelector
 
 })
 
 const mapDispatchToProps = (dispatch) => ({
     fetchJournals: (uid) => dispatch(fetchJournalsStart(uid)),
-    fetchMembers:()=>dispatch(fetchMembersStart()),
-    fetchNotifications:(uid)=>dispatch(fetchNotificationsStart(uid))
+    fetchMembers: () => dispatch(fetchMembersStart()),
+    fetchNotifications: (uid) => dispatch(fetchNotificationsStart(uid)),
+    setCurrentNotifications: (newNotifications) => dispatch(setCurrentNotifications(newNotifications)),
 })
 
 export default connect(mapStateToprops, mapDispatchToProps)(Homepage)

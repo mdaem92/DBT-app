@@ -4,6 +4,7 @@ import { NavLink, Link } from 'react-router-dom'
 import useWindowSize from '../../hooks/useWindowSize'
 import { HeaderContainer, IconContainer ,NavContainer } from './Header.styles'
 import {MenuOutlined} from '@ant-design/icons'
+import Notifications from '../Notifications/Notifications.component'
 
 const Header = () => {
     const width = useWindowSize()
@@ -33,6 +34,7 @@ const Header = () => {
                             <NavLink exact activeClassName={'active'} className={'anchor'} to='/'>Homepage</NavLink>
                             <NavLink exact activeClassName={'active'} className={'anchor'} to='/journals'>Journals</NavLink>
                             <NavLink exact activeClassName={'active'} className={'anchor'} to='/add-journal'>Add Journal</NavLink>
+                            <Notifications/>
 
                         </NavContainer>
                     

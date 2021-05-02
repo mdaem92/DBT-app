@@ -40,16 +40,19 @@ function* sendRequestAsync({sender,receiverId}){
         const collectionRef = firestore.collection(`users/${receiverId}/notifications`)
         const usersCollectionRef = yield firestore.collection('users')
         const usersCollectionSnapshot = yield usersCollectionRef.get()
-        const now = Timestamp.fromDate(new Date())
+        // const now = Timestamp.fromDate(new Date())
         // yield getUsersIdsFromSnapshot(usersCollectionSnapshot)
         const uids = yield call(getUsersIdsFromSnapshot,usersCollectionSnapshot)
+        const {uid,displayName,...rest} = sender
         yield console.log("got users ids: ",uids);
         if(uids.indexOf(receiverId)>=0){
             const notification = {
-                ...sender,
+                ...rest,
                 type:"ADD_REQUEST",
-                seen:false,
-                date:now
+                responded:false,
+                senderId:uid,
+                senderName:displayName
+                // date:now
             }
             yield collectionRef.add(notification)
             yield put(sendRequestSuccess(notification))

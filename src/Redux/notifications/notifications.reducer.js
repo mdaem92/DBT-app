@@ -7,7 +7,8 @@ const NotificationsDefaultState = {
     error:undefined,
     fetchError:undefined,
     isRequestPending:false,
-    isNotificationsFetched:false
+    isNotificationsFetched:false,
+    count:0
 }
 
 const notificationsReducer = (state=NotificationsDefaultState,action)=>{
@@ -23,7 +24,8 @@ const notificationsReducer = (state=NotificationsDefaultState,action)=>{
                 isLoading:false,
                 notifications:action.notifications,
                 isNotificationsFetched:true,
-                error:undefined
+                error:undefined,
+                count:action.notifications.length
             }
         case NotificationsActionTypes.FETCH_NOTIFICATION_FAILURE:
         case NotificationsActionTypes.SEND_REQUEST_FAILURE:
@@ -49,6 +51,12 @@ const notificationsReducer = (state=NotificationsDefaultState,action)=>{
             return{
                 ...state,
                 error:undefined
+            }
+        case NotificationsActionTypes.SET_CURRENT_NOTIFICATIONS:
+            return{
+                ...state,
+                notifications:action.notifications,
+                count:action.notifications.length
             }
         default:
             return state;

@@ -35,3 +35,9 @@ export const resetError = ()=>({
     type:NotificationsActionTypes.RESET_ERROR
 })
 
+export const setCurrentNotifications = (notifications)=>({
+    type:NotificationsActionTypes.SET_CURRENT_NOTIFICATIONS,
+    notifications
+
+})
+
