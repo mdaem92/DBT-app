@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled,{css} from "styled-components";
 
 export const Container = styled.div`
     display:flex;
@@ -21,5 +21,15 @@ export const ImageContainer = styled.div`
 export const ContentContainer = styled.div`
     display:flex;
     justify-content:center;
-    align-items:center
+    align-items:center;
+`
+
+export const ButtonsContainer = styled.div`
+    display:flex;
+    justify-content: space-evenly;
+    align-items: center;
+    padding:0 5px;
+    
+    
+
 `

@@ -1,4 +1,5 @@
 import NotificationsActionTypes from './notifications.types'
+import { deleteNotification } from './notifications.utils'
 
 
 const NotificationsDefaultState = {
@@ -8,7 +9,7 @@ const NotificationsDefaultState = {
     fetchError:undefined,
     isRequestPending:false,
     isNotificationsFetched:false,
-    count:0
+    isNotificationSubmitted:false,
 }
 
 const notificationsReducer = (state=NotificationsDefaultState,action)=>{
@@ -25,7 +26,6 @@ const notificationsReducer = (state=NotificationsDefaultState,action)=>{
                 notifications:action.notifications,
                 isNotificationsFetched:true,
                 error:undefined,
-                count:action.notifications.length
             }
         case NotificationsActionTypes.FETCH_NOTIFICATION_FAILURE:
         case NotificationsActionTypes.SEND_REQUEST_FAILURE:
@@ -45,7 +45,8 @@ const notificationsReducer = (state=NotificationsDefaultState,action)=>{
                 ...state,
                 isRequestPending:false,
                 error:undefined,
-                isLoading:false
+                isLoading:false,
+                
             }
         case NotificationsActionTypes.RESET_ERROR:
             return{
@@ -56,7 +57,11 @@ const notificationsReducer = (state=NotificationsDefaultState,action)=>{
             return{
                 ...state,
                 notifications:action.notifications,
-                count:action.notifications.length
+            }
+        case NotificationsActionTypes.REMOVE_NOTIFICATION_SUCCESS:
+            return{
+                ...state,
+                notifications:deleteNotification(state.notifications,action.notifID)
             }
         default:
             return state;

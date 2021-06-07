@@ -17,7 +17,6 @@ const UserProfile = ({ currentUser, logOut, notifError, resetError }) => {
     const { SubMenu } = Menu
     // const currentUser = useCurrentUser()
     const [isExtended, setExtended] = useState(false)
-    const [isModalVisible, setIsModalVisible] = useState(!!notifError)
 
     const handleMoveProfileImage = () => {
         setExtended(!isExtended)
@@ -26,29 +25,21 @@ const UserProfile = ({ currentUser, logOut, notifError, resetError }) => {
 
     const copyToClipBoard = (e) => {
         const text = e.item.props.children[1]
-        // console.log(e.item.props.children[1]);
         navigator.clipboard.writeText(text).then(() => {
-            console.log('copied to clipboard');
+            // console.log('copied to clipboard');
             message.success('key copied to clipboard', 2)
         })
     }
 
-    const clearError = () => {
-        resetError()
-    }
-
-    const handleOk = () => {
-        setIsModalVisible(false);
-    };
-
-    const handleCancel = () => {
-        setIsModalVisible(false);
-    };
+    
 
     useEffect(() => {
         // setIsModalVisible(!!notifError)
+        const clearError = () => {
+            resetError()
+        }
         if(!!notifError){
-            return Modal.error({
+            Modal.error({
                 title:'Error finding user',
                 content:'The user with the given public key does not exist',
                 onOk:clearError
@@ -57,7 +48,7 @@ const UserProfile = ({ currentUser, logOut, notifError, resetError }) => {
         }
        
 
-    }, [notifError,clearError])
+    }, [notifError,resetError])
 
     return (
         <div>

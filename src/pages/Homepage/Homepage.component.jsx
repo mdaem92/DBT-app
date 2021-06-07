@@ -59,7 +59,7 @@ const Homepage = ({
     // },[isMembersFetched,fetchMembers])
 
     useEffect(() => {
-        if (!isNotificationsFetched) {
+        if (!isNotificationsFetched && !!currentUser) {
             fetchNotifications(currentUser.uid)
         }
     }, [isNotificationsFetched, fetchNotifications, currentUser])
@@ -94,7 +94,7 @@ const mapStateToprops = createStructuredSelector({
 
 const mapDispatchToProps = (dispatch) => ({
     fetchJournals: (uid) => dispatch(fetchJournalsStart(uid)),
-    fetchMembers: () => dispatch(fetchMembersStart()),
+    // fetchMembers: () => dispatch(fetchMembersStart()),
     fetchNotifications: (uid) => dispatch(fetchNotificationsStart(uid)),
     setCurrentNotifications: (newNotifications) => dispatch(setCurrentNotifications(newNotifications)),
 })

@@ -5,26 +5,16 @@ import _ from 'lodash'
 
 const useLatestNotifications = (uid) => {
     const [notifications,setNotifications] = useState([])
-    const getLatestDocs = ()=>{
+    const getLatestNotifications = ()=>{
         const collection = firestore.collection(`users/${uid}/notifications`)
         const unsubscribe = collection.onSnapshot((querySnapshot)=>{
-            // querySnapshot.docChanges().forEach(change=>{
-                
-            //     if(change.type==="added"){
-            //         console.log("added document",change.doc.data());
-            //     }
-            //     if(change.type==="modified"){
-            //         console.log("modified document",change.doc.data());
-            //     }
-            //     if(change.type==="removed"){
-            //         console.log("removed document",change.doc.data());
-            //     }
-            // })
+
             const temp = []
             querySnapshot.docChanges().forEach((change)=>{
                 if(change.type==="added"){
                     // setNotifications([...notifications,change.doc.data()])
-                    temp.push(change.doc.data())
+                    console.log('the notif id: ',change.doc.id);
+                    temp.push({...change.doc.data(),notifID:change.doc.id})
                 }
             })
             setNotifications(temp)
@@ -36,7 +26,8 @@ const useLatestNotifications = (uid) => {
         return unsubscribe       
     }
     useEffect(()=>{
-        const unsubscribe = getLatestDocs()
+        
+        const unsubscribe = getLatestNotifications()
         return ()=>{
             unsubscribe()
         }

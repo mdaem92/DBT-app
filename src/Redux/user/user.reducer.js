@@ -38,7 +38,7 @@ export const UserReducer = (state=defaultUserState,action)=>{
             return{
                 ...state,
                 loading:false,
-                teammates:action.teammates
+                teammates:[...state.teammates,action.teammateID]
             }
         case UserActionTypes.REMOVE_TEAMMATE_SUCCESS:
             return {

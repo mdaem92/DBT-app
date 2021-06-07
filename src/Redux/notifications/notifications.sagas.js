@@ -1,18 +1,18 @@
 import { all, call, put, takeLatest } from "redux-saga/effects";
 import { firestore, Timestamp } from "../../firebase/firebase.utils";
-import { fetchNotificationsFailure, fetchNotificationsSuccess, sendRequestFailure, sendRequestSuccess } from "./notifications.actions";
+import { fetchNotificationsFailure, fetchNotificationsSuccess, removeNotificationsFailure, removeNotificationsSuccess, sendRequestFailure, sendRequestSuccess } from "./notifications.actions";
 import NotificationsActionTypes from './notifications.types'
 import moment from 'moment'
 
 
 
-const getNotificationsFromSnapshot = (snapshot)=>{
-    return snapshot.docs.map((notification)=>{
-        const notifData = notification.data()
-        // console.log("got member data: ",userData);
-        return notifData
-    })
-}
+// const getNotificationsFromSnapshot = (snapshot)=>{
+//     return snapshot.docs.map((notification)=>{
+//         const notifData = notification.data()
+//         // console.log("got member data: ",userData);
+//         return notifData
+//     })
+// }
 
 const getUsersIdsFromSnapshot = (snapshot)=>{
     return snapshot.docs.map((user)=>{
@@ -21,17 +21,17 @@ const getUsersIdsFromSnapshot = (snapshot)=>{
     })
 }
 
-function* fetchNotificationsAsync({uid}){
-    try {
-        const collectionRef = firestore.collection(`users/${uid}/notifications`)
-        const snapshot = yield collectionRef.get()
-        const notifications = yield getNotificationsFromSnapshot(snapshot)
-        yield put(fetchNotificationsSuccess(notifications))
+// function* fetchNotificationsAsync({uid}){
+//     try {
+//         const collectionRef = firestore.collection(`users/${uid}/notifications`)
+//         const snapshot = yield collectionRef.get()
+//         const notifications = yield getNotificationsFromSnapshot(snapshot)
+//         yield put(fetchNotificationsSuccess(notifications))
 
-    } catch (error) {
-        yield put(fetchNotificationsFailure(error))
-    }
-}
+//     } catch (error) {
+//         yield put(fetchNotificationsFailure(error))
+//     }
+// }
 
 function* sendRequestAsync({sender,receiverId}){
     
@@ -40,11 +40,10 @@ function* sendRequestAsync({sender,receiverId}){
         const collectionRef = firestore.collection(`users/${receiverId}/notifications`)
         const usersCollectionRef = yield firestore.collection('users')
         const usersCollectionSnapshot = yield usersCollectionRef.get()
-        // const now = Timestamp.fromDate(new Date())
-        // yield getUsersIdsFromSnapshot(usersCollectionSnapshot)
         const uids = yield call(getUsersIdsFromSnapshot,usersCollectionSnapshot)
         const {uid,displayName,...rest} = sender
         yield console.log("got users ids: ",uids);
+        yield console.log("got rest: ",rest)
         if(uids.indexOf(receiverId)>=0){
             const notification = {
                 ...rest,
@@ -67,12 +66,36 @@ function* sendRequestAsync({sender,receiverId}){
     }
 }
 
-function* onFetchNotificationsStart(){
-    yield takeLatest(
-        NotificationsActionTypes.FETCH_NOTIFICATION_START,
-        fetchNotificationsAsync
-    )
+function* removeNotificationAsync({uid,notifID}){
+    try {
+        // yield firestore
+        //     .collection('users')
+        //     .doc(`${uid}`)
+        //     .collection('notifications')
+        //     .doc(`${notifID}`)
+        //     .delete()
+        const docRef = yield firestore
+            .collection('users')
+            .doc(`${uid}`)
+            .collection('notifications')
+            .doc(`${notifID}`)
+        yield console.log();
+        console.log('removing notif with id:',notifID);
+        yield docRef.delete()
+
+        yield put(removeNotificationsSuccess(notifID))
+        
+    } catch (error) {
+        yield put(removeNotificationsFailure(error.message))
+    }
 }
+
+// function* onFetchNotificationsStart(){
+//     yield takeLatest(
+//         NotificationsActionTypes.FETCH_NOTIFICATION_START,
+//         fetchNotificationsAsync
+//     )
+// }
 
 function* onSendRequestStart(){
     yield takeLatest(
@@ -81,9 +104,18 @@ function* onSendRequestStart(){
     )
 }
 
+function* onRemoveNotificationStart(){
+    yield takeLatest(
+        NotificationsActionTypes.REMOVE_NOTIFICATION_START,
+        removeNotificationAsync
+    )
+}
+
 export function* notificationsSaga(){
     yield all([
-        call(onFetchNotificationsStart),
-        call(onSendRequestStart)
+        // call(onFetchNotificationsStart),
+        call(onSendRequestStart),
+        call(onRemoveNotificationStart)
     ])
 }
+

@@ -1,6 +1,6 @@
 import {call,all,put,takeLatest} from 'redux-saga/effects'
 import UserActionTypes from './user.types'
-import {auth, createUserProfile, getUserAuth, googleAuthProvider , signInWithGoogle} from "../../firebase/firebase.utils";
+import {auth, createUserProfile, firestore, getUserAuth, googleAuthProvider , signInWithGoogle} from "../../firebase/firebase.utils";
 import {
     signInStart,
     signInSuccess,
@@ -8,7 +8,8 @@ import {
     signOutFailure,
     signOutStart,
     signOutSuccess,
-    addTeammateFailure
+    addTeammateFailure,
+    addTeammateSuccess
 } from './user.actions'
 
 function* getSnapShotFromUserAuth(userAuth){
@@ -24,6 +25,24 @@ function* getSnapShotFromUserAuth(userAuth){
         yield put(signInFailure(errorMessage))
     }
 
+}
+
+function* addTeammateAsync({uid,teammateID}){
+    try {
+        yield console.log('teammate:',teammateID);
+        yield console.log('current user:',uid);
+
+        yield firestore
+            .collection(`users/${uid}/friends`)
+            .add({
+                teammateID:teammateID
+            })
+        yield put(addTeammateSuccess(teammateID))
+
+    } catch (error) {
+        console.log(error);
+        yield put(addTeammateFailure(error.message))
+    }
 }
 
 function* signInAsync(){
@@ -46,13 +65,6 @@ function* signOutAsync(){
     }
 }
 
-// function* sendRequestAsync({uid}){
-//     try{
-//         yield console.log("got uid: ",uid);
-//     }catch(e){
-//         yield put(addTeammateFailure(e))
-//     }
-// }
 
 
 function* onSignInStart (){
@@ -68,6 +80,12 @@ function* onSignOutStart(){
         signOutAsync
     )
 }
+function* onAddTeammateStart(){
+    yield takeLatest(
+        UserActionTypes.ADD_TEAMMATE_START,
+        addTeammateAsync
+    )
+}
 
 // function* onSendRequestStart(){
 //     yield takeLatest(
@@ -81,5 +99,6 @@ export function* userSagas(){
         call(onSignInStart),
         call(onSignOutStart),
         // call(onSendRequestStart)
+        call(onAddTeammateStart)
     ])
 }

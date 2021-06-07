@@ -41,3 +41,19 @@ export const setCurrentNotifications = (notifications)=>({
 
 })
 
+export const removeNotificationStart=(uid,notifID)=>({
+    type:NotificationsActionTypes.REMOVE_NOTIFICATION_START,
+    uid,
+    notifID
+})
+
+export const removeNotificationsSuccess = (notifID)=>({
+    type:NotificationsActionTypes.REMOVE_NOTIFICATION_SUCCESS,
+    notifID
+})
+
+export const removeNotificationsFailure = (error)=>({
+    type:NotificationsActionTypes.REMOVE_NOTIFICATION_FAILURE,
+    error
+})
+

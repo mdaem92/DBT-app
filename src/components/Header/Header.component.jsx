@@ -5,8 +5,11 @@ import useWindowSize from '../../hooks/useWindowSize'
 import { HeaderContainer, IconContainer ,NavContainer } from './Header.styles'
 import {MenuOutlined} from '@ant-design/icons'
 import Notifications from '../Notifications/Notifications.component'
+import { connect } from 'react-redux'
+import { createStructuredSelector } from 'reselect'
+import { currentUserSelector } from '../../Redux/user/user.selectors'
 
-const Header = () => {
+const Header = ({currentUser}) => {
     const width = useWindowSize()
 
     const menu = (
@@ -34,7 +37,7 @@ const Header = () => {
                             <NavLink exact activeClassName={'active'} className={'anchor'} to='/'>Homepage</NavLink>
                             <NavLink exact activeClassName={'active'} className={'anchor'} to='/journals'>Journals</NavLink>
                             <NavLink exact activeClassName={'active'} className={'anchor'} to='/add-journal'>Add Journal</NavLink>
-                            <Notifications/>
+                            {!!currentUser && <Notifications/>}
 
                         </NavContainer>
                     
@@ -57,4 +60,8 @@ const Header = () => {
     )
 }
 
-export default Header
+const mapStateToProps = createStructuredSelector({
+    currentUser:currentUserSelector
+})
+
+export default connect(mapStateToProps)(Header)

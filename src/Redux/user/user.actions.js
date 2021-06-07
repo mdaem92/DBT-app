@@ -27,13 +27,16 @@ export const signOutFailure = (errorMessage)=>({
     errorMessage
 })
 
-export const addTeammateStart = ()=>({
-    type:UserActionTypes.ADD_TEAMMATE_START
+export const addTeammateStart = (uid,teammateID)=>({
+    type:UserActionTypes.ADD_TEAMMATE_START,
+    uid,
+    teammateID
+    
 })
 
-export const addTeammateSuccess = (teammate)=>({
+export const addTeammateSuccess = (teammateID)=>({
     type:UserActionTypes.ADD_TEAMMATE_SUCCESS,
-    teammate
+    teammateID
 })
 
 export const addTeammateFailure = (errorMessage)=>({
