@@ -10,13 +10,18 @@ const useLatestNotifications = (uid) => {
         const unsubscribe = collection.onSnapshot((querySnapshot)=>{
 
             const temp = []
-            querySnapshot.docChanges().forEach((change)=>{
-                if(change.type==="added"){
-                    // setNotifications([...notifications,change.doc.data()])
-                    console.log('the notif id: ',change.doc.id);
-                    temp.push({...change.doc.data(),notifID:change.doc.id})
-                }
+            // querySnapshot.docChanges().forEach((change)=>{
+            //     if(change.type==="added"){
+            //         // setNotifications([...notifications,change.doc.data()])
+            //         console.log('the notif id: ',change.doc.id);
+            //         temp.push({...change.doc.data(),notifID:change.doc.id})
+            //     }
+            // })
+
+            querySnapshot.docs.forEach((notif)=>{
+                temp.push({...notif.data(),notifID:notif.id})
             })
+
             setNotifications(temp)
             // console.log("querysnapshot ",querySnapshot);
             // console.log("metadata: ",querySnapshot.metadata)

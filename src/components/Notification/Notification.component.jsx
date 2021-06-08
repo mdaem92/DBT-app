@@ -15,9 +15,10 @@ const Notification = ({ senderName, senderId, photoURL, type, responded, current
 
     console.log('notif from Notification component ',notifID);
     const labels = {
-        "ADD_REQUEST": "requested access",
-        "SUBMITTED_REPORT": "submitted report",
-        "MISSED_DEADLINE": "missed deadline"
+        "ADD_REQUEST": "requested access.",
+        "SUBMITTED_REPORT": "submitted report.",
+        "MISSED_DEADLINE": "missed deadline.",
+        "ACCEPTED_REQUEST":"Accepted your request."
     }
 
     const handleButtonClick = (type) => {
@@ -31,33 +32,30 @@ const Notification = ({ senderName, senderId, photoURL, type, responded, current
 
         }
     }
-    const handleOk = (type)=>{
 
-        console.log('selected type is ',type);
-        if (type === 'confirm') {
-            console.log('confirming');
-            addTeammate(currentUser.uid,senderId)
-            removeNotification(currentUser.uid,notifID)
-            setConfirmModalVisibility(false)
-        }
-        if (type === 'reject') {
-            console.log('rejecting handleOk');
-            setRejectModalVisibility(false)
 
-        }
+    const handleAddFriendConfirm = ()=>{
+        console.log('confirming friend request confirm');
+        addTeammate(currentUser.uid,senderId)
+        removeNotification(currentUser.uid,notifID)
+        setConfirmModalVisibility(false)
     }
-    const handleCancel = (type)=>{
-        console.log('selected type is ',type);
-        if (type === 'confirm') {
-            console.log('confirming');
-            removeNotification(currentUser.uid,notifID)
-            setConfirmModalVisibility(false)
-        }
-        if (type === 'reject') {
-            console.log('rejecting handlecancel');
-            setRejectModalVisibility(false)
 
-        }
+    const handleAddFriendCancel = ()=>{
+        console.log('cancelling friend request confirm');
+        setConfirmModalVisibility(false)
+    }
+
+    const handleRejectRequestConfirm = ()=>{
+        console.log('confirming the friend requst rejection');
+        removeNotification(currentUser.uid,notifID)
+        setRejectModalVisibility(false)
+    }
+
+    const handleRejectRequestCancel = ()=>{
+        console.log('cancelling the friend requst rejection');
+        console.log('is modal visible? ',isConfirmModalShown);
+        setRejectModalVisibility(false)
     }
 
     return (
@@ -70,10 +68,10 @@ const Notification = ({ senderName, senderId, photoURL, type, responded, current
                 <Button type="text" shape="circle" icon={<CheckOutlined style={{ color: 'green' }} />} onClick={handleButtonClick.bind(this, 'confirm')} />
                 <Button type="text" shape="circle" icon={<CloseOutlined style={{ color: 'red' }} />} onClick={handleButtonClick.bind(this, 'reject')} />
             </ButtonsContainer>
-            <Modal title="Confirm" visible={isConfirmModalShown} onOk={handleOk.bind(this,'confirm')} onCancel={handleCancel.bind(this,'confirm')}>
+            <Modal title="Confirm" visible={isConfirmModalShown} onOk={handleAddFriendConfirm} onCancel={handleAddFriendCancel}>
                 <p>Are you sure you want to confirm this user? Confirming will allow you both to see each other's progress</p>
             </Modal>
-            <Modal title="Reject" visible={isRejectModalShown} onOk={handleOk.bind(this,'reject')} onCancel={handleCancel.bind(this,'reject')}>
+            <Modal title="Reject" visible={isRejectModalShown} onOk={handleRejectRequestConfirm} onCancel={handleRejectRequestCancel}>
                 <p>Are you sure you want to reject this request? You will not be able to reverse this unless the request is sent again.</p>
             </Modal>
         </Container>

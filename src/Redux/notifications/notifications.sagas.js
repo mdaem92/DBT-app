@@ -68,12 +68,7 @@ function* sendRequestAsync({sender,receiverId}){
 
 function* removeNotificationAsync({uid,notifID}){
     try {
-        // yield firestore
-        //     .collection('users')
-        //     .doc(`${uid}`)
-        //     .collection('notifications')
-        //     .doc(`${notifID}`)
-        //     .delete()
+
         const docRef = yield firestore
             .collection('users')
             .doc(`${uid}`)

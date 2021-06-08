@@ -16,37 +16,19 @@ const Notifications = ({ currentNotifications, setCurrentNotifications, currentU
 
     
     const latestNotifications = useLatestNotifications(currentUser.uid)
-    console.log("current notifs: ", currentNotifications);
-    console.log("latest notifs: ", latestNotifications);
-
 
     useEffect(() => {
 
         if (!_.isEqual(latestNotifications, currentNotifications)) {
             console.log('difference in notifications');
-            // const intersection = latestNotifications.filter((element, index) => !_.isEqual(element, currentNotifications[index]));
-            // console.log("intersection: ", intersection);
+            console.log('current notifs in redux: ',currentNotifications);
+            console.log('latest notifs from db:',latestNotifications);
             setCurrentNotifications(latestNotifications)
         }
     }, [setCurrentNotifications, currentNotifications, latestNotifications])
 
     const menu = (
         <Menu>
-            {/* {
-                !!currentNotifications && currentNotifications.map((notification, index) =>
-                    <Menu.Item key={index}>
-                        {console.log('notification: ', notification)}
-                        <Notification {...notification} />
-                    </Menu.Item>
-                )
-            }
-            {
-                currentNotifications.length === 0 &&
-                <Menu.Item key="-1" disabled>
-                    No new notifications
-                </Menu.Item>
-            } */}
-
             {
                 !!currentNotifications && currentNotifications.length > 0 ?
                     (

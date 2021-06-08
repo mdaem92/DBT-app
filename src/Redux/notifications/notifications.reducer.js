@@ -6,10 +6,7 @@ const NotificationsDefaultState = {
     notifications:[],
     isLoading:false,
     error:undefined,
-    fetchError:undefined,
-    isRequestPending:false,
-    isNotificationsFetched:false,
-    isNotificationSubmitted:false,
+    
 }
 
 const notificationsReducer = (state=NotificationsDefaultState,action)=>{
@@ -24,7 +21,7 @@ const notificationsReducer = (state=NotificationsDefaultState,action)=>{
                 ...state,
                 isLoading:false,
                 notifications:action.notifications,
-                isNotificationsFetched:true,
+                // isNotificationsFetched:true,
                 error:undefined,
             }
         case NotificationsActionTypes.FETCH_NOTIFICATION_FAILURE:
@@ -37,13 +34,13 @@ const notificationsReducer = (state=NotificationsDefaultState,action)=>{
         case NotificationsActionTypes.SEND_REQUEST_START:
             return{
                 ...state,
-                isRequestPending:true,
+                // isRequestPending:true,
                 isLoading:true
             }
         case NotificationsActionTypes.SEND_REQUEST_SUCCESS:
             return{
                 ...state,
-                isRequestPending:false,
+                // isRequestPending:false,
                 error:undefined,
                 isLoading:false,
                 
@@ -59,9 +56,13 @@ const notificationsReducer = (state=NotificationsDefaultState,action)=>{
                 notifications:action.notifications,
             }
         case NotificationsActionTypes.REMOVE_NOTIFICATION_SUCCESS:
+            // const newNotifs = deleteNotification(state.notifications,action.notifID)
+            // console.log('from reducer. got notifs after deletion: \n',newNotifs);
             return{
                 ...state,
-                notifications:deleteNotification(state.notifications,action.notifID)
+                // notifications:newNotifs
+                error:undefined,
+                isLoading:false
             }
         default:
             return state;

@@ -9,11 +9,9 @@ import { fetchJournalsStart } from '../../Redux/journals/journals.actions'
 import { isJournalsFetchedSelector } from '../../Redux/journals/journals.selectors'
 import { currentUserSelector } from '../../Redux/user/user.selectors'
 import { isMembersFetchedSelector } from '../../Redux/members/members.selectors'
-import { fetchMembersStart } from '../../Redux/members/members.actions'
-import useLatestNotifications from '../../hooks/useLatestNotifications'
 import { isNotificationsFetchedSelector, notificationsSelector } from '../../Redux/notifications/notifications.selectors'
-import { fetchNotificationsStart, setCurrentNotifications } from '../../Redux/notifications/notifications.actions'
-import _ from 'lodash'
+import { setCurrentNotifications } from '../../Redux/notifications/notifications.actions'
+
 
 const Homepage = ({
     fetchJournals,
@@ -22,7 +20,7 @@ const Homepage = ({
     isMembersFetched,
     fetchMembers,
     isNotificationsFetched,
-    fetchNotifications,
+    // fetchNotifications,
     notifications: currentNotifications,
     setCurrentNotifications
 }) => {
@@ -50,19 +48,13 @@ const Homepage = ({
         }
     }, [isJournalsFetched, fetchJournals, currentUser])
 
-    // useEffect(()=>{
-    //     if(!isMembersFetched ){
-    //         console.log('members are not fetched ',isMembersFetched);
-    //         fetchMembers()
+
+
+    // useEffect(() => {
+    //     if (!isNotificationsFetched && !!currentUser) {
+    //         fetchNotifications(currentUser.uid)
     //     }
-
-    // },[isMembersFetched,fetchMembers])
-
-    useEffect(() => {
-        if (!isNotificationsFetched && !!currentUser) {
-            fetchNotifications(currentUser.uid)
-        }
-    }, [isNotificationsFetched, fetchNotifications, currentUser])
+    // }, [isNotificationsFetched, fetchNotifications, currentUser])
 
     return (
 
@@ -95,7 +87,7 @@ const mapStateToprops = createStructuredSelector({
 const mapDispatchToProps = (dispatch) => ({
     fetchJournals: (uid) => dispatch(fetchJournalsStart(uid)),
     // fetchMembers: () => dispatch(fetchMembersStart()),
-    fetchNotifications: (uid) => dispatch(fetchNotificationsStart(uid)),
+    // fetchNotifications: (uid) => dispatch(fetchNotificationsStart(uid)),
     setCurrentNotifications: (newNotifications) => dispatch(setCurrentNotifications(newNotifications)),
 })
 
