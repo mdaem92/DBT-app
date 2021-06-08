@@ -6,10 +6,10 @@ import{ connect} from 'react-redux'
 import { addTeammateStart } from '../../Redux/user/user.actions'
 import { createStructuredSelector } from 'reselect'
 import { currentUserSelector } from '../../Redux/user/user.selectors'
-import { removeNotificationStart } from '../../Redux/notifications/notifications.actions'
+import { removeNotificationStart, sendRequestStart } from '../../Redux/notifications/notifications.actions'
 
 
-const Notification = ({ senderName, senderId, photoURL, type, responded, currentNotifications , addTeammate ,currentUser,notifID,removeNotification }) => {
+const Notification = ({ senderName, senderId, photoURL, type, responded, currentNotifications , addTeammate ,currentUser,notifID,removeNotification,sendRequest }) => {
     const [isConfirmModalShown, setConfirmModalVisibility] = useState(false)
     const [isRejectModalShown, setRejectModalVisibility] = useState(false)
 
@@ -37,6 +37,9 @@ const Notification = ({ senderName, senderId, photoURL, type, responded, current
     const handleAddFriendConfirm = ()=>{
         console.log('confirming friend request confirm');
         addTeammate(currentUser.uid,senderId)
+        addTeammate(senderId,currentUser.uid)
+        sendRequest(currentUser,senderId,"ACCEPTED_REQUEST")
+        
         removeNotification(currentUser.uid,notifID)
         setConfirmModalVisibility(false)
     }
@@ -84,7 +87,8 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToProps = (dispatch)=>({
     addTeammate:(uid,teammateID)=>dispatch(addTeammateStart(uid,teammateID)),
-    removeNotification:(uid,notifID)=>dispatch(removeNotificationStart(uid,notifID))
+    removeNotification:(uid,notifID)=>dispatch(removeNotificationStart(uid,notifID)),
+    sendRequest:(sender,receiverID,requestType)=>dispatch(sendRequestStart(sender,receiverID,requestType))
 })
 
 export default connect(mapStateToProps,mapDispatchToProps)(Notification)

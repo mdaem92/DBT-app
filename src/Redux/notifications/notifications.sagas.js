@@ -33,7 +33,7 @@ const getUsersIdsFromSnapshot = (snapshot)=>{
 //     }
 // }
 
-function* sendRequestAsync({sender,receiverId}){
+function* sendRequestAsync({sender,receiverId,requestType}){
     
     try {
         yield console.log('receiver id : ',receiverId)
@@ -47,7 +47,7 @@ function* sendRequestAsync({sender,receiverId}){
         if(uids.indexOf(receiverId)>=0){
             const notification = {
                 ...rest,
-                type:"ADD_REQUEST",
+                type:requestType,
                 responded:false,
                 senderId:uid,
                 senderName:displayName

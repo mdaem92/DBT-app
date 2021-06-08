@@ -23,7 +23,7 @@ const UserSearchSelect = ({ sendRequest, members ,currentUser ,isNotifLoading , 
 
     const handleSendRequest = (value)=>{
         console.log('sending request',value);
-        sendRequest(currentUser,value)
+        sendRequest(currentUser,value,'ADD_REQUEST')
         
         
     }
@@ -59,7 +59,7 @@ const mapStateToProps = createStructuredSelector({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-    sendRequest: (sender,receiverId) => dispatch(sendRequestStart(sender,receiverId))
+    sendRequest: (sender,receiverId,requestType) => dispatch(sendRequestStart(sender,receiverId,requestType))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserSearchSelect)

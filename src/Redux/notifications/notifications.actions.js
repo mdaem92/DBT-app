@@ -1,9 +1,10 @@
 import NotificationsActionTypes from "./notifications.types"
 
-export const sendRequestStart = (sender,receiverId)=>({
+export const sendRequestStart = (sender,receiverId,requestType)=>({
     type:NotificationsActionTypes.SEND_REQUEST_START,
     receiverId,
-    sender
+    sender,
+    requestType
 })
 
 export const sendRequestFailure = (error)=>({

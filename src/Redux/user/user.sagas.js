@@ -37,6 +37,7 @@ function* addTeammateAsync({uid,teammateID}){
             .add({
                 teammateID:teammateID
             })
+        
         yield put(addTeammateSuccess(teammateID))
 
     } catch (error) {
