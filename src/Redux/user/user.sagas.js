@@ -9,7 +9,9 @@ import {
     signOutStart,
     signOutSuccess,
     addTeammateFailure,
-    addTeammateSuccess
+    addTeammateSuccess,
+    fetchTeammatesFailure,
+    fetchTeammatesSuccess
 } from './user.actions'
 
 function* getSnapShotFromUserAuth(userAuth){
@@ -27,18 +29,19 @@ function* getSnapShotFromUserAuth(userAuth){
 
 }
 
-function* addTeammateAsync({uid,teammateID}){
+function* addTeammateAsync({uid,teammate}){
     try {
-        yield console.log('teammate:',teammateID);
+        yield console.log('teammate:',teammate);
         yield console.log('current user:',uid);
+
 
         yield firestore
             .collection(`users/${uid}/friends`)
             .add({
-                teammateID:teammateID
+                ...teammate
             })
         
-        yield put(addTeammateSuccess(teammateID))
+        yield put(addTeammateSuccess(teammate))
 
     } catch (error) {
         console.log(error);
@@ -66,7 +69,25 @@ function* signOutAsync(){
     }
 }
 
+const getTeammatesFromSnapshot = (snapshot)=>{
+    return snapshot.docs.map(doc=>{
+        return {
+            ...doc.data()
+        }
+    })
+}
 
+function* fetchTeammatesAsync(){
+    try {
+        const uid = yield auth.currentUser.uid
+        const teammatesRef = yield firestore.collection(`users/${uid}/friends`)
+        const teammatesSnapshot = yield teammatesRef.get()
+        const teammates = getTeammatesFromSnapshot(teammatesSnapshot)
+        yield put(fetchTeammatesSuccess(teammates))
+    } catch (error) {
+        yield put(fetchTeammatesFailure(error.message))
+    }
+}
 
 function* onSignInStart (){
     yield takeLatest(
@@ -88,18 +109,19 @@ function* onAddTeammateStart(){
     )
 }
 
-// function* onSendRequestStart(){
-//     yield takeLatest(
-//         UserActionTypes.SEND_REQUEST_START,
-//         sendRequestAsync
-//     )
-// }
+function* onFetchTeammatesStart(){
+    yield takeLatest(
+        UserActionTypes.FETCH_TEAMMATES_START,
+        fetchTeammatesAsync
+    )
+}
 
 export function* userSagas(){
     yield all([
         call(onSignInStart),
         call(onSignOutStart),
         // call(onSendRequestStart)
-        call(onAddTeammateStart)
+        call(onAddTeammateStart),
+        call(onFetchTeammatesStart)
     ])
 }

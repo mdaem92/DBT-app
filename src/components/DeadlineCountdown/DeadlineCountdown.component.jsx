@@ -22,13 +22,14 @@ const DeadlineCountdown = ()=> {
         const eveningDeadline = moment(eveningEnd,"HH:mm")
         const morningDeadline = moment(morningEnd,'HH:mm')
         if (currentHour>=12){
+            console.log('current time past 12 ',currentHour);
 
             if (eveningDeadline.diff(currentTime,'seconds')>0){
-                // console.log('evening deadline isnt reached yet');
+                console.log('evening deadline isnt reached yet');
                 return eveningDeadline
             }else{
                 // console.log('evening deadline is reached');
-                // console.log('next morning deadline: ',morningDeadline.add(12,'hours'));
+                console.log('next morning deadline: ',morningDeadline.add(12,'hours'));
                 return morningDeadline.add(12,'hours')
             } 
         }else{

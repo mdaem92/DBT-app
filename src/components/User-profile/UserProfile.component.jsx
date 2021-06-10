@@ -11,6 +11,7 @@ import UserSearchSelect from '../user-search-select/user-search-select.component
 import { membersListSelector } from '../../Redux/members/members.selectors'
 import { notifErrorSelector } from '../../Redux/notifications/notifications.selectors'
 import { resetError } from '../../Redux/notifications/notifications.actions'
+import Teammates from '../Teammates/Teammates.component'
 
 
 const UserProfile = ({ currentUser, logOut, notifError, resetError }) => {
@@ -64,7 +65,9 @@ const UserProfile = ({ currentUser, logOut, notifError, resetError }) => {
                             <Menu.Item key="1" onClick={copyToClipBoard}>{currentUser?.uid}</Menu.Item>
                         </SubMenu>
                         <SubMenu key="teammates" icon={<TeamOutlined />} title={'View Teammates'}>
-                            <Menu.Item key="2">something</Menu.Item>
+                            {/* <Menu.Item onClick={()=>console.log('clicking teammate')} key="2">something</Menu.Item> */}
+                            {/* TODO crete teammates list  */}
+                            <Teammates/>
                         </SubMenu>
                         <SubMenu key="addNew" icon={<PlusOutlined />} title={'Add teammate'}>
                             <UserSearchSelect />

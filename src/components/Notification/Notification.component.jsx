@@ -1,24 +1,24 @@
 import React, { useState } from 'react'
 import { Container, ImageContainer, ContentContainer, ButtonsContainer } from './Notification.styles'
-import { Button ,Modal } from 'antd'
+import { Button, Modal } from 'antd'
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
-import{ connect} from 'react-redux'
+import { connect } from 'react-redux'
 import { addTeammateStart } from '../../Redux/user/user.actions'
 import { createStructuredSelector } from 'reselect'
 import { currentUserSelector } from '../../Redux/user/user.selectors'
 import { removeNotificationStart, sendRequestStart } from '../../Redux/notifications/notifications.actions'
 
 
-const Notification = ({ senderName, senderId, photoURL, type, responded, currentNotifications , addTeammate ,currentUser,notifID,removeNotification,sendRequest }) => {
+const Notification = ({ senderName, senderId, photoURL, type, responded, currentNotifications, addTeammate, currentUser, notifID, removeNotification, sendRequest }) => {
     const [isConfirmModalShown, setConfirmModalVisibility] = useState(false)
     const [isRejectModalShown, setRejectModalVisibility] = useState(false)
 
-    console.log('notif from Notification component ',notifID);
+    console.log('notif from Notification component ', notifID);
     const labels = {
         "ADD_REQUEST": "requested access.",
         "SUBMITTED_REPORT": "submitted report.",
         "MISSED_DEADLINE": "missed deadline.",
-        "ACCEPTED_REQUEST":"Accepted your request."
+        "ACCEPTED_REQUEST": "Accepted your request."
     }
 
     const handleButtonClick = (type) => {
@@ -34,30 +34,35 @@ const Notification = ({ senderName, senderId, photoURL, type, responded, current
     }
 
 
-    const handleAddFriendConfirm = ()=>{
+    const handleAddFriendConfirm = () => {
         console.log('confirming friend request confirm');
-        addTeammate(currentUser.uid,senderId)
-        addTeammate(senderId,currentUser.uid)
-        sendRequest(currentUser,senderId,"ACCEPTED_REQUEST")
-        
-        removeNotification(currentUser.uid,notifID)
+        addTeammate(currentUser.uid, {id:senderId,displayName:senderName,photoURL})
+        addTeammate(senderId, {id:currentUser.uid, photoURL:currentUser.photoURL, displayName:currentUser.displayName})
+        sendRequest(currentUser, senderId, "ACCEPTED_REQUEST")
+
+        removeNotification(currentUser.uid, notifID)
         setConfirmModalVisibility(false)
     }
 
-    const handleAddFriendCancel = ()=>{
+    const handleAddFriendCancel = () => {
         console.log('cancelling friend request confirm');
         setConfirmModalVisibility(false)
     }
 
-    const handleRejectRequestConfirm = ()=>{
+    const handleRejectRequestConfirm = () => {
         console.log('confirming the friend requst rejection');
-        removeNotification(currentUser.uid,notifID)
+        removeNotification(currentUser.uid, notifID)
         setRejectModalVisibility(false)
     }
 
-    const handleRejectRequestCancel = ()=>{
+    const handleRejectRequestCancel = () => {
         console.log('cancelling the friend requst rejection');
-        console.log('is modal visible? ',isConfirmModalShown);
+        console.log('is modal visible? ', isConfirmModalShown);
+        setRejectModalVisibility(false)
+    }
+
+    const handleNotifSeen = ()=>{
+        removeNotification(currentUser.uid, notifID)
         setRejectModalVisibility(false)
     }
 
@@ -68,8 +73,23 @@ const Notification = ({ senderName, senderId, photoURL, type, responded, current
                 {`${senderName} has ${labels[type]}`}
             </ContentContainer>
             <ButtonsContainer >
-                <Button type="text" shape="circle" icon={<CheckOutlined style={{ color: 'green' }} />} onClick={handleButtonClick.bind(this, 'confirm')} />
-                <Button type="text" shape="circle" icon={<CloseOutlined style={{ color: 'red' }} />} onClick={handleButtonClick.bind(this, 'reject')} />
+                {
+                    type !== 'ACCEPTED_REQUEST' ?
+                        (
+                            <div>
+                                <Button type="text" shape="circle" icon={<CheckOutlined style={{ color: 'green' }} />} onClick={handleButtonClick.bind(this, 'confirm')} />
+                                <Button type="text" shape="circle" icon={<CloseOutlined style={{ color: 'red' }} />} onClick={handleButtonClick.bind(this, 'reject')} />
+                            </div>
+                        )
+                        :
+                        (
+                            <Button type="text" shape="circle" icon={<CheckOutlined style={{ color: 'green' }} />} onClick={handleNotifSeen} />
+                        )
+
+
+                }
+
+
             </ButtonsContainer>
             <Modal title="Confirm" visible={isConfirmModalShown} onOk={handleAddFriendConfirm} onCancel={handleAddFriendCancel}>
                 <p>Are you sure you want to confirm this user? Confirming will allow you both to see each other's progress</p>
@@ -82,13 +102,13 @@ const Notification = ({ senderName, senderId, photoURL, type, responded, current
 }
 
 const mapStateToProps = createStructuredSelector({
-    currentUser:currentUserSelector
+    currentUser: currentUserSelector
 })
 
-const mapDispatchToProps = (dispatch)=>({
-    addTeammate:(uid,teammateID)=>dispatch(addTeammateStart(uid,teammateID)),
-    removeNotification:(uid,notifID)=>dispatch(removeNotificationStart(uid,notifID)),
-    sendRequest:(sender,receiverID,requestType)=>dispatch(sendRequestStart(sender,receiverID,requestType))
+const mapDispatchToProps = (dispatch) => ({
+    addTeammate: (uid, teammate) => dispatch(addTeammateStart(uid, teammate)),
+    removeNotification: (uid, notifID) => dispatch(removeNotificationStart(uid, notifID)),
+    sendRequest: (sender, receiverID, requestType) => dispatch(sendRequestStart(sender, receiverID, requestType))
 })
 
-export default connect(mapStateToProps,mapDispatchToProps)(Notification)
+export default connect(mapStateToProps, mapDispatchToProps)(Notification)
