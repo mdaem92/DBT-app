@@ -1,8 +1,8 @@
 import React, { useState,useEffect } from 'react'
 import { ProfileContainer, ProfileImage, AccountMenu } from './UserProfile.styles'
 // import useCurrentUser from '../../hooks/useCurrentUser'
-import { Menu, message, Modal } from 'antd'
-import { LogoutOutlined, SettingFilled, KeyOutlined, TeamOutlined, PlusOutlined } from '@ant-design/icons'
+import { Menu, message, Modal,DatePicker } from 'antd'
+import { LogoutOutlined, SettingFilled, KeyOutlined, TeamOutlined, PlusOutlined,SlidersOutlined } from '@ant-design/icons'
 import { createStructuredSelector } from 'reselect'
 import { currentUserSelector } from '../../Redux/user/user.selectors'
 import { connect } from 'react-redux'
@@ -12,9 +12,9 @@ import { membersListSelector } from '../../Redux/members/members.selectors'
 import { notifErrorSelector } from '../../Redux/notifications/notifications.selectors'
 import { resetError } from '../../Redux/notifications/notifications.actions'
 import Teammates from '../Teammates/Teammates.component'
+import {setFieldValue} from '../../Redux/journals/journals.actions'
 
-
-const UserProfile = ({ currentUser, logOut, notifError, resetError }) => {
+const UserProfile = ({ currentUser, logOut, notifError, resetError , setFieldValue }) => {
     const { SubMenu } = Menu
     // const currentUser = useCurrentUser()
     const [isExtended, setExtended] = useState(false)
@@ -31,8 +31,6 @@ const UserProfile = ({ currentUser, logOut, notifError, resetError }) => {
             message.success('key copied to clipboard', 2)
         })
     }
-
-    
 
     useEffect(() => {
         // setIsModalVisible(!!notifError)
@@ -51,13 +49,17 @@ const UserProfile = ({ currentUser, logOut, notifError, resetError }) => {
 
     }, [notifError,resetError])
 
+    const handleDateChange = (fieldName,date)=>{
+        setFieldValue(fieldName,date)
+    }
+
+    const {RangePicker} = DatePicker
     return (
         <div>
             <ProfileContainer>
                 <ProfileImage imageUrl={currentUser?.photoURL} isHidden={isExtended} referrerpolicy="no-referrer" />
                 <AccountMenu
                     mode='inline'
-                    // onClick={handleClick}
                     style={{ backgroundColor: '#0b355c' }}
                 >
                     <SubMenu key="settings" icon={<SettingFilled />} title="Account Settings" color={'white'} onTitleClick={handleMoveProfileImage}>
@@ -65,14 +67,22 @@ const UserProfile = ({ currentUser, logOut, notifError, resetError }) => {
                             <Menu.Item key="1" onClick={copyToClipBoard}>{currentUser?.uid}</Menu.Item>
                         </SubMenu>
                         <SubMenu key="teammates" icon={<TeamOutlined />} title={'View Teammates'}>
-                            {/* <Menu.Item onClick={()=>console.log('clicking teammate')} key="2">something</Menu.Item> */}
-                            {/* TODO crete teammates list  */}
                             <Teammates/>
                         </SubMenu>
                         <SubMenu key="addNew" icon={<PlusOutlined />} title={'Add teammate'}>
                             <UserSearchSelect />
                         </SubMenu>
-                        {/* <Menu.Item key="3">Option 2</Menu.Item> */}
+                    </SubMenu>
+                    <SubMenu key='filters' icon={<SlidersOutlined />} title={'Filter Journals'} color={'white'} onTitleClick={handleMoveProfileImage}>
+                        <Menu.Item key='dateFrom'>
+                            <DatePicker placeholder={'Date From'} onChange={handleDateChange.bind(this,'dateFrom')}  />
+                        </Menu.Item>
+                        <Menu.Item key='dateTo'>
+                            <DatePicker placeholder={'Date To'} onChange={handleDateChange.bind(this,'dateTo')} />
+                        </Menu.Item>
+                        {/* <Menu.Item key='dateRange' onClick={()=>console.log('clicking')}>
+                            <RangePicker/> 
+                        </Menu.Item> */}
                     </SubMenu>
                     <Menu.Item key="logout" icon={<LogoutOutlined />} onClick={logOut} color={'white'}>Log out</Menu.Item>
 
@@ -92,7 +102,8 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToProps = (dispatch) => ({
     logOut: () => dispatch(signOutStart()),
-    resetError: () => dispatch(resetError())
+    resetError: () => dispatch(resetError()),
+    setFieldValue:(name,value)=>dispatch(setFieldValue(name,value))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserProfile)

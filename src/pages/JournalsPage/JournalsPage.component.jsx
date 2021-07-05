@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import React, { useEffect } from 'react'
 import { createStructuredSelector } from 'reselect'
-import { isJournalsFetchedSelector, journalsArraySelector } from '../../Redux/journals/journals.selectors'
+import { isJournalsFetchedSelector, journalsArraySelector, sortedJournalsSelector } from '../../Redux/journals/journals.selectors'
 import Journal from '../../components/Journal/Journal.component'
 import { JournalsContainer, JournalsPageContainer, SidePanelProfileContainer } from './JournalsPage.styles'
 import UserProfile from '../../components/User-profile/UserProfile.component'
@@ -38,7 +38,7 @@ const JournalsPage = ({ journals, currentUser, journalsFetched, fetchJournals })
 }
 
 const mapStateToProps = createStructuredSelector({
-    journals: journalsArraySelector,
+    journals: sortedJournalsSelector,
     currentUser: currentUserSelector,
     journalsFetched: isJournalsFetchedSelector
 })

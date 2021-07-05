@@ -26,7 +26,7 @@ export const fetchJournalsFailure = ()=>({
 })
 
 export const setFieldValue = (name,value)=>({
-    type:JournalsActionTypes.SET_FIELD_VALUE,
+    type:JournalsActionTypes.SET_DATE_FILTER_FIELD_VALUE,
     name,
     value
 })

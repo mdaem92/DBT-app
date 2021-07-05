@@ -39,16 +39,22 @@ export const SidePanelContainer = styled(props => <Menu {...props} />)`
 `
 export const JournalsPageContainer = styled.div`
     display:grid;
-    grid-template-rows:1fr;
-    grid-template-columns:1fr 5fr;
+    grid-template-rows:2fr;
+    grid-template-columns:15% 5fr;
     column-gap:20px;
+    
+
 @media screen and (max-width:800px){
     display:flex;
     flex-direction:column;
     justify-content:center;
+    /* width:95%;
+    align-self: center;
+    justify-self: center; */
 }
 `
 
 export const SidePanelProfileContainer = styled.div`
+    
     /* width:100px; */
 `

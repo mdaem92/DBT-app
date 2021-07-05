@@ -13,6 +13,8 @@ export const TabPaneContainer = styled((props)=><TabPane {...props}/>)`
 
 `
 export const ChartsContainer = styled.div`
+    grid-row: 2;
+    grid-column: 1 span 2;
     display:flex;
     flex-direction:row;
     /* border: 1px solid red; */

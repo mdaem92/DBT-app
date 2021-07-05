@@ -25,6 +25,7 @@ export const UserReducer = (state=defaultUserState,action)=>{
                 ...state,
                 currentUser:action.user,
                 loading:false,
+                errorMessage:undefined
             }
         case UserActionTypes.SIGN_OUT_SUCCESS:
             return defaultUserState
@@ -41,20 +42,25 @@ export const UserReducer = (state=defaultUserState,action)=>{
             return{
                 ...state,
                 loading:false,
-                teammates:[...state.teammates,{...action.teammate}]
+                teammates:[...state.teammates,{...action.teammate}],
+                errorMessage:undefined
             }
         case UserActionTypes.REMOVE_TEAMMATE_SUCCESS:
             return {
                 ...state,
                 loading:false,
-                teammates:removeTeammate(state.teammates,action.id)
+                teammates:removeTeammate(state.teammates,action.id),
+                errorMessage:undefined
+
             }
         case UserActionTypes.FETCH_TEAMMATES_SUCCESS:
             return{
                 ...state,
                 loading:false,
                 teammates:action.teammates,
-                isTeammatesFetched:true
+                isTeammatesFetched:true,
+                errorMessage:undefined
+
             }
 
         default:

@@ -5,7 +5,9 @@ const defaultState = {
     isJournalsFetched: false,
     journalsLoading:false,
     journals: [],
-    entriesPerChart:7
+    entriesPerChart:7,
+    dateFrom:undefined,
+    dateTo:undefined
 }
 
 const journalsReducer = (state = defaultState, action) => {
@@ -14,7 +16,8 @@ const journalsReducer = (state = defaultState, action) => {
 
             return {
                 ...state,
-                journals: submitAndMergeJournal(state.journals, action.journal)
+                journals: submitAndMergeJournal(state.journals, action.journal),
+
             }
 
         case JournalsActionTypes.EDIT_JOURNAL:
@@ -34,12 +37,17 @@ const journalsReducer = (state = defaultState, action) => {
                 journalsLoading:false,
                 isJournalsFetched:true
             }
-        case JournalsActionTypes.SET_FIELD_VALUE:
+        case JournalsActionTypes.SET_DATE_FILTER_FIELD_VALUE:
             return{
                 ...state,
                 [action.name]:action.value
             }
-
+        case JournalsActionTypes.RESET_DATE_FILTERS:
+            return{
+                ...state,
+                dateFrom:undefined,
+                dateTo:undefined
+            }
         default:
             return state;
     }

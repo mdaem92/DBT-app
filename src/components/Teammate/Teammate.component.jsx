@@ -5,13 +5,19 @@ import {withRouter} from 'react-router-dom'
 const Teammate = ({displayName,id,photoURL,history,match}) => {
 
     const handleClick = ()=>{
-        history.push(`${id}/overview`)
+        console.log('history: ',history);
+        console.log('match: ',match);
+        console.log(match.params.uid,id);
+        if(match.params.uid!==id){
+            history.push(`${id}/overview`)
+        }
+        
     }
-    console.log('history: ',history);
+    // console.log('history: ',history);
     return (
         <Container>
             <ImageContainer imageURL={photoURL}/>
-            <NameContainer type="link" onClick={handleClick} >{displayName}</NameContainer>            
+            <NameContainer type={"link"} onClick={handleClick} >{displayName}</NameContainer>            
         </Container>
     )
 }

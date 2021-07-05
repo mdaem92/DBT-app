@@ -8,6 +8,14 @@ export const ProfileContainer = styled.div`
     display:flex;
     /* justify-content:space-around; */
     flex-direction:column;
+    @media screen and (max-width:800px){
+        width:95vw;
+        /* margin: auto auto 10px auto; */
+        margin-bottom: 10px;
+        margin-left: auto;
+        margin-right: auto;
+
+    }
     
 `
 

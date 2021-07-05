@@ -1,56 +1,41 @@
-import React, { useEffect } from 'react'
-import { Button } from 'antd'
-import { useState } from 'react'
-import { FormContainer, ItemContainer, RowContainer } from './AddJournalForm.styles'
+import React from 'react'
+import { Button, message } from 'antd'
+import { FormContainer, RowContainer } from './AddJournalForm.styles'
 import { Input, Select, Switch, Form, InputNumber, DatePicker } from 'antd'
 import { FiSun, FiMoon } from "react-icons/fi";
 import { connect } from 'react-redux'
 import { submitJournalStart } from '../../Redux/journals/journals.actions'
 import useCurrentTime from '../../hooks/useCurrentTime'
 import { setFieldValue } from '../../Redux/form/form.actions'
-import useCurrentUser from '../../hooks/useCurrentUser'
 import { createStructuredSelector } from 'reselect'
 import { currentUserSelector } from '../../Redux/user/user.selectors'
+import { submissionErrorSelector } from '../../Redux/journals/journals.selectors'
+import { withRouter } from 'react-router-dom'
+import { formSelector } from '../../Redux/form/form.selectors'
 
 const { TextArea } = Input
 const { Option } = Select
 
-const AddJournalForm = ({ submit, setFieldValue ,currentUser:user }) => {
+const AddJournalForm = ({ submit, setFieldValue ,currentUser:user , errorMessage, history ,form }) => {
 
-    const [state, setState] = useState({
-        date: undefined,
-        isDeadlineMissed: false,
-        isMorningReport: true,
-    })
-    useEffect(() => {
-        console.log("state updated: ", state);
-
-    }, [state])
-
-
-    // const user = useCurrentUser()
-    const { isMorningReport } = state
     const currentDate = useCurrentTime()
 
     const onFinish = (values) => {
 
         const { uid, displayName } = user
-        console.log('Success:', values);
-        submit({ ...values, uid, displayName, isMorningReport })
-
+        submit({ ...values, uid, displayName, isMorningReport:form.isMorningReport })
+        message.success('Journal successfully added')
+        console.log('history: ',history);
+        history.push('/')
     };
 
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
+        message.error('Journal submittion failed')
 
     };
-    const preventSubmitOnEnter = (e) => {
-        if (e.code === "Enter" || e.code === 'NumpadEnter') {
-            e.preventDefault()
-        }
-    }
+
     const retrieveUniqueWordsFromString = (sentence)=>{
-        // return sentence.match(/("[^"]+"|[^"\s]+)/g).filter((item,index,self)=>self.indexOf(item)===index)
         return [...new Set(sentence.match(/("[^"]+"|[^"\s]+)/g))]
     }
     const storeDataOnBlur = ({ target: { id, value } }) => {
@@ -58,17 +43,37 @@ const AddJournalForm = ({ submit, setFieldValue ,currentUser:user }) => {
             console.log(id);
             console.log(value);
             console.log(`going to store  on blur`);
+            setFieldValue(id,value)
+            //TODO: add tag generator logic here
             const results = retrieveUniqueWordsFromString(value)
             console.log('words',results);
         }
-       
     }
 
+    const handleClear = (fieldName)=>{
+        console.log('clearing',fieldName);
+        setFieldValue(fieldName,undefined)
+    }
+
+
+    const handleFieldChange = (fieldName,val)=>{
+        if(typeof val ==="boolean" || (typeof val ==="object" && val._isAMomentObject ) || typeof val ==="string"){
+            return setFieldValue(fieldName,val)
+        }if(typeof val ==='undefined'){
+            return setFieldValue(fieldName,undefined)    
+        }
+        return setFieldValue(fieldName,val.target.value)
+    }
+
+    console.log('current form: ',form);
+    const {date,isMorningReport,...initialValues} = form
     return (
 
         <FormContainer
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
+            initialValues={initialValues}
+            
         // onKeyDown={preventSubmitOnEnter}
 
         >
@@ -76,8 +81,8 @@ const AddJournalForm = ({ submit, setFieldValue ,currentUser:user }) => {
                 <Switch
                     checkedChildren={<FiSun />}
                     unCheckedChildren={<FiMoon />}
-                    checked={state.isMorningReport}
-                    onChange={(val) => setState({ ...state, isMorningReport: val })}
+                    checked={form.isMorningReport}
+                    onChange={handleFieldChange.bind(this,'isMorningReport')}
                     className={'switch'}
                 />
                 <Form.Item
@@ -85,53 +90,81 @@ const AddJournalForm = ({ submit, setFieldValue ,currentUser:user }) => {
                     name={'date'}
                     initialValue={currentDate}
                 >
-                    <DatePicker showNow />
+                    <DatePicker showNow onChange={handleFieldChange.bind(this,'date')}/>
                 </Form.Item>
             </RowContainer>
 
             {
-                isMorningReport &&
+                form?.isMorningReport &&
 
                 <Form.Item
                     rules={[{ required: true, message: 'Last night summary is required' }]}
-                    name={'lastNightSummary'}
+                    name={'lastNightSummary'}                    
                 >
-                    <TextArea placeholder={'Last night\'s summary'} autoSize allowClear onBlur={storeDataOnBlur} />
+                    <TextArea 
+                        placeholder={'Last night\'s summary'} 
+                        autoSize 
+                        allowClear 
+                        onBlur={storeDataOnBlur} 
+                        value={form.lastNightSummary}
+                    />
                 </Form.Item>
 
 
             }
 
             {
-                isMorningReport ?
+                form?.isMorningReport ?
                     <Form.Item
                         rules={[{ required: true, message: 'Today\'s goal is required' }]}
                         name={'todaysGoal'}
                     >
-                        <TextArea placeholder={'Today\'s goal'} autoSize onBlur={storeDataOnBlur} />
+                        <TextArea 
+                            placeholder={'Today\'s goal'} 
+                            autoSize
+                            allowClear 
+                            onBlur={storeDataOnBlur}
+                            value={form.todaysGoal}                            
+                            />
                     </Form.Item>
                     :
                     <Form.Item
                         rules={[{ required: true, message: 'Goal description is required' }]}
                         name={'goalDescription'}
                     >
-                        <TextArea placeholder={'Today\' goal overview'} autoSize onBlur={storeDataOnBlur} />
+                        <TextArea 
+                            placeholder={'Today\' goal overview'} 
+                            autoSize
+                            allowClear 
+                            onBlur={storeDataOnBlur}
+                        />
                     </Form.Item>
             }
             <Form.Item
                 rules={[{ required: true, message: 'Strongest emotion is required' }]}
-                name={isMorningReport ? 'strongestEmotion' : 'strongestEmotion2'}
+                name={form?.isMorningReport ? 'strongestEmotion' : 'strongestEmotion2'}
             >
-                <TextArea placeholder={'Your strongest emotion'} autoSize onBlur={storeDataOnBlur} />
+                <TextArea 
+                    placeholder={'Your strongest emotion'} 
+                    autoSize
+                    allowClear 
+                    onBlur={storeDataOnBlur}
+                />
 
             </Form.Item>
 
 
             <Form.Item
                 rules={[{ required: true, message: 'Mood is required' }]}
-                name={isMorningReport ? 'mood' : 'mood2'}
+                name={form?.isMorningReport ? 'mood' : 'mood2'}
             >
-                <Select placeholder={'Mood'} onBlur={storeDataOnBlur}>
+                <Select 
+                    placeholder={'Mood'}
+                    allowClear 
+                    // onBlur={storeDataOnBlur}
+                    // onClear={handleClear.bind(this,form?.isMorningReport ? 'mood' : 'mood2')}
+                    onChange={handleFieldChange.bind(this,form?.isMorningReport ? 'mood' : 'mood2')}
+                >
                     <Option value="2">++</Option>
                     <Option value="1">+</Option>
                     <Option value="0">+-</Option>
@@ -143,52 +176,71 @@ const AddJournalForm = ({ submit, setFieldValue ,currentUser:user }) => {
 
             <Form.Item
                 rules={[{ required: true, message: 'Tension is required' }]}
-                name={isMorningReport ? 'tension' : 'tension2'}
+                name={form?.isMorningReport ? 'tension' : 'tension2'}
             >
-                <InputNumber min={0} max={100} placeholder={'Tension'} onBlur={storeDataOnBlur} />
+                <InputNumber 
+                    min={0} 
+                    max={100} 
+                    placeholder={'Tension'} 
+                    onBlur={storeDataOnBlur}
+                />
             </Form.Item>
 
 
             {
-                !state.isMorningReport &&
+                !form?.isMorningReport &&
 
                 <Form.Item
                     rules={[{ required: true, message: 'Positive notes is required' }]}
                     name={'positiveReport'}
                 >
-                    <TextArea placeholder={'positive Notes'} autoSize onBlur={storeDataOnBlur} />
+                    <TextArea 
+                        placeholder={'positive Notes'} 
+                        autoSize 
+                        onBlur={storeDataOnBlur}
+                    />
                 </Form.Item>
 
             }
             {
-                !state.isMorningReport &&
+                !form?.isMorningReport &&
 
                 <Form.Item
                     rules={[{ required: true, message: 'Positive notes is required' }]}
                     name={'selfEsteemReport'}
                 >
-                    <TextArea placeholder={'Self-esteem report'} autoSize onBlur={storeDataOnBlur} />
+                    <TextArea 
+                        placeholder={'Self-esteem report'} 
+                        autoSize 
+                        onBlur={storeDataOnBlur}
+                    />
                 </Form.Item>
 
             }
             {
-                isMorningReport ?
+                form?.isMorningReport ?
                     <Form.Item
                         rules={[{ required: false }]}
                         name={'additionalNotesMorning'}
                     >
-                        <TextArea placeholder={'Additional notes'} autoSize onBlur={storeDataOnBlur} />
+                        <TextArea 
+                            placeholder={'Additional notes'} 
+                            autoSize
+                            onBlur={storeDataOnBlur}
+                        />
                     </Form.Item>
                     :
                     <Form.Item
                         rules={[{ required: false }]}
                         name={'additionalNotesEvening'}
                     >
-                        <TextArea placeholder={'Additional notes'} autoSize onBlur={storeDataOnBlur} />
+                        <TextArea 
+                            placeholder={'Additional notes'} 
+                            autoSize 
+                            onBlur={storeDataOnBlur}
+                        />
                     </Form.Item>
             }
-
-
 
             <Form.Item>
                 <Button type="primary" htmlType="submit" >
@@ -206,7 +258,9 @@ const mapDispatchToProps = (dispatch) => ({
     setFieldValue: (name, value) => dispatch(setFieldValue(name, value))
 })
 const mapStateToProps = createStructuredSelector({
-    currentUser:currentUserSelector
+    currentUser:currentUserSelector,
+    errorMessage:submissionErrorSelector,
+    form:formSelector
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddJournalForm)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AddJournalForm))

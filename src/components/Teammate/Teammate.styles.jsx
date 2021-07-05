@@ -19,6 +19,6 @@ export const ImageContainer = styled.div`
     border-radius: 50%;
     background-size: cover;
     background-position: center;
-    border: 1px solid red;
+    /* border: 1px solid red; */
     margin:0 10px;
 `

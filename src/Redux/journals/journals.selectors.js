@@ -21,7 +21,10 @@ export const tensionsSelector = createSelector(
         }, [])
     }
 )
-
+export const journalsFiltersSelector = createSelector(
+    journalsSelector,
+    ({dateFrom,dateTo})=>{dateFrom,dateTo}
+)
 export const entriesPerChartSelector = createSelector(
     journalsSelector,
     ({ entriesPerChart }) => entriesPerChart
@@ -79,4 +82,22 @@ export const tensionsAverageSelector = createSelector(
     entriesCountSelector,
     tensionsSumSelector,
     (total, sum) => parseInt(sum / total)
+)
+
+export const submissionErrorSelector = createSelector(
+    journalsSelector,
+    ({errorMessage})=>errorMessage
+)
+export const sortedJournalsSelector = createSelector(
+    journalsArraySelector,
+    (journals)=>journals.sort((a, b) => moment(a.date) > moment(b.date) ? -1 : 1)
+)
+
+export const filteredSortedJournalsSelector = createSelector(
+    sortedJournalsSelector,
+    journalsFiltersSelector,
+    // (journals,{dateFrom,dateTo})=>journals.filter((journal)=>{
+
+    // })
+    
 )
