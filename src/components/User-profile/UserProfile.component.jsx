@@ -1,8 +1,8 @@
-import React, { useState,useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { ProfileContainer, ProfileImage, AccountMenu } from './UserProfile.styles'
 // import useCurrentUser from '../../hooks/useCurrentUser'
-import { Menu, message, Modal,DatePicker } from 'antd'
-import { LogoutOutlined, SettingFilled, KeyOutlined, TeamOutlined, PlusOutlined,SlidersOutlined } from '@ant-design/icons'
+import { Menu, message, Modal, DatePicker } from 'antd'
+import { LogoutOutlined, SettingFilled, KeyOutlined, TeamOutlined, PlusOutlined, SlidersOutlined, UserOutlined } from '@ant-design/icons'
 import { createStructuredSelector } from 'reselect'
 import { currentUserSelector } from '../../Redux/user/user.selectors'
 import { connect } from 'react-redux'
@@ -12,12 +12,15 @@ import { membersListSelector } from '../../Redux/members/members.selectors'
 import { notifErrorSelector } from '../../Redux/notifications/notifications.selectors'
 import { resetError } from '../../Redux/notifications/notifications.actions'
 import Teammates from '../Teammates/Teammates.component'
-import {setFieldValue} from '../../Redux/journals/journals.actions'
+import { setFieldValue } from '../../Redux/journals/journals.actions'
+import { withRouter } from 'react-router-dom'
+import {toggleView} from '../../Redux/friendOverviewPage/friendOverviewPage.actions'
+import { friendOverviewPageViewSelector } from '../../Redux/friendOverviewPage/friendsOverviewPage.selectors'
 
-const UserProfile = ({ currentUser, logOut, notifError, resetError , setFieldValue }) => {
+const UserProfile = ({ currentUser, logOut, notifError, resetError, setFieldValue, match, showGraph,toggleView }) => {
     const { SubMenu } = Menu
-    // const currentUser = useCurrentUser()
     const [isExtended, setExtended] = useState(false)
+
 
     const handleMoveProfileImage = () => {
         setExtended(!isExtended)
@@ -27,33 +30,35 @@ const UserProfile = ({ currentUser, logOut, notifError, resetError , setFieldVal
     const copyToClipBoard = (e) => {
         const text = e.item.props.children[1]
         navigator.clipboard.writeText(text).then(() => {
-            // console.log('copied to clipboard');
             message.success('key copied to clipboard', 2)
         })
     }
 
     useEffect(() => {
-        // setIsModalVisible(!!notifError)
         const clearError = () => {
             resetError()
         }
-        if(!!notifError){
+        if (!!notifError) {
             Modal.error({
-                title:'Error finding user',
-                content:'The user with the given public key does not exist',
-                onOk:clearError
-                
+                title: 'Error finding user',
+                content: 'The user with the given public key does not exist',
+                onOk: clearError
+
             })
         }
-       
 
-    }, [notifError,resetError])
 
-    const handleDateChange = (fieldName,date)=>{
-        setFieldValue(fieldName,date)
+    }, [notifError, resetError])
+
+    const handleDateChange = (fieldName, date) => {
+        setFieldValue(fieldName, date)
     }
 
-    const {RangePicker} = DatePicker
+    const handleToggleFriendView = ()=>{
+        toggleView()
+    }
+
+
     return (
         <div>
             <ProfileContainer>
@@ -67,24 +72,38 @@ const UserProfile = ({ currentUser, logOut, notifError, resetError , setFieldVal
                             <Menu.Item key="1" onClick={copyToClipBoard}>{currentUser?.uid}</Menu.Item>
                         </SubMenu>
                         <SubMenu key="teammates" icon={<TeamOutlined />} title={'View Teammates'}>
-                            <Teammates/>
+                            <Teammates />
                         </SubMenu>
                         <SubMenu key="addNew" icon={<PlusOutlined />} title={'Add teammate'}>
                             <UserSearchSelect />
                         </SubMenu>
                     </SubMenu>
+                    {
+                        match.path === '/:uid/overview' &&
+                        <Menu.Item key='friendOverviewTab' icon={<UserOutlined/> } onClick={handleToggleFriendView}>
+                            View friend's {showGraph ? 'Journals':'Data graph'}
+                        </Menu.Item>
+
+                    }
                     <SubMenu key='filters' icon={<SlidersOutlined />} title={'Filter Journals'} color={'white'} onTitleClick={handleMoveProfileImage}>
                         <Menu.Item key='dateFrom'>
-                            <DatePicker placeholder={'Date From'} onChange={handleDateChange.bind(this,'dateFrom')}  />
+                            <DatePicker placeholder={'Date From'} onChange={handleDateChange.bind(this, 'dateFrom')} />
                         </Menu.Item>
                         <Menu.Item key='dateTo'>
-                            <DatePicker placeholder={'Date To'} onChange={handleDateChange.bind(this,'dateTo')} />
+                            <DatePicker placeholder={'Date To'} onChange={handleDateChange.bind(this, 'dateTo')} />
                         </Menu.Item>
                         {/* <Menu.Item key='dateRange' onClick={()=>console.log('clicking')}>
                             <RangePicker/> 
                         </Menu.Item> */}
                     </SubMenu>
-                    <Menu.Item key="logout" icon={<LogoutOutlined />} onClick={logOut} color={'white'}>Log out</Menu.Item>
+                    <Menu.Item
+                        key="logout"
+                        icon={<LogoutOutlined />}
+                        onClick={logOut}
+                        color={'white'}
+                    >
+                        Log out
+                    </Menu.Item>
 
                 </AccountMenu>
             </ProfileContainer>
@@ -97,13 +116,15 @@ const UserProfile = ({ currentUser, logOut, notifError, resetError , setFieldVal
 
 const mapStateToProps = createStructuredSelector({
     currentUser: currentUserSelector,
-    notifError: notifErrorSelector
+    notifError: notifErrorSelector,
+    showGraph:friendOverviewPageViewSelector
 })
 
 const mapDispatchToProps = (dispatch) => ({
     logOut: () => dispatch(signOutStart()),
     resetError: () => dispatch(resetError()),
-    setFieldValue:(name,value)=>dispatch(setFieldValue(name,value))
+    setFieldValue: (name, value) => dispatch(setFieldValue(name, value)),
+    toggleView:()=>dispatch(toggleView())
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserProfile)
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(UserProfile))

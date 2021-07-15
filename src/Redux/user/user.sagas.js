@@ -61,7 +61,6 @@ function* signInAsync(){
 
 function* signOutAsync(){
     try{
-        console.log('got here');
         yield auth.signOut()
         yield put(signOutSuccess())
     }catch(e){

@@ -23,7 +23,7 @@ export const tensionsSelector = createSelector(
 )
 export const journalsFiltersSelector = createSelector(
     journalsSelector,
-    ({dateFrom,dateTo})=>{dateFrom,dateTo}
+    ({dateFrom,dateTo})=>({dateFrom,dateTo})
 )
 export const entriesPerChartSelector = createSelector(
     journalsSelector,
@@ -96,8 +96,11 @@ export const sortedJournalsSelector = createSelector(
 export const filteredSortedJournalsSelector = createSelector(
     sortedJournalsSelector,
     journalsFiltersSelector,
-    // (journals,{dateFrom,dateTo})=>journals.filter((journal)=>{
-
-    // })
+    (journals,{dateFrom,dateTo})=>journals.filter((journal)=>{
+        //e.g. dateFrom 01,05,2021  journal date: 5.5,2021 dateto 23.05.21
+        const matchFrom = dateFrom? moment(journal.date)>=moment(dateFrom):true
+        const matchTo = dateTo? moment(journal.date)<=moment(dateTo):true
+        return matchFrom && matchTo
+    })
     
 )

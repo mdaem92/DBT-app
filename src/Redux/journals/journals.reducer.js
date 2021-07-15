@@ -1,5 +1,6 @@
 import { JournalsActionTypes } from './journals.types'
 import { editJournal, removeJournal, submitAndMergeJournal } from './journals.utils'
+import UserActionTypes from '../user/user.types'
 
 const defaultState = {
     isJournalsFetched: false,
@@ -48,6 +49,8 @@ const journalsReducer = (state = defaultState, action) => {
                 dateFrom:undefined,
                 dateTo:undefined
             }
+        case UserActionTypes.SIGN_OUT_SUCCESS:
+            return defaultState
         default:
             return state;
     }

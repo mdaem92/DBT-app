@@ -1,6 +1,5 @@
 import NotificationsActionTypes from './notifications.types'
-import { deleteNotification } from './notifications.utils'
-
+import UserActionTypes from '../user/user.types'
 
 const NotificationsDefaultState = {
     notifications:[],
@@ -64,6 +63,8 @@ const notificationsReducer = (state=NotificationsDefaultState,action)=>{
                 error:undefined,
                 isLoading:false
             }
+        case UserActionTypes.SIGN_OUT_SUCCESS:
+            return NotificationsDefaultState
         default:
             return state;
     }

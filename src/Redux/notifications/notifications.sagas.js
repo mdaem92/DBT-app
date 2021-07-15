@@ -21,17 +21,6 @@ const getUsersIdsFromSnapshot = (snapshot)=>{
     })
 }
 
-// function* fetchNotificationsAsync({uid}){
-//     try {
-//         const collectionRef = firestore.collection(`users/${uid}/notifications`)
-//         const snapshot = yield collectionRef.get()
-//         const notifications = yield getNotificationsFromSnapshot(snapshot)
-//         yield put(fetchNotificationsSuccess(notifications))
-
-//     } catch (error) {
-//         yield put(fetchNotificationsFailure(error))
-//     }
-// }
 
 function* sendRequestAsync({sender,receiverId,requestType}){
     
@@ -42,8 +31,6 @@ function* sendRequestAsync({sender,receiverId,requestType}){
         const usersCollectionSnapshot = yield usersCollectionRef.get()
         const uids = yield call(getUsersIdsFromSnapshot,usersCollectionSnapshot)
         const {uid,displayName,...rest} = sender
-        yield console.log("got users ids: ",uids);
-        yield console.log("got rest: ",rest)
         if(uids.indexOf(receiverId)>=0){
             const notification = {
                 ...rest,
@@ -61,7 +48,6 @@ function* sendRequestAsync({sender,receiverId,requestType}){
 
         
     } catch (error) {
-        console.log("error message: ",error.message);
         yield put(sendRequestFailure(error.message))
     }
 }

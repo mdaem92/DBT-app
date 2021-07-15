@@ -13,8 +13,7 @@ const FriendOverviewPage = ({ match,history }) => {
 
     const { uid: friendID } = match.params
     const isFriendshipConfirmed = useSelector((state) => isFriendshipConfirmedSelector(state, friendID))
-    // console.log(match);
-    // console.log('history: ',history);
+
     return isFriendshipConfirmed ?
         (
             <FriendOverview id={friendID} />

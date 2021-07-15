@@ -1,4 +1,5 @@
 import {FormActionTypes}from './form.types'
+import UserActionTypes from '../user/user.types'
 
 const formDefaultState = {
 
@@ -32,6 +33,7 @@ const formReducer =  (state=formDefaultState,action)=>{
                 [action.name]:action.value
             }
         case FormActionTypes.RESET_FORM:
+        case UserActionTypes.SIGN_OUT_SUCCESS:
             return formDefaultState
         default:
             return state;

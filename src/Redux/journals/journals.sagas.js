@@ -42,6 +42,7 @@ export function* fetchJournalsAsync({uid}){
         const journalsRef = yield firestore.doc(`users/${uid}`).collection('journals')
         const snapshot = yield journalsRef.get()
         const journals = yield getJournalsFromSnapshot(snapshot)
+        yield console.log('fetched journals: ',journals)
         yield put(fetchJournalsSuccess(journals))
 
     } catch (error) {

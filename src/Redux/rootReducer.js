@@ -4,12 +4,14 @@ import journalsReducer from './journals/journals.reducer'
 import membersReducer from './members/members.reducer'
 import notificationsReducer from './notifications/notifications.reducer'
 import UserReducer from './user/user.reducer'
+import friendsOverviewPageReducer from './friendOverviewPage/friendOverviewPage.reducer'
 
 export default combineReducers({
     journals:journalsReducer,
     form:formReducer,
     auth:UserReducer,
     members:membersReducer,
-    notification:notificationsReducer
+    notification:notificationsReducer,
+    friendsOverviewPage:friendsOverviewPageReducer
 
 })

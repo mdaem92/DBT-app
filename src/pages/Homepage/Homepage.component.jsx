@@ -25,20 +25,6 @@ const Homepage = ({
     setCurrentNotifications
 }) => {
 
-    // const latestNotifications = useLatestNotifications(currentUser.uid)
-    // console.log("current notifs: ", currentNotifications);
-    // console.log("latest notifs: ", latestNotifications);
-
-    
-    // useEffect(() => {
-
-    //     if (!_.isEqual(latestNotifications,currentNotifications)) {
-    //         console.log('difference in notifications');
-    //         const intersection = latestNotifications.filter((element,index) => !_.isEqual(element,currentNotifications[index]));
-    //         console.log("intersection: ",intersection);
-    //         setCurrentNotifications(intersection)
-    //     }
-    // },[setCurrentNotifications,currentNotifications,latestNotifications])
 
     useEffect(() => {
 
@@ -48,13 +34,6 @@ const Homepage = ({
         }
     }, [isJournalsFetched, fetchJournals, currentUser])
 
-
-
-    // useEffect(() => {
-    //     if (!isNotificationsFetched && !!currentUser) {
-    //         fetchNotifications(currentUser.uid)
-    //     }
-    // }, [isNotificationsFetched, fetchNotifications, currentUser])
 
     return (
 

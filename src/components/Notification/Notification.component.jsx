@@ -74,7 +74,7 @@ const Notification = ({ senderName, senderId, photoURL, type, responded, current
             </ContentContainer>
             <ButtonsContainer >
                 {
-                    type !== 'ACCEPTED_REQUEST' ?
+                    type === 'ADD_REQUEST' ?
                         (
                             <div>
                                 <Button type="text" shape="circle" icon={<CheckOutlined style={{ color: 'green' }} />} onClick={handleButtonClick.bind(this, 'confirm')} />

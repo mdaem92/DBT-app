@@ -7,8 +7,12 @@ import UserProfile from '../User-profile/UserProfile.component'
 import { Container } from './FriendOverview.styles'
 import NewResponsiveChart from '../Responsive-Chart/ResponsiveChart'
 import { getMoodAndTensionData } from './FriendOverview.utils'
+import { connect } from 'react-redux'
+import { createStructuredSelector } from 'reselect'
+import { friendOverviewPageViewSelector } from '../../Redux/friendOverviewPage/friendsOverviewPage.selectors'
 
-const FriendOverview = ({ id }) => {
+
+const FriendOverview = ({ id, showGraph }) => {
 
     const latestJournals = useFriendJournals(id)
     console.log('received friends latest journals: ', latestJournals);
@@ -30,7 +34,45 @@ const FriendOverview = ({ id }) => {
             <SidePanelProfileContainer>
                 <UserProfile />
             </SidePanelProfileContainer>
+            {/* {
+                showGraph ?
+                    (
+                        <ChartsContainer>
+
+                            {!!moodData && <NewResponsiveChart yAxisTitle={'Mood'} xAxisTitle={'Date'} data={moodData} label={'Mood'} domain={[-2, 2]} />}
+                            {!!tensionData && <NewResponsiveChart yAxisTitle={'Tension'} xAxisTitle={'Date'} data={tensionData} label={'Tension'} domain={[0, 100]} />}
+                        </ChartsContainer>
+                    )
+                    :
+                    (
+                        <Container>
+                            {
+                                latestJournals.map((journal, index) => <Journal key={index} {...journal} />)
+                            }
+                        </Container>
+                    )
+
+
+            } */}
+
             <Container>
+                {
+                    showGraph ?
+                        (
+
+                            <ChartsContainer>
+
+                                {!!moodData && <NewResponsiveChart yAxisTitle={'Mood'} xAxisTitle={'Date'} data={moodData} label={'Mood'} domain={[-2, 2]} />}
+                                {!!tensionData && <NewResponsiveChart yAxisTitle={'Tension'} xAxisTitle={'Date'} data={tensionData} label={'Tension'} domain={[0, 100]} />}
+                            </ChartsContainer>
+                        )
+                        :
+                        (
+                            latestJournals.map((journal, index) => <Journal key={index} {...journal} />)
+                        )
+                }
+            </Container>
+            {/* <Container>
                 {
                     latestJournals.map((journal, index) => <Journal key={index} {...journal} />)
                 }
@@ -39,25 +81,15 @@ const FriendOverview = ({ id }) => {
 
                 {!!moodData && <NewResponsiveChart yAxisTitle={'Mood'} xAxisTitle={'Date'} data={moodData} label={'Mood'} domain={[-2, 2]} />}
                 {!!tensionData && <NewResponsiveChart yAxisTitle={'Tension'} xAxisTitle={'Date'} data={tensionData} label={'Tension'} domain={[0, 100]} />}
-            </ChartsContainer>
+            </ChartsContainer> */}
 
         </JournalsPageContainer>
-        // <div>
-        //     <Container>
-        //         {
-        //             latestJournals.map((journal, index) => <Journal key={index} {...journal} />)
-        //         }
-        //     </Container>
-        //     <ChartsContainer>
-
-        //         {!!moodData && <NewResponsiveChart yAxisTitle={'Mood'} xAxisTitle={'Date'} data={moodData} label={'Mood'} domain={[-2, 2]} />}
-        //         {!!tensionData && <NewResponsiveChart yAxisTitle={'Tension'} xAxisTitle={'Date'} data={tensionData} label={'Tension'} domain={[0, 100]} />}
-        //     </ChartsContainer>
-
-
-        // </div>
 
     )
 }
 
-export default FriendOverview
+const mapStateToProps = createStructuredSelector({
+    showGraph: friendOverviewPageViewSelector
+})
+
+export default connect(mapStateToProps)(FriendOverview)
