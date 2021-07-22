@@ -34,7 +34,7 @@ const Homepage = ({
         }
     }, [isJournalsFetched, fetchJournals, currentUser])
 
-
+    // throw Error;
     return (
 
         <Container>

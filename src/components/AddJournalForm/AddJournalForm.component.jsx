@@ -31,7 +31,7 @@ const AddJournalForm = ({ submit, setFieldValue ,currentUser:user , errorMessage
 
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
-        message.error('Journal submittion failed')
+        message.error('Journal submittion failed, Please try again later')
 
     };
 
