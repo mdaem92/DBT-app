@@ -6,7 +6,6 @@ import {parse,stringify} from'flatted/esm'
 import rootReducer from './rootReducer'
 import createSagaMiddleware from 'redux-saga'
 import { rootSaga } from './rootSaga'
-import {submitJournalStart} from './journals/journals.sagas'
 
 const sagaMiddleware = createSagaMiddleware()
 
@@ -24,6 +23,7 @@ const transformCircular = createTransform(
 const persistConfig = {
     key:'DBT::root',
     storage,
+    blacklist:['friendsOverviewPage'],
     transforms:[transformCircular]
 }
 const persistedReducer = persistReducer(persistConfig,rootReducer)

@@ -11,7 +11,11 @@ import {
     addTeammateFailure,
     addTeammateSuccess,
     fetchTeammatesFailure,
-    fetchTeammatesSuccess
+    fetchTeammatesSuccess,
+    setDeadlineFailure,
+    setDeadlineSuccess,
+    fetchDeadlineFailure,
+    fetchDeadlineSuccess
 } from './user.actions'
 
 function* getSnapShotFromUserAuth(userAuth){
@@ -88,6 +92,31 @@ function* fetchTeammatesAsync(){
     }
 }
 
+function* setDeadlineAsync({deadlineType,value}){
+    try {
+        const uid = auth.currentUser.uid
+        yield firestore.doc(`users/${uid}`).set({[deadlineType]:value}, { merge: true })
+        yield put(setDeadlineSuccess(deadlineType,value))
+    } catch (error) {
+        yield put(setDeadlineFailure(error.message))
+    }
+}
+
+function* fetchDeadlineAsync(){
+    try {
+        const uid = auth.currentUser.uid
+        const docRef = yield firestore.doc(`users/${uid}`)
+        const deadlineDoc = yield docRef.get() 
+        console.log('getting duser data: ',deadlineDoc);
+        if(deadlineDoc.exists){
+            const {morningDeadline,eveningDeadline} = deadlineDoc.data()
+            yield put(fetchDeadlineSuccess({morningDeadline,eveningDeadline}))
+        }        
+    } catch (error) {
+        yield put(fetchDeadlineFailure(error.message))
+    }
+}
+
 function* onSignInStart (){
     yield takeLatest(
         UserActionTypes.SIGN_IN_START,
@@ -115,12 +144,27 @@ function* onFetchTeammatesStart(){
     )
 }
 
+function* onSetDeadlineStart(){
+    yield takeLatest(
+        UserActionTypes.SET_DEADLINE_START,
+        setDeadlineAsync
+    )
+}
+function* onFetchDeadlineStart(){
+    yield takeLatest(
+        UserActionTypes.FETCH_DEADLINE_START,
+        fetchDeadlineAsync
+    )
+}
+
 export function* userSagas(){
     yield all([
         call(onSignInStart),
         call(onSignOutStart),
         // call(onSendRequestStart)
         call(onAddTeammateStart),
-        call(onFetchTeammatesStart)
+        call(onFetchTeammatesStart),
+        call(onSetDeadlineStart),
+        call(onFetchDeadlineStart)
     ])
 }

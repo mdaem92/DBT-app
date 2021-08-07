@@ -25,10 +25,12 @@ const Notifications = ({ currentNotifications, setCurrentNotifications, currentU
             console.log('latest notifs from db:',latestNotifications);
             setCurrentNotifications(latestNotifications)
         }
+        // setCurrentNotifications(latestNotifications)
+
     }, [setCurrentNotifications, currentNotifications, latestNotifications])
 
     const menu = (
-        <Menu>
+        <Menu >
             {
                 !!currentNotifications && currentNotifications.length > 0 ?
                     (

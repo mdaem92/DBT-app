@@ -39,12 +39,11 @@ const UserSearchSelect = ({ sendRequest, members ,currentUser ,isNotifLoading , 
                 placeholder="Enter public key" 
                 enterButton={<PlusOutlined/>}
                 onChange={handleChange} 
-                size="large" 
+                size="medium" 
                 loading={isNotifLoading}
-                onSearch={handleSendRequest}                
+                onSearch={handleSendRequest}
+                bordered={false}                
             />
-
-
 
         </Container>
     )

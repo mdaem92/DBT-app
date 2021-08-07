@@ -10,7 +10,7 @@ const ErrorPage = () => {
             {/* <Logo className={'logo'}/> */}
             {/* <ImageContainer imageUrl={require('../../assets/avatar.png')}/> */}
             <ErrorImage src={catError} alt=''/>
-            <TextContainer>Sorry, It appears that I messed something up :( Please try again later</TextContainer>
+            <TextContainer>I might have chewed off some cables :( Try again later</TextContainer>
         </ErrorPageContainer>
     );
 };

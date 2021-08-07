@@ -6,7 +6,9 @@ const defaultUserState = {
     loading:false,
     errorMessage:undefined,
     teammates:[],
-    isTeammatesFetched:false
+    isTeammatesFetched:false,
+    morningDeadline:undefined,
+    eveningDeadline:undefined
 }
 
 export const UserReducer = (state=defaultUserState,action)=>{
@@ -16,6 +18,8 @@ export const UserReducer = (state=defaultUserState,action)=>{
         case UserActionTypes.ADD_TEAMMATE_START:
         case UserActionTypes.REMOVE_TEAMMATE_START:
         case UserActionTypes.FETCH_TEAMMATES_START:
+        case UserActionTypes.SET_DEADLINE_START:
+        case UserActionTypes.FETCH_DEADLINE_START:
             return {
                 ...state,
                 loading:true
@@ -33,6 +37,8 @@ export const UserReducer = (state=defaultUserState,action)=>{
         case UserActionTypes.SIGN_IN_FAILURE:
         case UserActionTypes.ADD_TEAMMATE_FAILURE:
         case UserActionTypes.FETCH_TEAMMATES_FAILURE:
+        case UserActionTypes.SET_DEADLINE_FAILURE:
+        case UserActionTypes.FETCH_DEADLINE_FAILURE:
             return {
                 ...state,
                 errorMessage:action.errorMessage,
@@ -61,6 +67,21 @@ export const UserReducer = (state=defaultUserState,action)=>{
                 isTeammatesFetched:true,
                 errorMessage:undefined
 
+            }
+        case UserActionTypes.SET_DEADLINE_SUCCESS:
+            return{
+                ...state,
+                loading:false,
+                errorMessage:undefined,
+                [action.deadlineType]:action.value
+            }
+        case UserActionTypes.FETCH_DEADLINE_SUCCESS:
+            return{
+                ...state,
+                loading:false,
+                errorMessage:undefined,
+                morningDeadline:action.deadlineData.morningDeadline,
+                eveningDeadline:action.deadlineData.eveningDeadline
             }
 
         default:

@@ -22,3 +22,8 @@ export const isFriendshipConfirmedSelector = createSelector(
     (_,friendID)=>friendID,
     (teammates,friendID)=>teammates.findIndex(teammate=>teammate.id===friendID)>=0
 )
+
+export const deadlineDataSelector = createSelector(
+    authSelector,
+    ({morningDeadline,eveningDeadline})=>({morningDeadline,eveningDeadline})
+)

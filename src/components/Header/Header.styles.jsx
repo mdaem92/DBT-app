@@ -11,6 +11,7 @@ export const HeaderContainer = styled.div`
     
     .dropdown{
         margin-right:20px;
+        align-self: center;
     }
     .anchor{
         color:black; 
@@ -45,5 +46,13 @@ export const NavContainer = styled.div`
     flex-direction:row;
     justify-content:space-evenly;
     width:300px;
-    flex-wrap:wrap
+    flex-wrap:wrap;
+`
+
+export const MobileTopBarContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    justify-content: center;
+
 `

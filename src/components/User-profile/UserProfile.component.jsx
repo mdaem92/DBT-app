@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import { ProfileContainer, ProfileImage, AccountMenu } from './UserProfile.styles'
 // import useCurrentUser from '../../hooks/useCurrentUser'
-import { Menu, message, Modal, DatePicker } from 'antd'
-import { LogoutOutlined, SettingFilled, KeyOutlined, TeamOutlined, PlusOutlined, SlidersOutlined, UserOutlined } from '@ant-design/icons'
+import { Menu, message, Modal, DatePicker,TimePicker } from 'antd'
+import { LogoutOutlined, SettingFilled, KeyOutlined, TeamOutlined, PlusOutlined, SlidersOutlined, UserOutlined, FieldTimeOutlined } from '@ant-design/icons'
 import { createStructuredSelector } from 'reselect'
 import { currentUserSelector } from '../../Redux/user/user.selectors'
 import { connect } from 'react-redux'
 import { signOutStart } from '../../Redux/user/user.actions'
 import UserSearchSelect from '../user-search-select/user-search-select.component'
-import { membersListSelector } from '../../Redux/members/members.selectors'
 import { notifErrorSelector } from '../../Redux/notifications/notifications.selectors'
 import { resetError } from '../../Redux/notifications/notifications.actions'
 import Teammates from '../Teammates/Teammates.component'
@@ -16,6 +15,7 @@ import { setFieldValue } from '../../Redux/journals/journals.actions'
 import { withRouter } from 'react-router-dom'
 import {toggleView} from '../../Redux/friendOverviewPage/friendOverviewPage.actions'
 import { friendOverviewPageViewSelector } from '../../Redux/friendOverviewPage/friendsOverviewPage.selectors'
+import DeadlineSwitchSetting from '../Deadline-Switch-setting/DeadlineSwitchSetting.component'
 
 const UserProfile = ({ currentUser, logOut, notifError, resetError, setFieldValue, match, showGraph,toggleView }) => {
     const { SubMenu } = Menu
@@ -46,8 +46,6 @@ const UserProfile = ({ currentUser, logOut, notifError, resetError, setFieldValu
 
             })
         }
-
-
     }, [notifError, resetError])
 
     const handleDateChange = (fieldName, date) => {
@@ -58,6 +56,7 @@ const UserProfile = ({ currentUser, logOut, notifError, resetError, setFieldValu
         toggleView()
     }
 
+    
 
     return (
         <div>
@@ -76,6 +75,11 @@ const UserProfile = ({ currentUser, logOut, notifError, resetError, setFieldValu
                         </SubMenu>
                         <SubMenu key="addNew" icon={<PlusOutlined />} title={'Add teammate'}>
                             <UserSearchSelect />
+                        </SubMenu>
+                        <SubMenu key="myDeadlines" icon={<FieldTimeOutlined />} title={'My Deadlines'}>
+                            {/* deadlines go here */}
+                            <DeadlineSwitchSetting/>
+                            {/* TODO add deadline viewer and time picker */}
                         </SubMenu>
                     </SubMenu>
                     {

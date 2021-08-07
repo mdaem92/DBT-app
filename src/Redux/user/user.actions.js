@@ -70,3 +70,34 @@ export const fetchTeammatesFailure = (errorMessage)=>({
     errorMessage
 })
 
+export const setDeadlineStart= (deadlineType,value)=>({
+    type:UserActionTypes.SET_DEADLINE_START,
+    deadlineType,
+    value
+})
+
+export const setDeadlineSuccess = (deadlineType,value)=>({
+    type:UserActionTypes.SET_DEADLINE_SUCCESS,
+    deadlineType,
+    value
+})
+
+export const setDeadlineFailure = (errorMessage)=>({
+    type:UserActionTypes.SET_DEADLINE_FAILURE,
+    errorMessage
+})
+
+export const fetchDeadlineStart = ()=>({
+    type:UserActionTypes.FETCH_DEADLINE_START
+})
+
+export const fetchDeadlineSuccess = (deadlineData)=>({
+    type:UserActionTypes.FETCH_DEADLINE_SUCCESS,
+    deadlineData
+})
+
+export const fetchDeadlineFailure = (errorMessage)=>({
+    type:UserActionTypes.FETCH_DEADLINE_FAILURE,
+    errorMessage
+})
+

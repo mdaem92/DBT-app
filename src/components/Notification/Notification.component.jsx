@@ -7,9 +7,9 @@ import { addTeammateStart } from '../../Redux/user/user.actions'
 import { createStructuredSelector } from 'reselect'
 import { currentUserSelector } from '../../Redux/user/user.selectors'
 import { removeNotificationStart, sendRequestStart } from '../../Redux/notifications/notifications.actions'
+import {withRouter} from 'react-router-dom'
 
-
-const Notification = ({ senderName, senderId, photoURL, type, responded, currentNotifications, addTeammate, currentUser, notifID, removeNotification, sendRequest }) => {
+const Notification = ({ senderName, senderId, photoURL, type, responded, currentNotifications, addTeammate, currentUser, notifID, removeNotification, sendRequest , history }) => {
     const [isConfirmModalShown, setConfirmModalVisibility] = useState(false)
     const [isRejectModalShown, setRejectModalVisibility] = useState(false)
 
@@ -66,10 +66,17 @@ const Notification = ({ senderName, senderId, photoURL, type, responded, current
         setRejectModalVisibility(false)
     }
 
+    const handleViewNotif = ()=>{
+        if(type==='SUBMITTED_REPORT'){
+            console.log('clicking',senderId);
+            history.push(`/${senderId}/overview`)
+        }
+    }
+
     return (
         <Container>
             <ImageContainer imageUrl={photoURL} rel={'noreferer'} />
-            <ContentContainer>
+            <ContentContainer onClick={handleViewNotif}>
                 {`${senderName} has ${labels[type]}`}
             </ContentContainer>
             <ButtonsContainer >
@@ -85,11 +92,7 @@ const Notification = ({ senderName, senderId, photoURL, type, responded, current
                         (
                             <Button type="text" shape="circle" icon={<CheckOutlined style={{ color: 'green' }} />} onClick={handleNotifSeen} />
                         )
-
-
                 }
-
-
             </ButtonsContainer>
             <Modal title="Confirm" visible={isConfirmModalShown} onOk={handleAddFriendConfirm} onCancel={handleAddFriendCancel}>
                 <p>Are you sure you want to confirm this user? Confirming will allow you both to see each other's progress</p>
@@ -111,4 +114,4 @@ const mapDispatchToProps = (dispatch) => ({
     sendRequest: (sender, receiverID, requestType) => dispatch(sendRequestStart(sender, receiverID, requestType))
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Notification)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Notification))

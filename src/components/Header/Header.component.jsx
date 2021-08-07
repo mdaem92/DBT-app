@@ -2,14 +2,14 @@ import React from 'react'
 import { Menu, Dropdown, Badge } from 'antd'
 import { NavLink, Link } from 'react-router-dom'
 import useWindowSize from '../../hooks/useWindowSize'
-import { HeaderContainer, IconContainer ,NavContainer } from './Header.styles'
-import {MenuOutlined} from '@ant-design/icons'
+import { HeaderContainer, IconContainer, MobileTopBarContainer, NavContainer } from './Header.styles'
+import { MenuOutlined } from '@ant-design/icons'
 import Notifications from '../Notifications/Notifications.component'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import { currentUserSelector } from '../../Redux/user/user.selectors'
 
-const Header = ({currentUser}) => {
+const Header = ({ currentUser }) => {
     const width = useWindowSize()
 
     const menu = (
@@ -32,17 +32,17 @@ const Header = ({currentUser}) => {
             </IconContainer>
             {
                 width > 800 ?
-                    
-                        <NavContainer>
-                            <NavLink exact activeClassName={'active'} className={'anchor'} to='/'>Homepage</NavLink>
-                            <NavLink exact activeClassName={'active'} className={'anchor'} to='/journals'>Journals</NavLink>
-                            <NavLink exact activeClassName={'active'} className={'anchor'} to='/add-journal'>Add Journal</NavLink>
-                            {!!currentUser && <Notifications/>}
 
-                        </NavContainer>
-                    
+                    <NavContainer>
+                        <NavLink exact activeClassName={'active'} className={'anchor'} to='/'>Homepage</NavLink>
+                        <NavLink exact activeClassName={'active'} className={'anchor'} to='/journals'>Journals</NavLink>
+                        <NavLink exact activeClassName={'active'} className={'anchor'} to='/add-journal'>Add Journal</NavLink>
+                        {!!currentUser && <Notifications />}
+                    </NavContainer>
+
                     :
-                    
+                    <MobileTopBarContainer>
+                        {!!currentUser && <Notifications />}
                         <Dropdown
                             overlay={menu}
                             placement="bottomCenter"
@@ -51,17 +51,19 @@ const Header = ({currentUser}) => {
                             getPopupContainer={() => document.getElementById('header-container')}
                             className={'dropdown'}
                         >
-                            <MenuOutlined/>
+                            <MenuOutlined />
                         </Dropdown>
-                        
-                    
+                    </MobileTopBarContainer>
+
+
+
             }
         </HeaderContainer>
     )
 }
 
 const mapStateToProps = createStructuredSelector({
-    currentUser:currentUserSelector
+    currentUser: currentUserSelector
 })
 
 export default connect(mapStateToProps)(Header)
