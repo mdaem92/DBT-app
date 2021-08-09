@@ -1,5 +1,7 @@
 const defaultState = {
-    showGraph:true
+    showGraph:true,
+    dateFrom:undefined,
+    dateTo:undefined
 }
 
 const friendsOverviewReducer = (state=defaultState,action)=>{
@@ -8,6 +10,11 @@ const friendsOverviewReducer = (state=defaultState,action)=>{
             return{
                 ...state,
                 showGraph:!state.showGraph
+            }
+        case 'FRIEND_DATA_SET_FIELD_VALUE':
+            return{
+                ...state,
+                [action.field]:action.value
             }    
         default:
             return state;

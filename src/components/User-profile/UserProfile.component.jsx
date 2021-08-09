@@ -13,14 +13,19 @@ import { resetError } from '../../Redux/notifications/notifications.actions'
 import Teammates from '../Teammates/Teammates.component'
 import { setFieldValue } from '../../Redux/journals/journals.actions'
 import { withRouter } from 'react-router-dom'
-import {toggleView} from '../../Redux/friendOverviewPage/friendOverviewPage.actions'
-import { friendOverviewPageViewSelector } from '../../Redux/friendOverviewPage/friendsOverviewPage.selectors'
+import {setFriendDataFieldValue, toggleView} from '../../Redux/friendOverviewPage/friendOverviewPage.actions'
+import { friendOverviewDateFromSelector, friendOverviewDateToSelector, friendOverviewPageViewSelector } from '../../Redux/friendOverviewPage/friendsOverviewPage.selectors'
 import DeadlineSwitchSetting from '../Deadline-Switch-setting/DeadlineSwitchSetting.component'
+import { journalsFiltersSelector } from '../../Redux/journals/journals.selectors'
+import moment from 'moment'
 
-const UserProfile = ({ currentUser, logOut, notifError, resetError, setFieldValue, match, showGraph,toggleView }) => {
+const UserProfile = ({ currentUser, logOut, notifError, resetError, setFieldValue, match, showGraph,toggleView ,setFriendDataFieldValue,ownFilters,friendDateFrom,friendDateTo }) => {
     const { SubMenu } = Menu
     const [isExtended, setExtended] = useState(false)
-
+    const [dateRange,setDateRange] = useState({
+        dateFrom:null,
+        dateTo:null
+    })
 
     const handleMoveProfileImage = () => {
         setExtended(!isExtended)
@@ -48,8 +53,47 @@ const UserProfile = ({ currentUser, logOut, notifError, resetError, setFieldValu
         }
     }, [notifError, resetError])
 
-    const handleDateChange = (fieldName, date) => {
-        setFieldValue(fieldName, date)
+    useEffect(()=>{
+        if (match.path==="/:uid/overview"){
+            setDateRange({
+                dateFrom:!!friendDateFrom?moment(friendDateFrom):null,
+                dateTo:friendDateTo?moment(friendDateTo):null
+            })
+        }else{
+            setDateRange({
+                dateFrom:!!ownFilters.dateFrom?moment(ownFilters.dateFrom):null,
+                dateTo:!!ownFilters.dateTo?moment(ownFilters.dateTo):null
+            }) 
+        }
+    },[])
+    useEffect(()=>{
+        console.log("current state: ",dateRange);
+    },[dateRange])
+
+    const handleDateChange = (fieldName, date,dateString) => {
+        console.log('uid: ',match.params);
+        console.log(dateString);
+        if(match.path==='/:uid/overview'){
+            console.log('uid: ',match.params);
+            setFriendDataFieldValue(fieldName,dateString)
+        }else{
+            setFieldValue(fieldName, dateString)
+            
+        }
+        if(dateString !== ''){
+            setDateRange({
+                ...dateRange,
+                [fieldName]:moment(dateString)
+                
+            })
+        }else{
+            setDateRange({
+                ...dateRange,
+                [fieldName]:null
+            }) 
+        }
+        
+        
     }
 
     const handleToggleFriendView = ()=>{
@@ -91,10 +135,10 @@ const UserProfile = ({ currentUser, logOut, notifError, resetError, setFieldValu
                     }
                     <SubMenu key='filters' icon={<SlidersOutlined />} title={'Filter Journals'} color={'white'} onTitleClick={handleMoveProfileImage}>
                         <Menu.Item key='dateFrom'>
-                            <DatePicker placeholder={'Date From'} onChange={handleDateChange.bind(this, 'dateFrom')} bordered={false} />
+                            <DatePicker placeholder={'Date From'} onChange={handleDateChange.bind(this, 'dateFrom')} bordered={false} value={dateRange.dateFrom} />
                         </Menu.Item>
                         <Menu.Item key='dateTo'>
-                            <DatePicker placeholder={'Date To'} onChange={handleDateChange.bind(this, 'dateTo')} bordered={false}/>
+                            <DatePicker placeholder={'Date To'} onChange={handleDateChange.bind(this, 'dateTo')} bordered={false} value={dateRange.dateTo}/>
                         </Menu.Item>
                         {/* <Menu.Item key='dateRange' onClick={()=>console.log('clicking')}>
                             <RangePicker/> 
@@ -121,14 +165,18 @@ const UserProfile = ({ currentUser, logOut, notifError, resetError, setFieldValu
 const mapStateToProps = createStructuredSelector({
     currentUser: currentUserSelector,
     notifError: notifErrorSelector,
-    showGraph:friendOverviewPageViewSelector
+    showGraph:friendOverviewPageViewSelector,
+    ownFilters:journalsFiltersSelector,
+    friendDateFrom:friendOverviewDateFromSelector,
+    friendDateTo:friendOverviewDateToSelector
 })
 
 const mapDispatchToProps = (dispatch) => ({
     logOut: () => dispatch(signOutStart()),
     resetError: () => dispatch(resetError()),
     setFieldValue: (name, value) => dispatch(setFieldValue(name, value)),
-    toggleView:()=>dispatch(toggleView())
+    toggleView:()=>dispatch(toggleView()),
+    setFriendDataFieldValue:(field,value)=>dispatch(setFriendDataFieldValue(field,value))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(UserProfile))
