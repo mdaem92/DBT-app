@@ -16,3 +16,10 @@ export const CountdownContainer = styled.div`
     }
 
 `
+
+export const DeadlineSwitchSettingContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    max-width: 200px;
+`

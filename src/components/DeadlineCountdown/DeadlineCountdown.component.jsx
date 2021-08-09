@@ -1,55 +1,76 @@
 import React from 'react'
 import useCurrentTime from '../../hooks/useCurrentTime'
-import {Statistic} from 'antd'
+import { Statistic, Alert } from 'antd'
 import moment from 'moment'
-import { CountdownContainer } from './DeadlineCountdown.styles'
+import { CountdownContainer , DeadlineSwitchSettingContainer } from './DeadlineCountdown.styles'
+import { connect } from 'react-redux'
+import { createStructuredSelector } from 'reselect'
+import { deadlineDataSelector } from '../../Redux/user/user.selectors'
+import DeadlineSwitchSetting from '../Deadline-Switch-setting/DeadlineSwitchSetting.component'
 
-const {Countdown} = Statistic
+const { Countdown } = Statistic
 
-const DeadlineCountdown = ()=> {
+const DeadlineCountdown = ({ deadlineData }) => {
     const currentTime = useCurrentTime()
 
 
 
-    const onFinish = ()=>{
+    const onFinish = () => {
         console.log('deadline finished');
     }
-    
-    const calculateDeadline = (currentTime)=>{
-        const currentHour = currentTime.hour()
-        const morningEnd = '11:00'
-        const eveningEnd = '22:00'
-        const eveningDeadline = moment(eveningEnd,"HH:mm")
-        const morningDeadline = moment(morningEnd,'HH:mm')
-        if (currentHour>=12){
-            console.log('current time past 12 ',currentHour);
 
-            if (eveningDeadline.diff(currentTime,'seconds')>0){
+    const {morningDeadline:morningEnd,eveningDeadline:eveningEnd} = deadlineData
+
+
+
+    const calculateDeadline = (currentTime) => {
+        const currentHour = currentTime.hour()
+        const eveningDeadline = moment(eveningEnd, "HH:mm")
+        const morningDeadline = moment(morningEnd, 'HH:mm')
+        console.log('evening deadline: ', eveningEnd);
+        console.log('morning deadline: ', morningEnd);
+        if (currentHour >= 12) {
+            console.log('current time past 12 ', currentHour);
+
+            if (eveningDeadline.diff(currentTime, 'seconds') > 0) {
                 console.log('evening deadline isnt reached yet');
                 return eveningDeadline
-            }else{
-                // console.log('evening deadline is reached');
-                console.log('next morning deadline: ',morningDeadline.add(12,'hours'));
-                return morningDeadline.add(12,'hours')
-            } 
-        }else{
-            if (morningDeadline.diff(currentTime,'seconds')>0){
-                // console.log('morning deadline isnt reached yet');
-                // console.log(morningDeadline);
+            } else {
+                console.log('next morning deadline: ', morningDeadline.add(12, 'hours'));
+                return morningDeadline.add(12, 'hours')
+            }
+        } else {
+            if (morningDeadline.diff(currentTime, 'seconds') > 0) {
+
                 return morningDeadline
-            }else{
-                // console.log('morning deadline is reached');
-                // console.log(eveningDeadline);
+            } else {
+
                 return eveningDeadline
             }
         }
     }
+
     const deadline = calculateDeadline(currentTime)
+
     return (
         <CountdownContainer>
-            <Countdown value={deadline} onFinish={onFinish} title={'Deadline in:'} format={'H[h] m[m] s[s]'}/>
+            {
+                !!(morningEnd && eveningEnd) ?
+                    <Countdown value={deadline} onFinish={onFinish} title={'Deadline in:'} format={'H[h] m[m] s[s]'} />
+                    :
+                    <DeadlineSwitchSettingContainer>
+                        <Alert message="No deadlines given. Select report deadlines below to view deadline countdown" type="warning" />
+                        <DeadlineSwitchSetting />
+                    </DeadlineSwitchSettingContainer>
+
+            }
         </CountdownContainer>
     )
+
 }
 
-export default DeadlineCountdown
+const mapStateToProps = createStructuredSelector({
+    deadlineData: deadlineDataSelector
+})
+
+export default connect(mapStateToProps)(DeadlineCountdown)

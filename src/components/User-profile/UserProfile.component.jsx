@@ -91,10 +91,10 @@ const UserProfile = ({ currentUser, logOut, notifError, resetError, setFieldValu
                     }
                     <SubMenu key='filters' icon={<SlidersOutlined />} title={'Filter Journals'} color={'white'} onTitleClick={handleMoveProfileImage}>
                         <Menu.Item key='dateFrom'>
-                            <DatePicker placeholder={'Date From'} onChange={handleDateChange.bind(this, 'dateFrom')} />
+                            <DatePicker placeholder={'Date From'} onChange={handleDateChange.bind(this, 'dateFrom')} bordered={false} />
                         </Menu.Item>
                         <Menu.Item key='dateTo'>
-                            <DatePicker placeholder={'Date To'} onChange={handleDateChange.bind(this, 'dateTo')} />
+                            <DatePicker placeholder={'Date To'} onChange={handleDateChange.bind(this, 'dateTo')} bordered={false}/>
                         </Menu.Item>
                         {/* <Menu.Item key='dateRange' onClick={()=>console.log('clicking')}>
                             <RangePicker/> 

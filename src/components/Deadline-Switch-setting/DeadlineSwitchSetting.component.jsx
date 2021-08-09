@@ -18,6 +18,7 @@ const DeadlineSwitchSetting = ({deadlineData,setDeadline,fetchDeadlineData}) => 
     const [isMorningDeadline, setisMorningDeadline] = useState(true)
     const [value,setValue] = useState(null)
     const {morningDeadline,eveningDeadline} = deadlineData
+    
     useEffect(() => {
         if(typeof morningDeadline ==='undefined'|| typeof eveningDeadline ==='undefined'){
             fetchDeadlineData()
