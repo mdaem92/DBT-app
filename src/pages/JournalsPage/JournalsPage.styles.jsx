@@ -3,6 +3,7 @@ import { Menu } from 'antd'
 
 export const JournalsContainer = styled.div`
     display:flex;
+    grid-area: journals;
     /* justify-content:space-evenly; */
     flex-direction:row;
     flex-wrap:wrap;
@@ -39,8 +40,12 @@ export const SidePanelContainer = styled(props => <Menu {...props} />)`
 `
 export const JournalsPageContainer = styled.div`
     display:grid;
-    grid-template-rows:2fr;
+    grid-template-rows:1fr 10%;
     grid-template-columns:15% 5fr;
+    grid-template-areas: "sidepanel journals"
+                         "sidepanel journals"
+                         "sidepanel pagination"
+    ;
     column-gap:20px;
     
 
@@ -55,6 +60,13 @@ export const JournalsPageContainer = styled.div`
 `
 
 export const SidePanelProfileContainer = styled.div`
-    
+    grid-area: sidepanel;
     /* width:100px; */
+`
+
+export const PaginationContainer = styled.div`
+    grid-area: pagination;
+    display: flex;
+    justify-self: center;
+    margin: 20px auto;
 `

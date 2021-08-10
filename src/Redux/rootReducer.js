@@ -5,6 +5,7 @@ import membersReducer from './members/members.reducer'
 import notificationsReducer from './notifications/notifications.reducer'
 import UserReducer from './user/user.reducer'
 import friendsOverviewPageReducer from './friendOverviewPage/friendOverviewPage.reducer'
+import paginationReducer from './pagination/pagination.reducer'
 
 export default combineReducers({
     journals:journalsReducer,
@@ -12,6 +13,7 @@ export default combineReducers({
     auth:UserReducer,
     members:membersReducer,
     notification:notificationsReducer,
-    friendsOverviewPage:friendsOverviewPageReducer
+    friendsOverviewPage:friendsOverviewPageReducer,
+    pagination:paginationReducer
 
 })

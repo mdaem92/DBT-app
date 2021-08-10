@@ -1,8 +1,11 @@
 import { createSelector } from 'reselect'
 import moment from 'moment'
+import { currentPageSelector, pageSizeSelector } from '../pagination/pagination.selectors'
 
 export const journalsArraySelector = ({ journals: { journals } }) => journals
 export const isJournalsFetchedSelector = ({ journals: { isJournalsFetched } }) => isJournalsFetched
+const paginationDataSelector = ({pagination})=>pagination
+
 const journalsSelector = ({ journals }) => journals
 
 export const moodsSelector = createSelector(
@@ -103,4 +106,24 @@ export const filteredSortedJournalsSelector = createSelector(
         return matchFrom && matchTo
     })
     
+)
+
+export const paginatedFilteredSortedJournalsSelector = createSelector(
+    filteredSortedJournalsSelector,
+    paginationDataSelector,
+    (journals,{ownCurrentPage:currentPage,ownPageCount:pageSize})=>{
+
+        const from = (currentPage-1)*pageSize
+        const to = from +pageSize
+        console.log('from: ',from," to: ",to);
+        return journals.slice(from,to)
+        
+        
+    }
+    
+)
+
+export const journalsTotalCountSelector = createSelector(
+    journalsArraySelector,
+    (journals)=>journals.length
 )

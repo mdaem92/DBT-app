@@ -1,14 +1,15 @@
 import { connect } from 'react-redux'
 import React, { useEffect } from 'react'
 import { createStructuredSelector } from 'reselect'
-import { filteredSortedJournalsSelector, isJournalsFetchedSelector, journalsArraySelector, sortedJournalsSelector } from '../../Redux/journals/journals.selectors'
+import { filteredSortedJournalsSelector, isJournalsFetchedSelector, journalsTotalCountSelector, paginatedFilteredSortedJournalsSelector } from '../../Redux/journals/journals.selectors'
 import Journal from '../../components/Journal/Journal.component'
-import { JournalsContainer, JournalsPageContainer, SidePanelProfileContainer } from './JournalsPage.styles'
+import { JournalsContainer, JournalsPageContainer, SidePanelProfileContainer , PaginationContainer } from './JournalsPage.styles'
 import UserProfile from '../../components/User-profile/UserProfile.component'
 import { currentUserSelector } from '../../Redux/user/user.selectors'
 import { fetchJournalsStart } from '../../Redux/journals/journals.actions'
+import Pagination from '../../components/Pagination/Pagination.component'
 
-const JournalsPage = ({ journals, currentUser, journalsFetched, fetchJournals }) => {
+const JournalsPage = ({ journals, currentUser, journalsFetched, fetchJournals,total }) => {
 
     useEffect(() => {
         if (!journalsFetched && !!currentUser) {
@@ -29,6 +30,11 @@ const JournalsPage = ({ journals, currentUser, journalsFetched, fetchJournals })
                         journals.map((journal, index) => <Journal {...journal} key={index} />)
                     }
                 </JournalsContainer>
+                <PaginationContainer>
+                    <Pagination isOwnJournals total={total}/>
+                </PaginationContainer>
+                {/* <Pagination/> */}
+
 
 
             </JournalsPageContainer>
@@ -39,9 +45,11 @@ const JournalsPage = ({ journals, currentUser, journalsFetched, fetchJournals })
 }
 
 const mapStateToProps = createStructuredSelector({
-    journals: filteredSortedJournalsSelector,
+    journals: paginatedFilteredSortedJournalsSelector,
     currentUser: currentUserSelector,
-    journalsFetched: isJournalsFetchedSelector
+    journalsFetched: isJournalsFetchedSelector,
+    total:journalsTotalCountSelector
+
 })
 
 const mapDispatchToProps = (dispatch) => ({

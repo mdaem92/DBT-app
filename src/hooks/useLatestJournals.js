@@ -2,10 +2,10 @@ import {useEffect,useState} from 'react'
 import { firestore } from '../firebase/firebase.utils'
 import moment from 'moment'
 
-const useFriendJournals = (id,dateFrom,dateTo)=>{
+const useFriendJournals = (id,dateFrom,dateTo,currentPage,pageSize)=>{
     const [journals, setJournals] = useState([])
 
-    const getFriendLatestJournals = (from,to)=>{
+    const getFriendLatestJournals = ()=>{
         console.log(`show date from ${dateFrom} to ${dateTo}`);
         const collectionRef = firestore.collection(`users/${id}/journals`)
 
@@ -25,17 +25,24 @@ const useFriendJournals = (id,dateFrom,dateTo)=>{
                 const matchTo = dateTo? moment(journal.date)<=moment(dateTo):true
                 console.log(`journal date ${journal.date} match from: ${matchFrom} match to ${matchTo} moment: ${moment(journal.date)}`);
                 return matchFrom && matchTo
-            }) 
-            setJournals(filteredData)
+            })
+            const from = (currentPage-1)*pageSize
+            const to = from +pageSize 
+            const paginatedData = [
+                ...filteredData.splice(from,to-1)
+            ]
+            // console.log(`from: ${from} to: ${to}`);
+            // console.log(currentPage,pageSize);
+            setJournals(paginatedData)
         })
         return unsubscribe
     }
     useEffect(()=>{
-        const unsubscribe = getFriendLatestJournals(dateFrom,dateTo)
+        const unsubscribe = getFriendLatestJournals()
         return ()=>{
             unsubscribe()
         }
-    },[dateFrom,dateTo])
+    },[dateFrom,dateTo,pageSize,currentPage])
     return journals 
 
 }
