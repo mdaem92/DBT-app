@@ -29,7 +29,7 @@ const useFriendJournals = (id,dateFrom,dateTo,currentPage,pageSize)=>{
             const from = (currentPage-1)*pageSize
             const to = from +pageSize 
             const paginatedData = [
-                ...filteredData.splice(from,to-1)
+                ...filteredData.splice(from,to)
             ]
             // console.log(`from: ${from} to: ${to}`);
             // console.log(currentPage,pageSize);

@@ -66,7 +66,8 @@ const DeadlineSwitchSetting = ({deadlineData,setDeadline,fetchDeadlineData}) => 
                 allowClear
                 bordered={false}
                 disabledHours={handleDisabledHours}
-                showNow={false} 
+                showNow={false}
+                
             />
         </Container>
     )

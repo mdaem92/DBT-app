@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react'
 import { ProfileContainer, ProfileImage, AccountMenu } from './UserProfile.styles'
 // import useCurrentUser from '../../hooks/useCurrentUser'
 import { Menu, message, Modal, DatePicker,TimePicker } from 'antd'
-import { LogoutOutlined, SettingFilled, KeyOutlined, TeamOutlined, PlusOutlined, SlidersOutlined, UserOutlined, FieldTimeOutlined } from '@ant-design/icons'
+import { LogoutOutlined, SettingFilled, KeyOutlined, TeamOutlined, PlusOutlined, SlidersOutlined, UserOutlined, FieldTimeOutlined,TagsOutlined } from '@ant-design/icons'
 import { createStructuredSelector } from 'reselect'
-import { currentUserSelector } from '../../Redux/user/user.selectors'
+import { currentUserSelector, isTeammatesFetchedSelector } from '../../Redux/user/user.selectors'
 import { connect } from 'react-redux'
-import { signOutStart } from '../../Redux/user/user.actions'
+import { fetchTeammatesStart, fetchTeammatesSuccess, signOutStart } from '../../Redux/user/user.actions'
 import UserSearchSelect from '../user-search-select/user-search-select.component'
 import { notifErrorSelector } from '../../Redux/notifications/notifications.selectors'
 import { resetError } from '../../Redux/notifications/notifications.actions'
@@ -18,8 +18,11 @@ import { friendOverviewDateFromSelector, friendOverviewDateToSelector, friendOve
 import DeadlineSwitchSetting from '../Deadline-Switch-setting/DeadlineSwitchSetting.component'
 import { journalsFiltersSelector } from '../../Redux/journals/journals.selectors'
 import moment from 'moment'
+import TagsSelect from '../TagsSelect/TagsSelect.component'
+import { auth } from '../../firebase/firebase.utils'
 
-const UserProfile = ({ currentUser, logOut, notifError, resetError, setFieldValue, match, showGraph,toggleView ,setFriendDataFieldValue,ownFilters,friendDateFrom,friendDateTo }) => {
+
+const UserProfile = ({ currentUser, logOut, notifError, resetError, setFieldValue, match, showGraph,toggleView ,setFriendDataFieldValue,ownFilters,friendDateFrom,friendDateTo,fetchTeammates,isTeammatesFetched }) => {
     const { SubMenu } = Menu
     const [isExtended, setExtended] = useState(false)
     const [dateRange,setDateRange] = useState({
@@ -65,10 +68,17 @@ const UserProfile = ({ currentUser, logOut, notifError, resetError, setFieldValu
                 dateTo:!!ownFilters.dateTo?moment(ownFilters.dateTo):null
             }) 
         }
+        
     },[])
-    useEffect(()=>{
-        console.log("current state: ",dateRange);
-    },[dateRange])
+
+    useEffect(() => {
+        
+        if(!isTeammatesFetched){
+            console.log('fetching teammates');
+            fetchTeammates()
+        }
+        
+    }, [fetchTeammates,isTeammatesFetched])
 
     const handleDateChange = (fieldName, date,dateString) => {
         console.log('uid: ',match.params);
@@ -100,12 +110,16 @@ const UserProfile = ({ currentUser, logOut, notifError, resetError, setFieldValu
         toggleView()
     }
 
-    
-
     return (
         <div>
             <ProfileContainer>
-                <ProfileImage imageUrl={currentUser?.photoURL} isHidden={isExtended} referrerpolicy="no-referrer" />
+                <ProfileImage 
+                    imageUrl={currentUser?.photoURL}
+                    // imageUrl={auth.currentUser?.photoURL} 
+
+                    isHidden={isExtended} 
+                    referrerpolicy="no-referrer" 
+                />
                 <AccountMenu
                     mode='inline'
                     style={{ backgroundColor: '#0b355c' }}
@@ -121,9 +135,10 @@ const UserProfile = ({ currentUser, logOut, notifError, resetError, setFieldValu
                             <UserSearchSelect />
                         </SubMenu>
                         <SubMenu key="myDeadlines" icon={<FieldTimeOutlined />} title={'My Deadlines'}>
-                            {/* deadlines go here */}
                             <DeadlineSwitchSetting/>
-                            {/* TODO add deadline viewer and time picker */}
+                        </SubMenu>
+                        <SubMenu key="myTags" icon={<TagsOutlined />} title={'My Tags'}>
+                            <TagsSelect/>
                         </SubMenu>
                     </SubMenu>
                     {
@@ -140,9 +155,6 @@ const UserProfile = ({ currentUser, logOut, notifError, resetError, setFieldValu
                         <Menu.Item key='dateTo'>
                             <DatePicker placeholder={'Date To'} onChange={handleDateChange.bind(this, 'dateTo')} bordered={false} value={dateRange.dateTo}/>
                         </Menu.Item>
-                        {/* <Menu.Item key='dateRange' onClick={()=>console.log('clicking')}>
-                            <RangePicker/> 
-                        </Menu.Item> */}
                     </SubMenu>
                     <Menu.Item
                         key="logout"
@@ -155,7 +167,6 @@ const UserProfile = ({ currentUser, logOut, notifError, resetError, setFieldValu
 
                 </AccountMenu>
             </ProfileContainer>
-            {/* <Modal title="Error" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} afterClose={clearError}>{notifError}</Modal> */}
 
         </div>
 
@@ -168,7 +179,9 @@ const mapStateToProps = createStructuredSelector({
     showGraph:friendOverviewPageViewSelector,
     ownFilters:journalsFiltersSelector,
     friendDateFrom:friendOverviewDateFromSelector,
-    friendDateTo:friendOverviewDateToSelector
+    friendDateTo:friendOverviewDateToSelector,
+    isTeammatesFetched:isTeammatesFetchedSelector
+
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -176,7 +189,8 @@ const mapDispatchToProps = (dispatch) => ({
     resetError: () => dispatch(resetError()),
     setFieldValue: (name, value) => dispatch(setFieldValue(name, value)),
     toggleView:()=>dispatch(toggleView()),
-    setFriendDataFieldValue:(field,value)=>dispatch(setFriendDataFieldValue(field,value))
+    setFriendDataFieldValue:(field,value)=>dispatch(setFriendDataFieldValue(field,value)),
+    fetchTeammates:()=>dispatch(fetchTeammatesStart())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(UserProfile))

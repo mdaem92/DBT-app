@@ -4,11 +4,11 @@ import { Menu } from 'antd'
 export const JournalsContainer = styled.div`
     display:flex;
     grid-area: journals;
-    /* justify-content:space-evenly; */
     flex-direction:row;
     flex-wrap:wrap;
-    height:fit-content;
+    /* overflow: auto; */
     gap:20px;
+    
     @media screen and (max-width:800px){
         flex-direction:column;
         /* flex-wrap:nowrap; */
@@ -16,6 +16,7 @@ export const JournalsContainer = styled.div`
         justify-content:center;
         align-items:center;
         row-gap:10px;
+        padding-bottom: 5px;
        
     }
    
@@ -40,11 +41,11 @@ export const SidePanelContainer = styled(props => <Menu {...props} />)`
 `
 export const JournalsPageContainer = styled.div`
     display:grid;
-    grid-template-rows:1fr 1fr 10%;
+    grid-template-rows:1fr 10%;
     grid-template-columns:15% 5fr;
     grid-template-areas: "sidepanel journals"
-                         "sidepanel journals"
-                         "pagination pagination"
+                        
+                         "sidepanel pagination"
     ;
     column-gap:20px;
     
@@ -62,12 +63,13 @@ export const JournalsPageContainer = styled.div`
 export const SidePanelProfileContainer = styled.div`
     grid-area: sidepanel;
     /* width:100px; */
+    max-height: 0;
 `
 
 export const PaginationContainer = styled.div`
     grid-area: pagination;
     display: flex;
     justify-self: center;
-    margin: 20px auto;
+    margin-top: 20px;
     
 `

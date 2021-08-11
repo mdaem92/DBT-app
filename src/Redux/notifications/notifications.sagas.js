@@ -87,6 +87,7 @@ function* notifyFriendsAsync({notifType}){
     console.log('notifying users');
     try {
         const uid = yield auth.currentUser.uid
+        yield console.log('url: ',auth.currentUser.photoURL);
         const friendsListRef = yield firestore.collection(`users/${uid}/friends`)
         const friendsListSnapshot = yield friendsListRef.get()
         console.log('friends snapshot: ',friendsListSnapshot , uid);

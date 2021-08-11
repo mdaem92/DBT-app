@@ -10,16 +10,16 @@ import { fetchTeammatesStart } from '../../Redux/user/user.actions'
 
 
 
-const Teammates = ({teammates, isTeammatesFetched, fetchTeammates}) => {
+const Teammates = ({teammates}) => {
 
-    useEffect(() => {
+    // useEffect(() => {
         
-        if(!isTeammatesFetched){
-            console.log('fetching teammates');
-            fetchTeammates()
-        }
+    //     if(!isTeammatesFetched){
+    //         console.log('fetching teammates');
+    //         fetchTeammates()
+    //     }
         
-    }, [fetchTeammates,isTeammatesFetched])
+    // }, [fetchTeammates,isTeammatesFetched])
 
     return (
         <Container>
@@ -34,11 +34,11 @@ const Teammates = ({teammates, isTeammatesFetched, fetchTeammates}) => {
 
 const mapStateToProps = createStructuredSelector({
     teammates:teammatesSelector,
-    isTeammatesFetched:isTeammatesFetchedSelector
+    // isTeammatesFetched:isTeammatesFetchedSelector
 })
 
-const mapDispatchToProps = (dispatch)=>({
-    fetchTeammates:()=>dispatch(fetchTeammatesStart())
-})
+// const mapDispatchToProps = (dispatch)=>({
+//     fetchTeammates:()=>dispatch(fetchTeammatesStart())
+// })
 
-export default connect(mapStateToProps,mapDispatchToProps)(Teammates)
+export default connect(mapStateToProps)(Teammates)

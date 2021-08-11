@@ -21,11 +21,11 @@ const AddJournalForm = ({ submit, setFieldValue ,currentUser:user , errorMessage
 
     const currentDate = useCurrentTime()
 
-    const onFinish = async (values) => {
+    const onFinish = (values) => {
 
         const { uid, displayName } = user
-        await submit({ ...values, uid, displayName, isMorningReport:form.isMorningReport })
-        await notifyFriends('SUBMITTED_REPORT')
+        submit({ ...values, uid, displayName, isMorningReport:form.isMorningReport })
+        // await notifyFriends('SUBMITTED_REPORT')
         message.success('Journal successfully added')
         console.log('history: ',history);
         history.push('/')

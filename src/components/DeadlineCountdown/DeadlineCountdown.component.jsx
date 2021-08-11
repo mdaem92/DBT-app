@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import useCurrentTime from '../../hooks/useCurrentTime'
 import { Statistic, Alert } from 'antd'
 import moment from 'moment'
@@ -7,12 +7,18 @@ import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import { deadlineDataSelector } from '../../Redux/user/user.selectors'
 import DeadlineSwitchSetting from '../Deadline-Switch-setting/DeadlineSwitchSetting.component'
+import { fetchDeadlineStart } from '../../Redux/user/user.actions'
 
 const { Countdown } = Statistic
 
-const DeadlineCountdown = ({ deadlineData }) => {
+const DeadlineCountdown = ({ deadlineData , fetchDeadlines }) => {
     const currentTime = useCurrentTime()
 
+    useEffect(() => {
+       if(!!deadlineData.morningDeadline || !!deadlineData.eveningDeadline){
+           fetchDeadlines()
+       } 
+    }, [deadlineData.morningDeadline,deadlineData.eveningDeadline,fetchDeadlines])
 
 
     const onFinish = () => {
@@ -20,7 +26,6 @@ const DeadlineCountdown = ({ deadlineData }) => {
     }
 
     const {morningDeadline:morningEnd,eveningDeadline:eveningEnd} = deadlineData
-
 
 
     const calculateDeadline = (currentTime) => {
@@ -72,5 +77,8 @@ const DeadlineCountdown = ({ deadlineData }) => {
 const mapStateToProps = createStructuredSelector({
     deadlineData: deadlineDataSelector
 })
+const mapDispatchToProps = (dispatch)=>({
+    fetchDeadlines:()=>dispatch(fetchDeadlineStart())
+})
 
-export default connect(mapStateToProps)(DeadlineCountdown)
+export default connect(mapStateToProps,mapDispatchToProps)(DeadlineCountdown)
