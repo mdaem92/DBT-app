@@ -1,6 +1,6 @@
 import { all, call, put, takeLatest } from "redux-saga/effects";
-import { firestore, Timestamp } from "../../firebase/firebase.utils";
-import { fetchNotificationsFailure, fetchNotificationsSuccess, removeNotificationsFailure, removeNotificationsSuccess, sendRequestFailure, sendRequestSuccess } from "./notifications.actions";
+import { firestore, Timestamp,auth } from "../../firebase/firebase.utils";
+import { fetchNotificationsFailure, fetchNotificationsSuccess, notifyFriendsFailure, notifyFriendsSuccess, removeNotificationsFailure, removeNotificationsSuccess, sendRequestFailure, sendRequestStart, sendRequestSuccess } from "./notifications.actions";
 import NotificationsActionTypes from './notifications.types'
 import moment from 'moment'
 
@@ -21,11 +21,23 @@ const getUsersIdsFromSnapshot = (snapshot)=>{
     })
 }
 
+const getFriendsFromSnapshot = (snapshot)=>{
+    return snapshot.docs.map((friend)=>{
+        const friendData = friend.data()
+        return friendData
+    })
+
+}
+
+
+
 
 function* sendRequestAsync({sender,receiverId,requestType}){
     
     try {
+        yield console.log('sender id : ',sender)
         yield console.log('receiver id : ',receiverId)
+        yield console.log('request type: ',requestType);
         const collectionRef = firestore.collection(`users/${receiverId}/notifications`)
         const usersCollectionRef = yield firestore.collection('users')
         const usersCollectionSnapshot = yield usersCollectionRef.get()
@@ -71,12 +83,32 @@ function* removeNotificationAsync({uid,notifID}){
     }
 }
 
-// function* onFetchNotificationsStart(){
-//     yield takeLatest(
-//         NotificationsActionTypes.FETCH_NOTIFICATION_START,
-//         fetchNotificationsAsync
-//     )
-// }
+function* notifyFriendsAsync({notifType}){
+    console.log('notifying users');
+    try {
+        const uid = yield auth.currentUser.uid
+        const friendsListRef = yield firestore.collection(`users/${uid}/friends`)
+        const friendsListSnapshot = yield friendsListRef.get()
+        console.log('friends snapshot: ',friendsListSnapshot , uid);
+        console.log(friendsListSnapshot.exists);
+        
+        const friendsList = yield getFriendsFromSnapshot(friendsListSnapshot)
+        console.log('friends list: ',friendsList);
+
+        for (var friend of friendsList) {
+            console.log('notifying friend: ',friend);
+            const sender = {uid:auth.currentUser.uid,photoURL:auth.currentUser.photoURL,displayName:auth.currentUser.displayName}
+            console.log('auth current sender: ',sender);
+            yield put(sendRequestStart(sender,friend.id,notifType))
+        }
+        yield put(notifyFriendsSuccess())
+        
+        
+    } catch (error) {
+        yield put(notifyFriendsFailure(error.message))
+    }
+}
+
 
 function* onSendRequestStart(){
     yield takeLatest(
@@ -92,11 +124,21 @@ function* onRemoveNotificationStart(){
     )
 }
 
+function* onNotifyFriendsStart(){
+    yield takeLatest(
+        NotificationsActionTypes.NOTIFY_FRIENDS_START,
+        notifyFriendsAsync
+    )
+}
+
 export function* notificationsSaga(){
     yield all([
         // call(onFetchNotificationsStart),
         call(onSendRequestStart),
-        call(onRemoveNotificationStart)
+        call(onRemoveNotificationStart),
+        call(onNotifyFriendsStart)
     ])
 }
+
+
 

@@ -25,18 +25,21 @@ const notificationsReducer = (state=NotificationsDefaultState,action)=>{
             }
         case NotificationsActionTypes.FETCH_NOTIFICATION_FAILURE:
         case NotificationsActionTypes.SEND_REQUEST_FAILURE:
+        case NotificationsActionTypes.NOTIFY_FRIENDS_FAILURE:
             return{
                 ...state,
                 isLoading:false,
                 error:action.error
             }
         case NotificationsActionTypes.SEND_REQUEST_START:
+        case NotificationsActionTypes.NOTIFY_FRIENDS_START:
             return{
                 ...state,
                 // isRequestPending:true,
                 isLoading:true
             }
         case NotificationsActionTypes.SEND_REQUEST_SUCCESS:
+        case NotificationsActionTypes.NOTIFY_FRIENDS_SUCCESS:
             return{
                 ...state,
                 // isRequestPending:false,

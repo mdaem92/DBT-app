@@ -3,6 +3,7 @@ import { JournalsActionTypes } from './journals.types'
 import { firestore, Timestamp } from '../../firebase/firebase.utils'
 import { submitJournalSuccess,fetchJournalsFailure,fetchJournalsSuccess } from './journals.actions'
 import moment from 'moment';
+import { notifyFriendsStart } from '../notifications/notifications.actions';
 
 
 export function* submitJournalAsync({ journal: { uid, displayName, date, isMorningReport, ...journalData } }) {
@@ -19,6 +20,7 @@ export function* submitJournalAsync({ journal: { uid, displayName, date, isMorni
             .set({ ...journalData, date: timestamp }, { merge: true })
             
         yield put(submitJournalSuccess({ ...journalData, uid, displayName, date:date.format('DMMM YY'), isMorningReport }))
+        yield put(notifyFriendsStart('SUBMITTED_REPORT'))
 
     } catch (error) {
         console.log(error);

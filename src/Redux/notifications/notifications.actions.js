@@ -58,3 +58,17 @@ export const removeNotificationsFailure = (error)=>({
     error
 })
 
+export const notifyFriendsStart = (notifType)=>({
+    type:NotificationsActionTypes.NOTIFY_FRIENDS_START,
+    notifType
+})
+
+export const notifyFriendsSuccess = ()=>({
+    type:NotificationsActionTypes.NOTIFY_FRIENDS_SUCCESS
+})
+
+export const notifyFriendsFailure = (errorMessage)=>({
+    type:NotificationsActionTypes.NOTIFY_FRIENDS_FAILURE,
+    errorMessage
+})
+

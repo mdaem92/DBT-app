@@ -12,18 +12,20 @@ import { currentUserSelector } from '../../Redux/user/user.selectors'
 import { submissionErrorSelector } from '../../Redux/journals/journals.selectors'
 import { withRouter } from 'react-router-dom'
 import { formSelector } from '../../Redux/form/form.selectors'
+import { notifyFriendsFailure, notifyFriendsStart } from '../../Redux/notifications/notifications.actions';
 
 const { TextArea } = Input
 const { Option } = Select
 
-const AddJournalForm = ({ submit, setFieldValue ,currentUser:user , errorMessage, history ,form }) => {
+const AddJournalForm = ({ submit, setFieldValue ,currentUser:user , errorMessage, history ,form , notifyFriends }) => {
 
     const currentDate = useCurrentTime()
 
-    const onFinish = (values) => {
+    const onFinish = async (values) => {
 
         const { uid, displayName } = user
-        submit({ ...values, uid, displayName, isMorningReport:form.isMorningReport })
+        await submit({ ...values, uid, displayName, isMorningReport:form.isMorningReport })
+        await notifyFriends('SUBMITTED_REPORT')
         message.success('Journal successfully added')
         console.log('history: ',history);
         history.push('/')
@@ -255,7 +257,8 @@ const AddJournalForm = ({ submit, setFieldValue ,currentUser:user , errorMessage
 
 const mapDispatchToProps = (dispatch) => ({
     submit: (journal) => dispatch(submitJournalStart(journal)),
-    setFieldValue: (name, value) => dispatch(setFieldValue(name, value))
+    setFieldValue: (name, value) => dispatch(setFieldValue(name, value)),
+    notifyFriends:(notifType)=>dispatch(notifyFriendsStart(notifType))
 })
 const mapStateToProps = createStructuredSelector({
     currentUser:currentUserSelector,
