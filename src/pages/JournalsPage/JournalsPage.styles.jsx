@@ -40,11 +40,11 @@ export const SidePanelContainer = styled(props => <Menu {...props} />)`
 `
 export const JournalsPageContainer = styled.div`
     display:grid;
-    grid-template-rows:1fr 10%;
+    grid-template-rows:1fr 1fr 10%;
     grid-template-columns:15% 5fr;
     grid-template-areas: "sidepanel journals"
                          "sidepanel journals"
-                         "sidepanel pagination"
+                         "pagination pagination"
     ;
     column-gap:20px;
     
@@ -69,4 +69,5 @@ export const PaginationContainer = styled.div`
     display: flex;
     justify-self: center;
     margin: 20px auto;
+    
 `
