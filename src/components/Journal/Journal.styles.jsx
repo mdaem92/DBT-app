@@ -31,6 +31,7 @@ export const ModalButtonArea = styled.div`
     align-items:center;
     .ant-btn{
         /* display:none; */
+        border-radius: 100px;
     }
     
 

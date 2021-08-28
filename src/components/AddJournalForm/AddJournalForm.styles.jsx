@@ -8,6 +8,7 @@ export const FormContainer = styled((props)=><Form {...props}/>)`
     flex-direction:column;
     justify-content:center;
     align-self:center;
+    margin-top: 20px;
 
     .switch{
         margin:10px 0;
@@ -24,6 +25,11 @@ export const FormContainer = styled((props)=><Form {...props}/>)`
     @media screen and (max-width:800px){
         width:80vw;
     }
+    /* *{
+        border-radius: 5%;
+    } */
+    
+    
 `
 
 
@@ -44,6 +50,9 @@ export const RowContainer = styled.div`
     .ant-form-item{
         width:fit-content;
         /* justify-content:flex-end; */
+    }
+    .ant-input-number{
+        width: 25vw;
     }
     @media screen and (max-width:800px){
         width:80vw;

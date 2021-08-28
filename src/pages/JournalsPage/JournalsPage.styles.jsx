@@ -64,6 +64,10 @@ export const SidePanelProfileContainer = styled.div`
     grid-area: sidepanel;
     /* width:100px; */
     max-height: 0;
+    @media screen and (max-width:800px){
+        max-height: unset;
+
+    }
 `
 
 export const PaginationContainer = styled.div`

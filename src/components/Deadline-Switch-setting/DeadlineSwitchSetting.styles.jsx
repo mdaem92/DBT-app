@@ -7,4 +7,7 @@ export const Container = styled.div`
     padding-left: 60px;
     padding-right: 10px;
     padding-bottom: 10px;
+    /* .ant-switch{
+        border-radius: unset;
+    } */
 `

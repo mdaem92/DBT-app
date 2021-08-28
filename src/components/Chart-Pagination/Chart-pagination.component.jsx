@@ -7,7 +7,7 @@ import {Select} from 'antd'
 import {connect} from 'react-redux'
 
 const {Option} = Select
-const ChartPagination = ({entriesPerChart,setEntriesPerChart}) => {
+export const ChartPagination = ({entriesPerChart,setEntriesPerChart}) => {
 
     const handleChange = (value)=>{
         setEntriesPerChart(value)
@@ -28,6 +28,7 @@ const ChartPagination = ({entriesPerChart,setEntriesPerChart}) => {
         </ChartPaginationContainer>
     )
 }
+
 const mapStateToProps = createStructuredSelector({
     entriesPerChart: entriesPerChartSelector,
 })
@@ -36,3 +37,4 @@ const mapDispatchToProps = (dispatch) => ({
     setEntriesPerChart: (value) => dispatch(setFieldValue('entriesPerChart', value))
 })
 export default connect(mapStateToProps,mapDispatchToProps)(ChartPagination)
+
