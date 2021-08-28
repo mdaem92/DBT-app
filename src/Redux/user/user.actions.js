@@ -101,3 +101,46 @@ export const fetchDeadlineFailure = (errorMessage)=>({
     errorMessage
 })
 
+export const fetchTagsStart = ()=>({
+    type:UserActionTypes.FETCH_TAGS_START
+})
+export const fetchTagsSuccess = (tags)=>({
+    type:UserActionTypes.FETCH_TAGS_SUCCESS,
+    tags
+})
+export const fetchTagsFailure = (errorMessage)=>({
+    type:UserActionTypes.FETCH_TAGS_FAILURE,
+    errorMessage
+})
+
+export const addTagStart=(newTag)=>({
+    type:UserActionTypes.ADD_TAG_START,
+    newTag
+})
+
+export const addTagSuccess = (newTag)=>({
+    type:UserActionTypes.ADD_TAG_SUCCESS,
+    newTag
+})
+export const addTagFailure = (errorMessage)=>({
+    type:UserActionTypes.ADD_TAG_FAILURE,
+    errorMessage
+})
+
+export const removeTagStart = (tag)=>({
+    type:UserActionTypes.REMOVE_TAG_START,
+    tag
+})
+
+export const removeTagSuccess = (tag)=>({
+    type:UserActionTypes.REMOVE_TAG_SUCCESS,
+    tag
+})
+
+export const removeTagFailure = (errorMessage)=>({
+    type:UserActionTypes.REMOVE_TAG_FAILURE,
+    errorMessage
+})
+
+
+

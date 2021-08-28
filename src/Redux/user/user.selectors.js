@@ -2,6 +2,7 @@ import {createSelector} from 'reselect'
 
 const authSelector =({auth})=> auth
 
+
 export const currentUserSelector = createSelector(
     authSelector,
     ({currentUser})=>currentUser
@@ -26,4 +27,10 @@ export const isFriendshipConfirmedSelector = createSelector(
 export const deadlineDataSelector = createSelector(
     authSelector,
     ({morningDeadline,eveningDeadline})=>({morningDeadline,eveningDeadline})
+)
+
+export const tagsSelector = createSelector(
+    authSelector,
+    ({tags})=>tags
+
 )

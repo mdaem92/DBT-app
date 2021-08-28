@@ -8,10 +8,19 @@ export const Container = styled.div`
     padding-right: 10px;
     padding-bottom: 10px;
     /* min-width:300px; */
-    .ant-select{
+    .ant-select-dropdown.ass{
         /* border: 1px solid grey; */
         /* min-width: max-content; */
+        display:none !important;
 
+        .dropdown{
+            display:none !important;
+    } 
+
+    }
+    
+    .dropdown{
+            display:none !important;
     }
 
     .ant-select-selection-item{

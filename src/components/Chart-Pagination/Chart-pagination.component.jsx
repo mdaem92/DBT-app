@@ -12,6 +12,7 @@ export const ChartPagination = ({entriesPerChart,setEntriesPerChart}) => {
     const handleChange = (value)=>{
         setEntriesPerChart(value)
     }
+    
     return (
         <ChartPaginationContainer>
             <span>{entriesPerChart === 0 ? 'View' : 'View Last'}</span>
