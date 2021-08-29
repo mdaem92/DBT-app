@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { Select, Button ,Input , Tooltip } from 'antd'
+import { Select ,Input  } from 'antd'
 import { Container } from './user-search-select.styles'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import { sendRequestStart } from '../../Redux/notifications/notifications.actions'
-import { membersListSelector } from '../../Redux/members/members.selectors'
-import Member from '../Member/Member.component'
 import { PlusOutlined } from '@ant-design/icons'
 import { currentUserSelector } from '../../Redux/user/user.selectors'
 import {notifErrorSelector, notificationLoadingSelector} from '../../Redux/notifications/notifications.selectors'
@@ -13,8 +11,6 @@ import {notifErrorSelector, notificationLoadingSelector} from '../../Redux/notif
 const UserSearchSelect = ({ sendRequest, members ,currentUser ,isNotifLoading , notifError }) => {
 
     const {Search} = Input
-    const { Option } = Select
-    const [state, setstate] = useState("")
 
     const handleChange = ({target:{value}}) => {
         console.log(value);
@@ -28,10 +24,6 @@ const UserSearchSelect = ({ sendRequest, members ,currentUser ,isNotifLoading , 
         
     }
 
-    useEffect(() => {
-        console.log("state change: ", state);
-
-    }, [state])
 
     return (
         <Container>
@@ -50,7 +42,7 @@ const UserSearchSelect = ({ sendRequest, members ,currentUser ,isNotifLoading , 
 }
 
 const mapStateToProps = createStructuredSelector({
-    members: membersListSelector,
+    // members: membersListSelector,
     // isRequestPending:isRequestPendingSelector,
     currentUser:currentUserSelector,
     isNotifLoading: notificationLoadingSelector,

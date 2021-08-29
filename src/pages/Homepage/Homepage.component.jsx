@@ -17,8 +17,8 @@ const Homepage = ({
     fetchJournals,
     isJournalsFetched,
     currentUser,
-    isMembersFetched,
-    fetchMembers,
+    // isMembersFetched,
+    // fetchMembers,
     isNotificationsFetched,
     // fetchNotifications,
     notifications: currentNotifications,
@@ -57,7 +57,7 @@ const Homepage = ({
 const mapStateToprops = createStructuredSelector({
     isJournalsFetched: isJournalsFetchedSelector,
     currentUser: currentUserSelector,
-    isMembersFetched: isMembersFetchedSelector,
+    // isMembersFetched: isMembersFetchedSelector,
     isNotificationsFetched: isNotificationsFetchedSelector,
     notifications: notificationsSelector
 

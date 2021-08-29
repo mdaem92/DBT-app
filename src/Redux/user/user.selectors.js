@@ -34,3 +34,8 @@ export const tagsSelector = createSelector(
     ({tags})=>tags
 
 )
+
+export const isTagsFetchedSelector = createSelector(
+    tagsSelector,
+    (tags)=>tags.length>0
+)

@@ -11,7 +11,7 @@ export default combineReducers({
     journals:journalsReducer,
     form:formReducer,
     auth:UserReducer,
-    members:membersReducer,
+    // members:membersReducer,
     notification:notificationsReducer,
     friendsOverviewPage:friendsOverviewPageReducer,
     pagination:paginationReducer

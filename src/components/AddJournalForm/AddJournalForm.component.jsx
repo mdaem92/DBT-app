@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useEffect,useState} from 'react'
 import { Button, message } from 'antd'
 import { FormContainer, RowContainer } from './AddJournalForm.styles'
 import { Input, Select, Switch, Form, InputNumber, DatePicker } from 'antd'
@@ -8,29 +8,53 @@ import { submitJournalStart } from '../../Redux/journals/journals.actions'
 import useCurrentTime from '../../hooks/useCurrentTime'
 import { setFieldValue } from '../../Redux/form/form.actions'
 import { createStructuredSelector } from 'reselect'
-import { currentUserSelector } from '../../Redux/user/user.selectors'
+import { currentUserSelector, tagsSelector } from '../../Redux/user/user.selectors'
 import { submissionErrorSelector } from '../../Redux/journals/journals.selectors'
 import { withRouter } from 'react-router-dom'
 import { formSelector } from '../../Redux/form/form.selectors'
 import { notifyFriendsFailure, notifyFriendsStart } from '../../Redux/notifications/notifications.actions';
+import { fetchTagsStart } from '../../Redux/user/user.actions';
 
 const { TextArea } = Input
 const { Option } = Select
 
-const AddJournalForm = ({ submit, setFieldValue, currentUser: user, errorMessage, history, form, notifyFriends }) => {
+const AddJournalForm = ({ submit, setFieldValue, currentUser: user, errorMessage, history, form, notifyFriends , tags , fetchTags }) => {
 
     const currentDate = useCurrentTime()
+    const [includedTags, setTags] = useState([])
+
+    useEffect(() => {
+        if(tags.length<=0){
+            console.log('fetching tags from form');
+            fetchTags()
+        }
+
+    }, [tags,fetchTags])
+
+    useEffect(() => {
+        console.log('current tags: ',includedTags);
+        
+    }, [includedTags])
 
     const onFinish = (values) => {
 
         const { uid, displayName } = user
-        submit({ ...values, uid, displayName, isMorningReport: form.isMorningReport })
+        submit({ ...values, uid, displayName, isMorningReport: form.isMorningReport,tags:includedTags })
         // await notifyFriends('SUBMITTED_REPORT')
         message.success('Journal successfully added')
         console.log('history: ', history);
         history.push('/')
     };
 
+    const getIncludedTags = (words)=>{
+        const res = []
+        words.forEach(word=>{
+            if(tags.indexOf(word)>-1){
+                res.push(word)
+            }
+        })
+        return res
+    }
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
         message.error('Journal submittion failed, Please try again later')
@@ -47,8 +71,12 @@ const AddJournalForm = ({ submit, setFieldValue, currentUser: user, errorMessage
             console.log(`going to store  on blur`);
             setFieldValue(id, value)
             //TODO: add tag generator logic here
-            const results = retrieveUniqueWordsFromString(value)
-            console.log('words', results);
+            const words = retrieveUniqueWordsFromString(value)
+            const usedTags = getIncludedTags(words)
+            const temp = usedTags.concat(includedTags)
+            console.log('temp: ',temp);
+            console.log('used: ',usedTags);
+            setTags([...new Set(temp)])
         }
     }
 
@@ -188,7 +216,7 @@ const AddJournalForm = ({ submit, setFieldValue, currentUser: user, errorMessage
                         max={2}
                         placeholder={'Mood'}
                         onBlur={storeDataOnBlur}
-                        formatter={formatMoodOptions}
+                        // formatter={formatMoodOptions}
                     />
                 </Form.Item>
 
@@ -277,12 +305,14 @@ const AddJournalForm = ({ submit, setFieldValue, currentUser: user, errorMessage
 const mapDispatchToProps = (dispatch) => ({
     submit: (journal) => dispatch(submitJournalStart(journal)),
     setFieldValue: (name, value) => dispatch(setFieldValue(name, value)),
-    notifyFriends: (notifType) => dispatch(notifyFriendsStart(notifType))
+    notifyFriends: (notifType) => dispatch(notifyFriendsStart(notifType)),
+    fetchTags:()=>dispatch(fetchTagsStart())
 })
 const mapStateToProps = createStructuredSelector({
     currentUser: currentUserSelector,
     errorMessage: submissionErrorSelector,
-    form: formSelector
+    form: formSelector,
+    tags:tagsSelector
 })
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AddJournalForm))

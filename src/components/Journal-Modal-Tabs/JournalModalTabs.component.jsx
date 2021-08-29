@@ -2,6 +2,8 @@ import React from 'react'
 import { Tabs } from 'antd'
 import { FiMoon, FiSun } from 'react-icons/fi'
 import JournalModalTabsContent from '../Journal-Modal-Tabs-Content/JournalModalTabsContent.component'
+import { TagsOutlined } from '@ant-design/icons'
+import TagsDisplay from '../TagsDisplay/TagsDisplay.component'
 
 
 const { TabPane } = Tabs
@@ -20,7 +22,8 @@ const JournalModalTabs = ({
     tension,
     tension2,
     strongestEmotion,
-    strongestEmotion2
+    strongestEmotion2,
+    tags
 
 }) => {
 
@@ -51,6 +54,22 @@ const JournalModalTabs = ({
                 <JournalModalTabsContent data={evening} />
 
             </TabPane>
+            {
+                tags?.length>0 &&
+                <TabPane
+                tab={
+                    <span>
+                        <TagsOutlined />
+                        Tags
+                    </span>
+                }
+                key="3"
+            >
+                {/* <JournalModalTabsContent data={tags} /> */}
+                <TagsDisplay tags={tags}/>
+
+            </TabPane>
+            }
         </Tabs>
     )
 }
