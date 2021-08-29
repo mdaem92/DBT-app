@@ -16,7 +16,10 @@ const titleHandler = {
     tension:'Tension',
     tension2:'Tension',
     strongestEmotion:'Strongest emotion',
-    strongestEmotion2:'Strongest emotion'
+    strongestEmotion2:'Strongest emotion',
+    eveningSubmissionTime:'Time submitted',
+    morningSubmissionTime:'Time submitted',
+
 }
 
 const JournalModalTabsContent = ({data}) => {

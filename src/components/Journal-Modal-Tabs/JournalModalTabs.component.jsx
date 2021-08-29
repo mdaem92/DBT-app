@@ -23,12 +23,14 @@ const JournalModalTabs = ({
     tension2,
     strongestEmotion,
     strongestEmotion2,
-    tags
+    tags,
+    morningSubmissionTime,
+    eveningSubmissionTime
 
 }) => {
 
-    const morning = { lastNightSummary, todaysGoal, strongestEmotion, mood, tension, additionalNotesMorning }
-    const evening = { goalDescription, strongestEmotion2, positiveReport, selfEsteemReport, mood2, tension2, additionalNotesEvening }
+    const morning = { lastNightSummary, todaysGoal, strongestEmotion, mood, tension, additionalNotesMorning,morningSubmissionTime }
+    const evening = { goalDescription, strongestEmotion2, positiveReport, selfEsteemReport, mood2, tension2, additionalNotesEvening,eveningSubmissionTime }
     return (
         <Tabs defaultActiveKey="1" >
             <TabPane

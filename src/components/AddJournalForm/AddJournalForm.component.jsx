@@ -12,7 +12,7 @@ import { currentUserSelector, tagsSelector } from '../../Redux/user/user.selecto
 import { submissionErrorSelector } from '../../Redux/journals/journals.selectors'
 import { withRouter } from 'react-router-dom'
 import { formSelector } from '../../Redux/form/form.selectors'
-import { notifyFriendsFailure, notifyFriendsStart } from '../../Redux/notifications/notifications.actions';
+import { notifyFriendsStart } from '../../Redux/notifications/notifications.actions';
 import { fetchTagsStart } from '../../Redux/user/user.actions';
 
 const { TextArea } = Input
@@ -36,10 +36,18 @@ const AddJournalForm = ({ submit, setFieldValue, currentUser: user, errorMessage
         
     }, [includedTags])
 
+    const currentTime = useCurrentTime()
+
     const onFinish = (values) => {
 
         const { uid, displayName } = user
-        submit({ ...values, uid, displayName, isMorningReport: form.isMorningReport,tags:includedTags })
+
+        const name = isMorningReport?'morningSubmissionTime':'eveningSubmissionTime'
+        const temp = {
+            ...values,
+            [name]:currentTime.format('HH:mm')
+        }
+        submit({ ...temp, uid, displayName, isMorningReport: form.isMorningReport,tags:includedTags })
         // await notifyFriends('SUBMITTED_REPORT')
         message.success('Journal successfully added')
         console.log('history: ', history);
