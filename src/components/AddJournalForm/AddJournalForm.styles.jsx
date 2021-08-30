@@ -54,6 +54,10 @@ export const RowContainer = styled.div`
     .ant-input-number{
         width: 25vw;
     }
+    /* .ant-form-item .ant-select, .ant-form-item .ant-cascader-picker{
+        width:300px;
+
+    } */
     @media screen and (max-width:800px){
         width:80vw;
     }
