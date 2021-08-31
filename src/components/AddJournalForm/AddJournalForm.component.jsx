@@ -8,7 +8,7 @@ import { submitJournalStart } from '../../Redux/journals/journals.actions'
 import useCurrentTime from '../../hooks/useCurrentTime'
 import { setFieldValue } from '../../Redux/form/form.actions'
 import { createStructuredSelector } from 'reselect'
-import { currentUserSelector, tagsSelector } from '../../Redux/user/user.selectors'
+import { currentUserSelector, deadlineDataSelector, tagsSelector } from '../../Redux/user/user.selectors'
 import { submissionErrorSelector } from '../../Redux/journals/journals.selectors'
 import { withRouter } from 'react-router-dom'
 import { formSelector } from '../../Redux/form/form.selectors'
@@ -18,7 +18,7 @@ import { fetchTagsStart } from '../../Redux/user/user.actions';
 const { TextArea } = Input
 const { Option } = Select
 
-const AddJournalForm = ({ submit, setFieldValue, currentUser: user, errorMessage, history, form, notifyFriends, tags, fetchTags }) => {
+const AddJournalForm = ({ submit, setFieldValue, currentUser: user, errorMessage, history, form, notifyFriends, tags, fetchTags , deadlineData }) => {
 
     const currentDate = useCurrentTime()
     const [includedTags, setTags] = useState([])
@@ -39,8 +39,8 @@ const AddJournalForm = ({ submit, setFieldValue, currentUser: user, errorMessage
     const onFinish = (values) => {
 
         const { uid, displayName } = user
-
-        submit({ ...values, uid, displayName, isMorningReport: form.isMorningReport, tags: includedTags })
+        const {morningDeadline,eveningDeadline} = deadlineData
+        submit({ ...values, uid, displayName, isMorningReport: form.isMorningReport, tags: includedTags,morningDeadline,eveningDeadline })
         // await notifyFriends('SUBMITTED_REPORT')
         message.success('Journal successfully added')
         console.log('history: ', history);
@@ -81,10 +81,10 @@ const AddJournalForm = ({ submit, setFieldValue, currentUser: user, errorMessage
         }
     }
 
-    const handleClear = (fieldName) => {
-        console.log('clearing', fieldName);
-        setFieldValue(fieldName, undefined)
-    }
+    // const handleClear = (fieldName) => {
+    //     console.log('clearing', fieldName);
+    //     setFieldValue(fieldName, undefined)
+    // }
 
 
     const handleFieldChange = (fieldName, val) => {
@@ -96,17 +96,17 @@ const AddJournalForm = ({ submit, setFieldValue, currentUser: user, errorMessage
         return setFieldValue(fieldName, val.target.value)
     }
 
-    const formatMoodOptions = (value) => {
-        const formatter = {
-            '2': '++',
-            '1': '+',
-            '0': '+-',
-            '-1': '-',
-            '-2': '--'
-        }
-        return formatter[value]
+    // const formatMoodOptions = (value) => {
+    //     const formatter = {
+    //         '2': '++',
+    //         '1': '+',
+    //         '0': '+-',
+    //         '-1': '-',
+    //         '-2': '--'
+    //     }
+    //     return formatter[value]
 
-    }
+    // }
 
     // console.log('current form: ', form);
     const { date, isMorningReport, ...initialValues } = form
@@ -309,7 +309,8 @@ const mapStateToProps = createStructuredSelector({
     currentUser: currentUserSelector,
     errorMessage: submissionErrorSelector,
     form: formSelector,
-    tags: tagsSelector
+    tags: tagsSelector,
+    deadlineData:deadlineDataSelector
 })
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AddJournalForm))

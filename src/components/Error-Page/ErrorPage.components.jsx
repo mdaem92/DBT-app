@@ -1,5 +1,5 @@
 import React from 'react';
-import {ErrorPageContainer , ImageContainer ,TextContainer, ErrorImage}from './ErrorPage.styles'
+import {ErrorPageContainer  ,TextContainer, ErrorImage}from './ErrorPage.styles'
 // import {ReactComponent as Logo} from '../../assets/engine-light.svg'
 import catError from '../../assets/catError.png'
 

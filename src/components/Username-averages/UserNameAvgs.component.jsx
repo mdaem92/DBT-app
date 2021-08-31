@@ -5,7 +5,6 @@ import {FormOutlined , SmileOutlined , FireOutlined} from '@ant-design/icons'
 import {connect} from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import { entriesCountSelector, moodsAverageSelector, tensionsAverageSelector } from '../../Redux/journals/journals.selectors'
-import useCurrentUser from '../../hooks/useCurrentUser'
 import { currentUserSelector } from '../../Redux/user/user.selectors'
 
 const moodHandler = {

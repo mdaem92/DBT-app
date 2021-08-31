@@ -25,7 +25,9 @@ const JournalModalTabs = ({
     strongestEmotion2,
     tags,
     morningSubmissionTime,
-    eveningSubmissionTime
+    eveningSubmissionTime,
+    morningDeadline,
+    eveningDeadline
 
 }) => {
 
@@ -42,7 +44,7 @@ const JournalModalTabs = ({
                 }
                 key="1"
             >
-                <JournalModalTabsContent data={morning} />
+                <JournalModalTabsContent data={morning} deadline={morningDeadline} isMorning={true} />
             </TabPane>
             <TabPane
                 tab={
@@ -53,7 +55,7 @@ const JournalModalTabs = ({
                 }
                 key="2"
             >
-                <JournalModalTabsContent data={evening} />
+                <JournalModalTabsContent data={evening} deadline={eveningDeadline} isMorning={false} />
 
             </TabPane>
             {

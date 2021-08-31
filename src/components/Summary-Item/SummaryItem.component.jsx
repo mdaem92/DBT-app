@@ -1,7 +1,7 @@
 import React from 'react'
 import { SummaryItemContainer, ItemContainer, ValueContainer } from './SummaryItem.styles'
 import { FiMoon, FiSun } from 'react-icons/fi'
-import { FormOutlined, SmileOutlined, FireOutlined } from '@ant-design/icons'
+import { SmileOutlined, FireOutlined } from '@ant-design/icons'
 
 const SummaryItem = ({ morning, mood, tension }) => {
     return (

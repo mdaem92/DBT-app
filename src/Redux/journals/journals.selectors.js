@@ -1,7 +1,5 @@
 import { createSelector } from 'reselect'
 import moment from 'moment'
-import { currentPageSelector, pageSizeSelector } from '../pagination/pagination.selectors'
-
 export const journalsArraySelector = ({ journals: { journals } }) => journals
 export const isJournalsFetchedSelector = ({ journals: { isJournalsFetched } }) => isJournalsFetched
 const paginationDataSelector = ({pagination})=>pagination

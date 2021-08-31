@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import React, { useEffect } from 'react'
 import { createStructuredSelector } from 'reselect'
-import { filteredSortedJournalsSelector, isJournalsFetchedSelector, journalsTotalCountSelector, paginatedFilteredSortedJournalsSelector } from '../../Redux/journals/journals.selectors'
+import {  isJournalsFetchedSelector, journalsTotalCountSelector, paginatedFilteredSortedJournalsSelector } from '../../Redux/journals/journals.selectors'
 import Journal from '../../components/Journal/Journal.component'
 import { JournalsContainer, JournalsPageContainer, SidePanelProfileContainer , PaginationContainer } from './JournalsPage.styles'
 import UserProfile from '../../components/User-profile/UserProfile.component'

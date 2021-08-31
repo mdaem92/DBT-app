@@ -1,5 +1,5 @@
 import {Tabs} from 'antd'
-import styled,{css} from 'styled-components'
+import styled from 'styled-components'
 
 const {TabPane} = Tabs
 export const TabPaneContainer = styled((props)=><TabPane {...props}/>)`

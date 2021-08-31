@@ -1,5 +1,5 @@
 import React from 'react'
-import {ContentContainer,ItemContainer,TitleContainer} from './JournalModalTabsContent.styles'
+import {ContentContainer,ItemContainer} from './JournalModalTabsContent.styles'
 import Paragraph from '../Paragraph/Paragraph.component'
 
 
@@ -22,7 +22,7 @@ const titleHandler = {
 
 }
 
-const JournalModalTabsContent = ({data}) => {
+const JournalModalTabsContent = ({data,deadline,isMorning}) => {
     const keys = Object.keys(data)
     const values = Object.values(data)
 
@@ -30,7 +30,7 @@ const JournalModalTabsContent = ({data}) => {
         <ContentContainer>
             <ItemContainer>
                 {
-                    keys.map((key,index)=><Paragraph key={index} title={titleHandler[key]} content={values[index]}/>)
+                    keys.map((key,index)=><Paragraph key={index} title={titleHandler[key]} content={values[index]} deadline={deadline} isMorning={isMorning} timeSubmitted={!!isMorning?data.morningSubmissionTime:data.eveningSubmissionTime} />)
                 }
             </ItemContainer>
         </ContentContainer>

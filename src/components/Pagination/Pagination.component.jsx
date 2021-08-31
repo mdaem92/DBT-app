@@ -5,7 +5,6 @@ import {connect,useSelector} from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import { currentPageSelector, pageSizeSelector } from '../../Redux/pagination/pagination.selectors'
 import { setCurrentPage, setPageCount } from '../../Redux/pagination/pagination.actions'
-import { journalsTotalCountSelector } from '../../Redux/journals/journals.selectors'
 
 const Pagination = ({isOwnJournals , total , setCurrentPage,setPageCount}) => {
     const currentPage = useSelector((state) => currentPageSelector(state, isOwnJournals?'ownCurrentPage':'friendCurrentPage'))

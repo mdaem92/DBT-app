@@ -8,7 +8,6 @@ import { createStructuredSelector } from 'reselect'
 import { fetchJournalsStart } from '../../Redux/journals/journals.actions'
 import { isJournalsFetchedSelector } from '../../Redux/journals/journals.selectors'
 import { currentUserSelector } from '../../Redux/user/user.selectors'
-import { isMembersFetchedSelector } from '../../Redux/members/members.selectors'
 import { isNotificationsFetchedSelector, notificationsSelector } from '../../Redux/notifications/notifications.selectors'
 import { setCurrentNotifications } from '../../Redux/notifications/notifications.actions'
 

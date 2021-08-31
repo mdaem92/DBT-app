@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { Select ,Input  } from 'antd'
+import React from 'react'
+import { Input  } from 'antd'
 import { Container } from './user-search-select.styles'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'

@@ -1,12 +1,10 @@
 import { call, all, put, takeLatest } from 'redux-saga/effects'
 import UserActionTypes from './user.types'
-import { auth, createUserProfile, firestore, getUserAuth, googleAuthProvider, signInWithGoogle } from "../../firebase/firebase.utils";
+import { auth, createUserProfile, firestore, signInWithGoogle } from "../../firebase/firebase.utils";
 import {
-    signInStart,
     signInSuccess,
     signInFailure,
     signOutFailure,
-    signOutStart,
     signOutSuccess,
     addTeammateFailure,
     addTeammateSuccess,
@@ -140,6 +138,7 @@ function* setDeadlineAsync({ deadlineType, value }) {
 
 function* fetchDeadlineAsync() {
     try {
+        console.log(auth.currentUser);
         const uid = auth.currentUser.uid
         const docRef = yield firestore.doc(`users/${uid}`)
         const deadlineDoc = yield docRef.get()
@@ -155,12 +154,8 @@ function* fetchDeadlineAsync() {
 
 const getIdToRemove = (snapshot,tag)=>{
 
-    return snapshot.docs.reduce((acc,doc)=>{
-        if(doc.data().tag===tag){
-            acc = doc.id
-            return acc
-        }
-    },0)
+    const doc = snapshot.docs.find(doc=>doc.data().tag===tag)
+    return doc.id
 
 }
 

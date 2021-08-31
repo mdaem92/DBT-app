@@ -2,7 +2,6 @@ import React from 'react'
 import { withRouter } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { isFriendshipConfirmedSelector } from '../../Redux/user/user.selectors';
-import { Container } from './FriendOverviewPage.styles'
 import FriendOverview from '../../components/FriendOverview/FriendOverview.component.jsx';
 import { Redirect } from 'react-router-dom'
 

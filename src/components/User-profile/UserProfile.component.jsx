@@ -85,7 +85,7 @@ const UserProfile = ({
             })
         }
 
-    }, [])
+    }, [friendDateFrom,friendDateTo,match.path,ownFilters.dateFrom,ownFilters.dateTo])
 
     useEffect(() => {
 

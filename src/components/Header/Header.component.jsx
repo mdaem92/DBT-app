@@ -1,6 +1,6 @@
 import React from 'react'
-import { Menu, Dropdown, Badge } from 'antd'
-import { NavLink, Link } from 'react-router-dom'
+import { Menu, Dropdown } from 'antd'
+import { NavLink } from 'react-router-dom'
 import useWindowSize from '../../hooks/useWindowSize'
 import { HeaderContainer, IconContainer, MobileTopBarContainer, NavContainer } from './Header.styles'
 import { MenuOutlined } from '@ant-design/icons'

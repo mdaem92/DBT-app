@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { firestore } from '../firebase/firebase.utils'
-import _ from 'lodash'
 
 
 const useLatestNotifications = (uid) => {

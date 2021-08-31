@@ -2,16 +2,13 @@ import {
     LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Label
 } from 'recharts';
 import React from 'react'
-import { Select } from 'antd'
-import { Container, ChartPaginationContainer } from './ResponsiveChart.styles'
+import { Container } from './ResponsiveChart.styles'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect';
 import { entriesPerChartSelector } from '../../Redux/journals/journals.selectors'
 import { setFieldValue } from '../../Redux/journals/journals.actions'
 import useWindowSize from '../../hooks/useWindowSize';
 
-
-const { Option } = Select
 
 
 const ResponsiveLine = ({ xAxisTitle, yAxisTitle, min, max, data, label, domain, entriesPerChart }) => {
@@ -48,9 +45,7 @@ const ResponsiveLine = ({ xAxisTitle, yAxisTitle, min, max, data, label, domain,
 
     const [date, morningDataKey, eveningDataKey] = extractDataKeys()
 
-    const handleEntriesPerChart = () => {
-
-    }
+   
 
     return data.length > 0 ?
         (
