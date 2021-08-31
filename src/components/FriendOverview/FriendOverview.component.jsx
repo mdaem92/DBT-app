@@ -24,7 +24,7 @@ const FriendOverview = ({ id, showGraph, dateFrom, dateTo }) => {
     const [moodData, setmoodData] = useState([])
     const [tensionData, settensionData] = useState([])
     const [entriesPerChart, setEntriesPerChart] = useState(7)
-    const chartJournals =useFriendJournals(id,entriesPerChart)
+    const chartJournals =useFriendJournals(id,undefined,undefined,undefined,undefined,entriesPerChart)
 
 
 

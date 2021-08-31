@@ -17,7 +17,8 @@ const Notification = ({ senderName, senderId, photoURL, type, responded, current
     const labels = {
         "ADD_REQUEST": "requested access.",
         "SUBMITTED_REPORT": "submitted report.",
-        "MISSED_DEADLINE": "missed deadline.",
+        "EVENING_DEADLINE_MISSED": "missed evening deadline.",
+        "MORNING_DEADLINE_MISSED": "missed morning deadline.",
         "ACCEPTED_REQUEST": "Accepted your request."
     }
 
@@ -77,7 +78,7 @@ const Notification = ({ senderName, senderId, photoURL, type, responded, current
         <Container>
             <ImageContainer imageUrl={photoURL} rel={'noreferer'} />
             <ContentContainer onClick={handleViewNotif}>
-                {`${senderName} has ${labels[type]}`}
+                {`${senderName===currentUser.displayName? 'You have ':`${senderName} has `} ${labels[type]}`}
             </ContentContainer>
             <ButtonsContainer >
                 {

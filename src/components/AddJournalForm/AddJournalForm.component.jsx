@@ -36,18 +36,11 @@ const AddJournalForm = ({ submit, setFieldValue, currentUser: user, errorMessage
 
     }, [includedTags])
 
-    const currentTime = useCurrentTime()
-
     const onFinish = (values) => {
 
         const { uid, displayName } = user
 
-        const name = isMorningReport ? 'morningSubmissionTime' : 'eveningSubmissionTime'
-        const temp = {
-            ...values,
-            [name]: currentTime.format('HH:mm')
-        }
-        submit({ ...temp, uid, displayName, isMorningReport: form.isMorningReport, tags: includedTags })
+        submit({ ...values, uid, displayName, isMorningReport: form.isMorningReport, tags: includedTags })
         // await notifyFriends('SUBMITTED_REPORT')
         message.success('Journal successfully added')
         console.log('history: ', history);

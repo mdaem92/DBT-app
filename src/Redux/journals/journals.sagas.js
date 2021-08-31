@@ -13,16 +13,21 @@ export function* submitJournalAsync({ journal: { uid, displayName, date, isMorni
 
     const timestamp = Timestamp.fromDate(date.toDate())
     // const submittedTimestamp = Timestamp.fromDate(date.toDate())
+    const name = isMorningReport ? 'morningSubmissionTime' : 'eveningSubmissionTime'
+    const temp = {
+        ...journalData,
+        [name]: date.format('HH:mm')
+    }
     try {
 
         yield firestore
             .doc(`users/${uid}`)
             .collection('journals')
             .doc(`${date.format('DD MM YYYY')}`)
-            .set({ ...journalData, date: timestamp }, { merge: true })
+            .set({ ...temp, date: timestamp }, { merge: true })
         
       
-        yield put(submitJournalSuccess({ ...journalData, uid, displayName, date:date.format('DMMM YY'), isMorningReport }))
+        yield put(submitJournalSuccess({ ...temp, uid, displayName, date:date.format('DMMM YY'), isMorningReport }))
         yield put(notifyFriendsStart('SUBMITTED_REPORT'))
 
     } catch (error) {

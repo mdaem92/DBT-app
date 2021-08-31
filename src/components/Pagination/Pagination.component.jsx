@@ -33,7 +33,7 @@ const Pagination = ({isOwnJournals , total , setCurrentPage,setPageCount}) => {
                 showSizeChanger
                 size={'small'}
                 onShowSizeChange={handleSizeChange}
-                pageSizeOptions={['10','20','30','40','50']}
+                pageSizeOptions={isOwnJournals?['10','20','30','40','50']:['10']}
                 onChange={handleChange}
             />
         </Container>

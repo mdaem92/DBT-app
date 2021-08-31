@@ -9,11 +9,9 @@ import ChartPagination from '../Chart-Pagination/Chart-pagination.component'
 
 const { TabPane } = Tabs
 
-const HomepageTabs = ({ moodData, tensionData }) => {
+const HomepageTabs = ({ moodData, tensionData }) => {   
 
-    const handleChange = () => {
 
-    }
 
     console.log("mood data \n",moodData);
     return (

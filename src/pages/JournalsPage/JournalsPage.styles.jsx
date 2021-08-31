@@ -73,7 +73,11 @@ export const SidePanelProfileContainer = styled.div`
 export const PaginationContainer = styled.div`
     grid-area: pagination;
     display: flex;
-    justify-self: center;
+    /* justify-self: center; */
+    justify-content: center;
+
     margin-top: 20px;
-    
+    @media screen and (max-width:800px){
+
+    }
 `

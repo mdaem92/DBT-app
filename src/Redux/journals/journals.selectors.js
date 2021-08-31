@@ -37,15 +37,19 @@ export const paginatedMoodsSelector = createSelector(
     moodsSelector,
     entriesPerChartSelector,
     (journals, entriesPerChart) =>
-        journals.slice(entriesPerChart * -1)
+        // journals.slice(entriesPerChart * -1)
+        journals.slice(0,entriesPerChart > 0 ?entriesPerChart+1:journals.length)
         .sort((a, b) => moment(a.date) > moment(b.date) ? 1 : -1)
 )
 export const paginatedTensionsSelector = createSelector(
     tensionsSelector,
     entriesPerChartSelector,
-    (journals, entriesPerChart) =>
-        journals.slice(entriesPerChart * -1)
+    (journals, entriesPerChart) =>{
+        console.log('journals from selector: ',journals);
+        // return journals.slice(entriesPerChart * -1)
+        return journals.slice(0,entriesPerChart > 0 ?entriesPerChart+1:journals.length)
         .sort((a, b) => moment(a.date) > moment(b.date) ? 1 : -1)
+    }
 )
 
 export const entriesCountSelector = createSelector(

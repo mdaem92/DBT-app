@@ -4,7 +4,7 @@ import moment from 'moment'
 
 const useFriendJournals = (id,dateFrom=undefined,dateTo=undefined,currentPage=undefined,pageSize=undefined,entriesPerChart=undefined)=>{
     const [journals, setJournals] = useState([])
-
+    console.log('got  ',id,dateFrom,dateTo,currentPage,pageSize,entriesPerChart);
     const getFriendLatestJournals = ()=>{
         console.log(`show date from ${dateFrom} to ${dateTo}`);
         const collectionRef = firestore.collection(`users/${id}/journals`)

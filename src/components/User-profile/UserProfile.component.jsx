@@ -135,6 +135,10 @@ const UserProfile = ({
         toggleView()
     }
 
+    const handleDisableDate = (currentDate)=>{
+        return dateRange.dateFrom==null?false:dateRange.dateFrom>=currentDate
+    }
+
     return (
         <div>
             <ProfileContainer>
@@ -175,10 +179,10 @@ const UserProfile = ({
                     }
                     <SubMenu key='filters' icon={<SlidersOutlined />} title={'Filter Journals'} color={'white'} onTitleClick={handleMoveProfileImage}>
                         <Menu.Item key='dateFrom'>
-                            <DatePicker placeholder={'Date From'} onChange={handleDateChange.bind(this, 'dateFrom')} bordered={false} value={dateRange.dateFrom} />
+                            <DatePicker placeholder={'Date From'} onChange={handleDateChange.bind(this, 'dateFrom')} bordered={false} value={dateRange.dateFrom} disabledDate={handleDisableDate} />
                         </Menu.Item>
                         <Menu.Item key='dateTo'>
-                            <DatePicker placeholder={'Date To'} onChange={handleDateChange.bind(this, 'dateTo')} bordered={false} value={dateRange.dateTo} />
+                            <DatePicker placeholder={'Date To'} onChange={handleDateChange.bind(this, 'dateTo')} bordered={false} value={dateRange.dateTo} disabledDate={handleDisableDate}/>
                         </Menu.Item>
                     </SubMenu>
                     <Menu.Item

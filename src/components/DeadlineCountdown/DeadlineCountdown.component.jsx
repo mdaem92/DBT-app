@@ -5,13 +5,14 @@ import moment from 'moment'
 import { CountdownContainer , DeadlineSwitchSettingContainer } from './DeadlineCountdown.styles'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
-import { deadlineDataSelector } from '../../Redux/user/user.selectors'
+import { currentUserSelector, deadlineDataSelector } from '../../Redux/user/user.selectors'
 import DeadlineSwitchSetting from '../Deadline-Switch-setting/DeadlineSwitchSetting.component'
 import { fetchDeadlineStart } from '../../Redux/user/user.actions'
+import { sendRequestStart } from '../../Redux/notifications/notifications.actions'
 
 const { Countdown } = Statistic
 
-const DeadlineCountdown = ({ deadlineData , fetchDeadlines }) => {
+const DeadlineCountdown = ({ deadlineData , fetchDeadlines , sendRequest , currentUser }) => {
     const currentTime = useCurrentTime()
 
     useEffect(() => {
@@ -23,6 +24,14 @@ const DeadlineCountdown = ({ deadlineData , fetchDeadlines }) => {
 
     const onFinish = () => {
         console.log('deadline finished');
+        // const eveningDeadline = moment(eveningEnd, "HH:mm")
+        // const morningDeadline = moment(morningEnd, 'HH:mm')
+        // if (currentTime<morningDeadline){
+        //     sendRequest(currentUser,currentUser.uid,'EVENING_DEADLINE_MISSED')
+        // }
+        // if(currentTime<eveningDeadline){
+        //     sendRequest(currentUser,currentUser.uid,'MORNING_DEADLINE_MISSED')
+        // }
     }
 
     const {morningDeadline:morningEnd,eveningDeadline:eveningEnd} = deadlineData
@@ -75,10 +84,12 @@ const DeadlineCountdown = ({ deadlineData , fetchDeadlines }) => {
 }
 
 const mapStateToProps = createStructuredSelector({
-    deadlineData: deadlineDataSelector
+    deadlineData: deadlineDataSelector,
+    currentUser:currentUserSelector
 })
 const mapDispatchToProps = (dispatch)=>({
-    fetchDeadlines:()=>dispatch(fetchDeadlineStart())
+    fetchDeadlines:()=>dispatch(fetchDeadlineStart()),
+    sendRequest:(sender,receiverId,type)=>dispatch(sendRequestStart(sender,receiverId,type))
 })
 
 export default connect(mapStateToProps,mapDispatchToProps)(DeadlineCountdown)
