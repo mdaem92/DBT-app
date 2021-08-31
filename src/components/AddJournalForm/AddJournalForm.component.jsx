@@ -117,7 +117,7 @@ const AddJournalForm = ({ submit, setFieldValue, currentUser: user, errorMessage
             onFinishFailed={onFinishFailed}
             initialValues={initialValues}
 
-        // onKeyDown={preventSubmitOnEnter}
+        
 
         >
             <RowContainer>
