@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { Menu } from 'antd'
 
 export const JournalsContainer = styled.div`
@@ -80,4 +80,7 @@ export const PaginationContainer = styled.div`
     @media screen and (max-width:800px){
 
     }
+    ${props => props.isHidden && css`
+        display: none;
+    `}
 `

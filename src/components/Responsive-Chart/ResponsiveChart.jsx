@@ -45,59 +45,55 @@ const ResponsiveLine = ({ xAxisTitle, yAxisTitle, min, max, data, label, domain,
 
     const [date, morningDataKey, eveningDataKey] = extractDataKeys()
 
-   
 
-    return data.length > 0 ?
-        (
-            <Container>
-                <LineChart
-                    width={width >= 800 ? width*0.45 : width * 0.9}
-                    height={400}
-                    data={data}
-                    margin={width >= 800 ?
-                        {
-                            top: 5, right: 50, left: 50, bottom: 5,
-                        }
-                        :
-                        {
-                            top: 20, right: 5, left: 5, bottom: 20
-                        }
+
+    return (
+        <Container>
+            <LineChart
+                width={width >= 800 ? width * 0.45 : width * 0.9}
+                height={400}
+                data={data}
+                margin={width >= 800 ?
+                    {
+                        top: 5, right: 50, left: 50, bottom: 5,
                     }
-                    
+                    :
+                    {
+                        top: 20, right: 5, left: 5, bottom: 20
+                    }
+                }
+
+            >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey={date} />
+                <YAxis
+                    orientation='left'
+                    yAxisId='left'
+                    domain={domain}
+                    tickFormatter={moodTickFormatter}
+                    fontSize={16}
                 >
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey={date} />
-                    <YAxis
-                        orientation='left'
-                        yAxisId='left'
-                        domain={domain}
-                        tickFormatter={moodTickFormatter}
-                        fontSize={16}
-                    >
-                        <Label
-                            value={label}
-                            angle={-90}
-                            position='outside'
-                            fill='#676767'
-                            fontSize={14}
-                        />
-                    </YAxis>
-                    <Tooltip
-                    // for custom tooltip component 
-                    // content={renderTooltip}
+                    <Label
+                        value={label}
+                        angle={-90}
+                        position='outside'
+                        fill='#676767'
+                        fontSize={14}
                     />
-                    <Legend formatter={legendFormatter} />
-                    <Line type="monotone" yAxisId='left' dataKey={morningDataKey} stroke="#1890ff" activeDot={{ r: 8 }} />
-                    <Line type="monotone" yAxisId='left' dataKey={eveningDataKey} stroke="#5f5f5f" activeDot={{ r: 8 }} />
+                </YAxis>
+                <Tooltip
+                // for custom tooltip component 
+                // content={renderTooltip}
+                />
+                <Legend formatter={legendFormatter} />
+                <Line type="monotone" yAxisId='left' dataKey={morningDataKey} stroke="#1890ff" activeDot={{ r: 8 }} />
+                <Line type="monotone" yAxisId='left' dataKey={eveningDataKey} stroke="#5f5f5f" activeDot={{ r: 8 }} />
 
-                </LineChart>
-            </Container>
+            </LineChart>
+        </Container>
 
-        )
-        :
-        (
-            <div>nothing to see here</div>
-        )
+    )
+
 }
 
 const mapStateToProps = createStructuredSelector({

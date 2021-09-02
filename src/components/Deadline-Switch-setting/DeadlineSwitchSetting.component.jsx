@@ -23,7 +23,13 @@ const DeadlineSwitchSetting = ({deadlineData,setDeadline,fetchDeadlineData}) => 
         if(typeof morningDeadline ==='undefined'|| typeof eveningDeadline ==='undefined'){
             fetchDeadlineData()
         }
-        setValue(isMorningDeadline? moment(morningDeadline,'HH:mm') :moment(eveningDeadline,'HH:mm'))
+        // setValue(isMorningDeadline? moment(morningDeadline,'HH:mm') :moment(eveningDeadline,'HH:mm'))
+        if(isMorningDeadline && !!morningDeadline){
+            setValue(moment(morningDeadline,'HH:mm'))
+        }else if(!!eveningDeadline){
+            setValue(moment(eveningDeadline,'HH:mm'))
+
+        }
         
     }, [fetchDeadlineData,morningDeadline,eveningDeadline,isMorningDeadline])
 
@@ -61,7 +67,8 @@ const DeadlineSwitchSetting = ({deadlineData,setDeadline,fetchDeadlineData}) => 
             />
             <TimePicker 
                 onChange={handleTimePicker}
-                value={ value } 
+                value={ value }
+                // defaultValue={undefined}
                 format={'HH:mm'}
                 allowClear
                 bordered={false}
