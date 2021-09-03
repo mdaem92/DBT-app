@@ -11,6 +11,11 @@ export const submitJournalSuccess = (journal)=>({
     journal
 })
 
+export const submitJournalFailure = (errorMessage)=>({
+    type:JournalsActionTypes.SUBMIT_JOURNAL_FAILURE,
+    errorMessage
+})
+
 export const fetchJournalsStart = (uid)=>({
     type:JournalsActionTypes.FETCH_JOURNALS_START,
     uid

@@ -96,7 +96,10 @@ export const tensionsAverageSelector = createSelector(
 
 export const submissionErrorSelector = createSelector(
     journalsSelector,
-    ({errorMessage})=>errorMessage
+    ({submissionErrorMessage})=>{
+        console.log('error message from selector: ',submissionErrorMessage);
+        return submissionErrorMessage
+    }
 )
 export const sortedJournalsSelector = createSelector(
     journalsArraySelector,

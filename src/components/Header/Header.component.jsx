@@ -26,7 +26,7 @@ const Header = ({ currentUser }) => {
         </Menu>
     )
     return (
-        <HeaderContainer id={'header-container'}>
+        !!currentUser && <HeaderContainer id={'header-container'}>
             <IconContainer>
                 DBT
             </IconContainer>

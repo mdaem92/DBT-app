@@ -1,6 +1,6 @@
 import { JournalsActionTypes } from './journals.types'
-import { editJournal, removeJournal, submitAndMergeJournal } from './journals.utils'
 import UserActionTypes from '../user/user.types'
+import { editJournal, removeJournal, submitAndMergeJournal } from './journals.utils'
 
 const defaultState = {
     isJournalsFetched: false,
@@ -8,7 +8,8 @@ const defaultState = {
     journals: [],
     entriesPerChart:7,
     dateFrom:undefined,
-    dateTo:undefined
+    dateTo:undefined,
+    submissionErrorMessage:undefined
 }
 
 const journalsReducer = (state = defaultState, action) => {
@@ -18,6 +19,7 @@ const journalsReducer = (state = defaultState, action) => {
             return {
                 ...state,
                 journals: submitAndMergeJournal(state.journals, action.journal),
+                submissionErrorMessage:undefined
 
             }
 
@@ -38,6 +40,7 @@ const journalsReducer = (state = defaultState, action) => {
                 journalsLoading:false,
                 isJournalsFetched:true
             }
+        
         case JournalsActionTypes.SET_DATE_FILTER_FIELD_VALUE:
             return{
                 ...state,
@@ -51,6 +54,17 @@ const journalsReducer = (state = defaultState, action) => {
             }
         case UserActionTypes.SIGN_OUT_SUCCESS:
             return defaultState
+        case JournalsActionTypes.SUBMIT_JOURNAL_START:
+            return{
+                ...state,
+                submissionErrorMessage:undefined
+            }
+        case JournalsActionTypes.SUBMIT_JOURNAL_FAILURE:
+            return{
+                ...state,
+                submissionErrorMessage:action.errorMessage
+
+            }
         default:
             return state;
     }

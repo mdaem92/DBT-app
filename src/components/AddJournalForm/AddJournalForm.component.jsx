@@ -22,29 +22,33 @@ const AddJournalForm = ({ submit, setFieldValue, currentUser: user, errorMessage
 
     const currentDate = useCurrentTime()
     const [includedTags, setTags] = useState([])
+    // const [error, seterror] = useState(errorMessage)
 
     useEffect(() => {
-        if (tags.length <= 0) {
-            console.log('fetching tags from form');
-            fetchTags()
-        }
 
-    }, [tags, fetchTags])
+        fetchTags()
+        // seterror(errorMessage)
+    }, [fetchTags])
 
-    useEffect(() => {
-        console.log('current tags: ', includedTags);
+    useEffect(()=>{
+        console.log('current errorrrrrrr: ',errorMessage);
+        
+    },[errorMessage])
 
-    }, [includedTags])
-
+    
     const onFinish = (values) => {
-
+        // seterror(undefined)
         const { uid, displayName } = user
         const {morningDeadline,eveningDeadline} = deadlineData
-        submit({ ...values, uid, displayName, isMorningReport: form.isMorningReport, tags: includedTags,morningDeadline,eveningDeadline })
-        // await notifyFriends('SUBMITTED_REPORT')
-        message.success('Journal successfully added')
-        console.log('history: ', history);
-        history.push('/')
+        if (morningDeadline && eveningDeadline){
+            submit({ ...values, uid, displayName, isMorningReport: form.isMorningReport, tags: includedTags,morningDeadline,eveningDeadline })
+            message.success('Journal successfully added')
+            history.push('/')
+
+        }else{
+            message.error('Deadlines are not set')
+        }
+        
     };
 
     const getIncludedTags = (words) => {
@@ -313,4 +317,6 @@ const mapStateToProps = createStructuredSelector({
     deadlineData:deadlineDataSelector
 })
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AddJournalForm))
+// export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AddJournalForm))
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(AddJournalForm))
+

@@ -1,7 +1,7 @@
-import { takeLatest, put} from 'redux-saga/effects'
+import { takeLatest, takeEvery,put} from 'redux-saga/effects'
 import { JournalsActionTypes } from './journals.types'
 import { firestore, Timestamp } from '../../firebase/firebase.utils'
-import { submitJournalSuccess,fetchJournalsFailure,fetchJournalsSuccess } from './journals.actions'
+import { submitJournalSuccess,fetchJournalsFailure,fetchJournalsSuccess, submitJournalFailure } from './journals.actions'
 import moment from 'moment';
 import { notifyFriendsStart } from '../notifications/notifications.actions';
 
@@ -32,6 +32,7 @@ export function* submitJournalAsync({ journal: { uid, displayName, date, isMorni
 
     } catch (error) {
         console.log(error);
+        yield put(submitJournalFailure(error.message))
     }
 }
 
@@ -63,7 +64,7 @@ export function* fetchJournalsAsync({uid}){
 }
 
 export function* submitJournalStart() {
-    yield takeLatest(
+    yield takeEvery(
         JournalsActionTypes.SUBMIT_JOURNAL_START,
         submitJournalAsync
     )

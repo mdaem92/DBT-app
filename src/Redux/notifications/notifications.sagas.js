@@ -1,4 +1,4 @@
-import { all, call, put, takeLatest } from "redux-saga/effects";
+import { all, call, put, takeLatest,takeEvery } from "redux-saga/effects";
 import { firestore,auth } from "../../firebase/firebase.utils";
 import { notifyFriendsFailure, notifyFriendsSuccess, removeNotificationsFailure, removeNotificationsSuccess, sendRequestFailure, sendRequestStart, sendRequestSuccess } from "./notifications.actions";
 import NotificationsActionTypes from './notifications.types'
@@ -86,7 +86,6 @@ function* notifyFriendsAsync({notifType}){
     console.log('notifying users');
     try {
         const uid = yield auth.currentUser.uid
-        yield console.log('url: ',auth.currentUser.photoURL);
         const friendsListRef = yield firestore.collection(`users/${uid}/friends`)
         const friendsListSnapshot = yield friendsListRef.get()
         console.log('friends snapshot: ',friendsListSnapshot , uid);
@@ -111,7 +110,7 @@ function* notifyFriendsAsync({notifType}){
 
 
 function* onSendRequestStart(){
-    yield takeLatest(
+    yield takeEvery(
         NotificationsActionTypes.SEND_REQUEST_START,
         sendRequestAsync
     )
@@ -125,7 +124,7 @@ function* onRemoveNotificationStart(){
 }
 
 function* onNotifyFriendsStart(){
-    yield takeLatest(
+    yield takeEvery(
         NotificationsActionTypes.NOTIFY_FRIENDS_START,
         notifyFriendsAsync
     )

@@ -23,7 +23,7 @@ const transformCircular = createTransform(
 const persistConfig = {
     key:'DBT::root',
     storage,
-    blacklist:['friendsOverviewPage','pagination'],
+    blacklist:['friendsOverviewPage','pagination','journals'],
     transforms:[transformCircular]
 }
 const persistedReducer = persistReducer(persistConfig,rootReducer)
