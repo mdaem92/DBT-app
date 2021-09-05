@@ -25,7 +25,7 @@ const HomepageTabs = ({ moodData, tensionData,history }) => {
         <div>
             <ChartPagination />
             <ChartsContainer homepage>
-                <NewResponsiveChart yAxisTitle={'Mood'} xAxisTitle={'Date'} data={moodData} label={'Mood'} domain={[-2, 2]} />
+                <NewResponsiveChart yAxisTitle={'Mood'} xAxisTitle={'Date'} data={moodData} label={'Mood'} domain={[1, 9]} />
                 <NewResponsiveChart yAxisTitle={'Tension'} xAxisTitle={'Date'} data={tensionData} label={'Tension'} domain={[0, 100]} />
             </ChartsContainer>
         </div>

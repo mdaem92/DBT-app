@@ -3,7 +3,7 @@ import {Container ,HourMinuteContainer } from './Time.styles'
 
 const Time = ({time}) => {
 
-    const hour = time.format('h')
+    const hour = time.format('HH')
     const minutes  = time.format('mm')
     return (
         <Container>

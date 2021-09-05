@@ -20,8 +20,31 @@ const ResponsiveLine = ({ xAxisTitle, yAxisTitle, min, max, data, label, domain,
         '-1': '-',
         '-2': '--'
     }
+    const newMoodAxis = {
+        // <Option value="9">++</Option>
+        // <Option value="8">++/+</Option>
+        // <Option value="7">+</Option>
+        // <Option value="6">+/+-</Option>
+        // <Option value="5">+-</Option>
+        // <Option value="4">+-/-</Option>
+        // <Option value="3">-</Option>
+        // <Option value="2">-/--</Option>
+        // <Option value="1">--</Option>
+        '9':'++',
+        '8':'++/+',
+        '7':'+',
+        '6':'+/+-',
+        '5':'+-',
+        '4':'+-/-',
+        '3':'-',
+        '2':'-/--',
+        '1':'--',
+        
 
-    const moodTickFormatter = (tick) => !!moodAxis[tick.toString()] ? moodAxis[tick.toString()] : tick
+
+    }
+
+    const moodTickFormatter = (tick) => !!newMoodAxis[tick.toString()] ? newMoodAxis[tick.toString()] : tick
 
     const width = useWindowSize()
 

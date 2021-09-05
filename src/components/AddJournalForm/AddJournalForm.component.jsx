@@ -212,11 +212,26 @@ const AddJournalForm = ({ submit, setFieldValue, currentUser: user, errorMessage
                         style={{width:'25vw'}}
                         onChange={handleFieldChange.bind(this, form?.isMorningReport ? 'mood' : 'mood2')}
                     >
-                        <Option value="2">++</Option>
+                        {/* <Option value="2">++</Option>
+                        <Option value="1.5">++/+</Option>
                         <Option value="1">+</Option>
+                        <Option value="0.5">+/+-</Option>
                         <Option value="0">+-</Option>
+                        <Option value="-0.5">+-/-</Option>
                         <Option value="-1">-</Option>
-                        <Option value="-2">--</Option>
+                        <Option value="-1.5">-/--</Option>
+                        <Option value="-2">--</Option> */}
+
+                        <Option value="9">++</Option>
+                        <Option value="8">++/+</Option>
+                        <Option value="7">+</Option>
+                        <Option value="6">+/+-</Option>
+                        <Option value="5">+-</Option>
+                        <Option value="4">+-/-</Option>
+                        <Option value="3">-</Option>
+                        <Option value="2">-/--</Option>
+                        <Option value="1">--</Option>
+                        
                     </Select>
 
                 </Form.Item>

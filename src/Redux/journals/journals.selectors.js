@@ -60,12 +60,43 @@ export const entriesCountSelector = createSelector(
     (journals) => journals.length
 )
 
+export const countWithMoodSubmitted = createSelector(
+    journalsArraySelector,
+    (journals)=>journals.reduce((acc,{mood,mood2})=>{
+      
+        if (!!mood && !!mood2){
+            return acc+=1
+        }else {
+            return acc+=0
+        }
+    },0)
+)
+
+export const countWithTensionSubmitted = createSelector(
+    journalsArraySelector,
+    (journals)=>journals.reduce((acc,{tension,tension2})=>{
+      
+        if (!!tension && !!tension2){
+            return acc+=1
+        }else {
+            return acc+=0
+        }
+    },0)
+)
+
 export const moodsSumSelector = createSelector(
     moodsSelector,
     (moods) => moods.reduce((acc, { mood, mood2 }) => {
-        const a = !isNaN(mood) ? parseInt(mood) : 0
-        const b = !isNaN(mood2) ? parseInt(mood2) : 0
-        return acc += (a + b) / 2
+        // const a = !isNaN(mood) ? parseInt(mood) : 0
+        // const b = !isNaN(mood2) ? parseInt(mood2) : 0
+        
+        // return acc += (a + b) 
+
+        if (!!mood && !! mood2){
+            return acc+=(parseFloat(mood)+parseFloat(mood2))/2
+        }else{
+            return acc+=0
+        }
     }, 0)
 
 )
@@ -73,23 +104,30 @@ export const moodsSumSelector = createSelector(
 export const tensionsSumSelector = createSelector(
     tensionsSelector,
     (tensions) => tensions.reduce((acc, { tension, tension2 }) => {
-        const a = !isNaN(tension) ? parseInt(tension) : 0
-        const b = !isNaN(tension2) ? parseInt(tension2) : 0
-        return acc += (a + b) / 2
+        // const a = !isNaN(tension) ? parseInt(tension) : 0
+        // const b = !isNaN(tension2) ? parseInt(tension2) : 0
+        // return acc += (a + b) 
+
+        if (!!tension && !! tension2){
+            return acc+=(parseInt(tension)+parseInt(tension2))/2
+        }else{
+            return acc+=0
+        }
     }, 0)
 )
 
 export const moodsAverageSelector = createSelector(
-    entriesCountSelector,
+    countWithMoodSubmitted,
     moodsSumSelector,
     (total, sum) => {
-        // console.log(`total: ${total} sum: ${sum}`);
-        // console.log(sum);
+        console.log(`total: ${total} sum: ${sum}`);
+        console.log(sum);
+        console.log('res: ',parseInt(sum/total));
         return parseInt(sum / total)
     }
 )
 export const tensionsAverageSelector = createSelector(
-    entriesCountSelector,
+    countWithTensionSubmitted,
     tensionsSumSelector,
     (total, sum) => parseInt(sum / total)
 )
