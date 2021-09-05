@@ -13,13 +13,7 @@ import useWindowSize from '../../hooks/useWindowSize';
 
 const ResponsiveLine = ({ xAxisTitle, yAxisTitle, min, max, data, label, domain, entriesPerChart }) => {
 
-    const moodAxis = {
-        '2': '++',
-        '1': '+',
-        '0': '+-',
-        '-1': '-',
-        '-2': '--'
-    }
+
     const newMoodAxis = {
         // <Option value="9">++</Option>
         // <Option value="8">++/+</Option>

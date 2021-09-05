@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { Input } from 'antd'
 import { Container } from './user-search-select.styles'
 import { connect } from 'react-redux'
@@ -17,12 +17,12 @@ const UserSearchSelect = ({ sendRequest, members, currentUser, isNotifLoading, n
         // console.log(value);
     }
 
-    const handleOk = () => {
-        // setsubmitPressed(false)
-        console.log('done');
-        // setsubmitted(false)
+    // const handleOk = () => {
+    //     // setsubmitPressed(false)
+    //     console.log('done');
+    //     // setsubmitted(false)
 
-    }
+    // }
 
     // const [submitted, setsubmitted] = useState(false)
     useEffect(() => {

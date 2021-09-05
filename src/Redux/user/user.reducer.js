@@ -1,5 +1,5 @@
 import UserActionTypes from './user.types'
-import { removeTag, removeTeammate ,addTeammate } from './user.utils'
+import { removeTag, removeTeammate  } from './user.utils'
 
 const defaultUserState = {
     currentUser:undefined,

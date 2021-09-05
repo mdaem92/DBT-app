@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { ProfileContainer, ProfileImage, AccountMenu } from './UserProfile.styles'
 // import useCurrentUser from '../../hooks/useCurrentUser'
-import { Menu, message, Modal, DatePicker } from 'antd'
+import { Menu, message, DatePicker } from 'antd'
 import { LogoutOutlined, SettingFilled, KeyOutlined, TeamOutlined, PlusOutlined, SlidersOutlined, UserOutlined, FieldTimeOutlined, TagsOutlined } from '@ant-design/icons'
 import { createStructuredSelector } from 'reselect'
 import { currentUserSelector, isTagsFetchedSelector, isTeammatesFetchedSelector } from '../../Redux/user/user.selectors'

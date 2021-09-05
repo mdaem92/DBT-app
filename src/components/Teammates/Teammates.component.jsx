@@ -4,7 +4,6 @@ import {connect} from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import {  teammatesSelector } from '../../Redux/user/user.selectors'
 import Teammate from '../Teammate/Teammate.component'
-import { fetchTeammatesStart } from '../../Redux/user/user.actions'
 
 
 
