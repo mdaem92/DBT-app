@@ -58,19 +58,19 @@ const UserProfile = ({
         })
     }
 
-    useEffect(() => {
-        const clearError = () => {
-            resetError()
-        }
-        if (!!notifError) {
-            Modal.error({
-                title: 'Error finding user',
-                content: 'The user with the given public key does not exist',
-                onOk: clearError
+    // useEffect(() => {
+    //     const clearError = () => {
+    //         resetError()
+    //     }
+    //     if (!!notifError) {
+    //         Modal.error({
+    //             title: 'Error sending friend request',
+    //             content: notifError,
+    //             onOk: clearError
 
-            })
-        }
-    }, [notifError, resetError])
+    //         })
+    //     }
+    // }, [notifError, resetError])
 
     useEffect(() => {
         if (match.path === "/:uid/overview") {

@@ -28,6 +28,21 @@ const getFriendsFromSnapshot = (snapshot)=>{
 
 }
 
+const checkIfNotifAlreadySent = (snapshot,notifType,notifSender)=>{
+    const index = snapshot.docs.findIndex((notification)=>{
+        const {type,senderId} = notification.data()
+        return type===notifType && notifSender === senderId
+    })
+    return index>-1
+}
+
+const checkFriendAlreadyExists = (snapshot,receiverId)=>{
+    const index = snapshot.docs.findIndex((notification)=>{
+        const {id} = notification.data()
+        return id ===receiverId
+    })
+    return index>-1
+}
 
 
 
@@ -41,21 +56,46 @@ function* sendRequestAsync({sender,receiverId,requestType}){
         const usersCollectionRef = yield firestore.collection('users')
         const usersCollectionSnapshot = yield usersCollectionRef.get()
         const uids = yield call(getUsersIdsFromSnapshot,usersCollectionSnapshot)
-        const {uid,displayName,...rest} = sender
+        const {uid,displayName,photoURL,...rest} = sender
         if(uids.indexOf(receiverId)>=0){
             const notification = {
-                ...rest,
+                // ...rest,
                 type:requestType,
                 responded:false,
                 senderId:uid,
+                photoURL,
                 senderName:displayName
                 // date:now
             }
-            yield collectionRef.add(notification)
-            yield put(sendRequestSuccess(notification))
+            if(requestType==='ADD_REQUEST'){
+                const receiverNotifsSnapshot = yield collectionRef.get()
+                const isNotifAlreadySent = yield call(checkIfNotifAlreadySent,receiverNotifsSnapshot,requestType,uid)
+                const friendsRef = yield firestore.collection(`users/${uid}/friends`)
+                const friendsSnapshot = yield friendsRef.get()
+                const doesFriendAlreadyExist = yield call(checkFriendAlreadyExists,friendsSnapshot,receiverId)
+                if (!doesFriendAlreadyExist){
+                    if(!isNotifAlreadySent){
+                        yield collectionRef.add(notification)
+                        yield put(sendRequestSuccess(notification)) 
+                    }else{
+                        throw new Error("Request already sent")
+                    }
+                }else{
+                    throw new Error("This user is already added")
+
+                }
+                
+            }else{
+                yield collectionRef.add(notification)
+                yield put(sendRequestSuccess(notification)) 
+            }
+            
+            // yield collectionRef.add(notification)
+            // yield put(sendRequestSuccess(notification))
         }else{
             throw new Error("User with the given id does not exist")
         }
+        
 
         
     } catch (error) {
