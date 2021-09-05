@@ -34,7 +34,7 @@ export const addTeammateStart = (uid,teammate)=>({
     
 })
 
-export const addTeammateSuccess = (teammate)=>({
+export const addTeammateSuccess = (teammate=undefined)=>({
     type:UserActionTypes.ADD_TEAMMATE_SUCCESS,
     teammate
 })

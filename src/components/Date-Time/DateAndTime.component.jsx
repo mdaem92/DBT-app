@@ -7,7 +7,7 @@ import moment from 'moment'
 
 const DateAndTime = () => {
     const rawdate = useCurrentTime()
-    const date = moment(rawdate).format("dddd Do MMM YYYY")
+    const date = moment(rawdate).format("dd D MMM YYYY")
     return (
         <DateAndTimeContainer>
             <Time time={rawdate}/>

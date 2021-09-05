@@ -1,4 +1,4 @@
-import { call, all, put, takeLatest } from 'redux-saga/effects'
+import { call, all, put, takeLatest , takeEvery } from 'redux-saga/effects'
 import UserActionTypes from './user.types'
 import { auth, createUserProfile, firestore, signInWithGoogle } from "../../firebase/firebase.utils";
 import {
@@ -48,8 +48,20 @@ function* addTeammateAsync({ uid, teammate }) {
             .add({
                 ...teammate
             })
+        
+        // if(uid===auth.currentUser.uid){
+        //     yield put(addTeammateSuccess(teammate))
 
-        yield put(addTeammateSuccess(teammate))
+        // }
+        console.log(`sender uid: ${uid} current user id: ${auth.currentUser.uid}`);
+        if(uid === auth.currentUser.uid){
+            yield put(addTeammateSuccess(teammate))
+
+        }else{
+            yield put(addTeammateSuccess())
+
+        }
+        // yield put(addTeammateSuccess(teammate))
 
     } catch (error) {
         console.log(error);
@@ -192,7 +204,7 @@ function* onSignOutStart() {
     )
 }
 function* onAddTeammateStart() {
-    yield takeLatest(
+    yield takeEvery(
         UserActionTypes.ADD_TEAMMATE_START,
         addTeammateAsync
     )

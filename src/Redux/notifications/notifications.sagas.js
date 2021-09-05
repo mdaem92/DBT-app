@@ -49,14 +49,14 @@ const checkFriendAlreadyExists = (snapshot,receiverId)=>{
 function* sendRequestAsync({sender,receiverId,requestType}){
     
     try {
-        yield console.log('sender id : ',sender)
+        yield console.log('sender  : ',sender)
         yield console.log('receiver id : ',receiverId)
         yield console.log('request type: ',requestType);
         const collectionRef = firestore.collection(`users/${receiverId}/notifications`)
         const usersCollectionRef = yield firestore.collection('users')
         const usersCollectionSnapshot = yield usersCollectionRef.get()
         const uids = yield call(getUsersIdsFromSnapshot,usersCollectionSnapshot)
-        const {uid,displayName,photoURL,...rest} = sender
+        const {uid,displayName,photoURL} = sender
         if(uids.indexOf(receiverId)>=0){
             const notification = {
                 // ...rest,

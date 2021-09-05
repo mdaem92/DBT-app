@@ -40,9 +40,10 @@ export const AccountMenu = styled(props => <Menu {...props} />)`
         color:white;
     }
     .ant-menu{
-        /* display:none; */
         .item{
             padding-left:10px
+            /* display:none; */
+
         }
     }
     

@@ -1,5 +1,5 @@
 import UserActionTypes from './user.types'
-import { removeTag, removeTeammate } from './user.utils'
+import { removeTag, removeTeammate ,addTeammate } from './user.utils'
 
 const defaultUserState = {
     currentUser:undefined,
@@ -52,10 +52,13 @@ export const UserReducer = (state=defaultUserState,action)=>{
                 loading:false
             }
         case UserActionTypes.ADD_TEAMMATE_SUCCESS:
+            console.log('got teammate ',action.teammate);
             return{
                 ...state,
                 loading:false,
-                teammates:[...state.teammates,{...action.teammate}],
+                // teammates:[...state.teammates,action.teammate],
+                // teammates:addTeammate(state.teammates,action.teammate),
+                teammates:!!action.teammate?[...state.teammates,{...action.teammate}]:state.teammates,
                 errorMessage:undefined
             }
         case UserActionTypes.REMOVE_TEAMMATE_SUCCESS:

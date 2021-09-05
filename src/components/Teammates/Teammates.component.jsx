@@ -4,6 +4,7 @@ import {connect} from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import {  teammatesSelector } from '../../Redux/user/user.selectors'
 import Teammate from '../Teammate/Teammate.component'
+import { fetchTeammatesStart } from '../../Redux/user/user.actions'
 
 
 
@@ -11,6 +12,7 @@ import Teammate from '../Teammate/Teammate.component'
 
 const Teammates = ({teammates}) => {
 
+    
 
     return (
         <Container>
@@ -26,6 +28,7 @@ const Teammates = ({teammates}) => {
 const mapStateToProps = createStructuredSelector({
     teammates:teammatesSelector,
 })
+
 
 
 export default connect(mapStateToProps)(Teammates)

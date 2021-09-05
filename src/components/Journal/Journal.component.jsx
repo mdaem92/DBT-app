@@ -7,11 +7,15 @@ import { useState } from 'react'
 import JournalModalTabs from '../Journal-Modal-Tabs/JournalModalTabs.component'
 
 const moodHandler = {
-    '2': '++',
-    '1': '+',
-    '0': '+-',
-    '-1': '-',
-    '-2': '--'
+    '9': '++',
+    '8':'++/+',
+    '7': '+',
+    '6':'+/+-',
+    '5': '+-',
+    '4':'+-/-',
+    '3': '-',
+    '2':'-/--',
+    '1': '--'
 }
 const Journal = (
     {

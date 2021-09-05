@@ -22,7 +22,7 @@ const PrivateRouter = ({
                 (
                     <Redirect 
                         to={{
-                            pathname: 'login',
+                            pathname: '/login',
                             state: { url: path }
                         }}
                     />

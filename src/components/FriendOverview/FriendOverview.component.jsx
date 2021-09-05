@@ -4,7 +4,7 @@ import { JournalsPageContainer, SidePanelProfileContainer, PaginationContainer }
 import { ChartsContainer } from '../HomepageTabs/HomepageTabs.styles'
 import Journal from '../Journal/Journal.component'
 import UserProfile from '../User-profile/UserProfile.component'
-import { Container } from './FriendOverview.styles'
+import { Container, EmptyContainer } from './FriendOverview.styles'
 import NewResponsiveChart from '../Responsive-Chart/ResponsiveChart'
 import { getMoodAndTensionData } from './FriendOverview.utils'
 import { connect, useSelector } from 'react-redux'
@@ -14,7 +14,7 @@ import Pagination from '../Pagination/Pagination.component'
 import { currentPageSelector, pageSizeSelector } from '../../Redux/pagination/pagination.selectors'
 import { ChartPagination } from '../Chart-Pagination/Chart-pagination.component'
 
-const FriendOverview = ({ id, showGraph, dateFrom, dateTo }) => {
+const FriendOverview = ({ id, showGraph, dateFrom, dateTo , name }) => {
 
     const currentPage = useSelector((state) => currentPageSelector(state, 'friendCurrentPage'))
     const pageSize = useSelector((state) => pageSizeSelector(state, 'friendPageSize'))
@@ -24,7 +24,7 @@ const FriendOverview = ({ id, showGraph, dateFrom, dateTo }) => {
     const [moodData, setmoodData] = useState([])
     const [tensionData, settensionData] = useState([])
     const [entriesPerChart, setEntriesPerChart] = useState(7)
-    const chartJournals =useFriendJournals(id,undefined,undefined,undefined,undefined,entriesPerChart)
+    const chartJournals = useFriendJournals(id, undefined, undefined, undefined, undefined, entriesPerChart)
 
 
 
@@ -35,7 +35,7 @@ const FriendOverview = ({ id, showGraph, dateFrom, dateTo }) => {
     }, [chartJournals])
 
 
-    console.log('paginated data: ',chartJournals);
+    console.log('paginated data: ', chartJournals);
 
     return (
 
@@ -44,28 +44,37 @@ const FriendOverview = ({ id, showGraph, dateFrom, dateTo }) => {
                 <UserProfile />
             </SidePanelProfileContainer>
 
-            <Container>
-                {
-                    showGraph ?
-                        (
-                            <div>
-                                <ChartPagination entriesPerChart={entriesPerChart} setEntriesPerChart={setEntriesPerChart} />
-                                <ChartsContainer>
-
-                                    {!!moodData && <NewResponsiveChart yAxisTitle={'Mood'} xAxisTitle={'Date'} data={moodData} label={'Mood'} domain={[-2, 2]} />}
-                                    {!!tensionData && <NewResponsiveChart yAxisTitle={'Tension'} xAxisTitle={'Date'} data={tensionData} label={'Tension'} domain={[0, 100]} />}
-                                </ChartsContainer>
-                            </div>
-
-                        )
-                        :
-                        (
-                            paginatedLatestJournals.map((journal, index) => <Journal key={index} {...journal} />)
-                        )
-                }
-            </Container>
             {
-                !showGraph &&
+                chartJournals?.length>0?
+                (
+                <Container>
+                    {
+                        showGraph ?
+                            (
+                                <div>
+                                    <ChartPagination entriesPerChart={entriesPerChart} setEntriesPerChart={setEntriesPerChart} />
+                                    <ChartsContainer>
+
+                                        {!!moodData && <NewResponsiveChart yAxisTitle={'Mood'} xAxisTitle={'Date'} data={moodData} label={'Mood'} domain={[-2, 2]} />}
+                                        {!!tensionData && <NewResponsiveChart yAxisTitle={'Tension'} xAxisTitle={'Date'} data={tensionData} label={'Tension'} domain={[0, 100]} />}
+                                    </ChartsContainer>
+                                </div>
+
+                            )
+                            :
+                            (
+                                paginatedLatestJournals.map((journal, index) => <Journal key={index} {...journal} />)
+                            )
+                    }
+                </Container>
+                )
+                :
+                (
+                    <EmptyContainer>{name} has not made any journals yet</EmptyContainer>
+                )
+            }
+            {
+                !showGraph && chartJournals?.length>0 &&
                 <PaginationContainer>
                     <Pagination total={paginatedLatestJournals.length} />
                 </PaginationContainer>

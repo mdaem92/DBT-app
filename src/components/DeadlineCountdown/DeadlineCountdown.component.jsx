@@ -71,7 +71,7 @@ const DeadlineCountdown = ({ deadlineData , fetchDeadlines , sendRequest , curre
         <CountdownContainer>
             {
                 !!(morningEnd && eveningEnd) ?
-                    <Countdown value={deadline} onFinish={onFinish} title={'Deadline in:'} format={'H[h] m[m] s[s]'} />
+                    <Countdown value={deadline} onFinish={onFinish} title={'Deadline in:'} format={'H[h] m[m]'} />
                     :
                     <DeadlineSwitchSettingContainer>
                         <Alert message="No deadlines given. Select report deadlines below to view deadline countdown" type="warning" />

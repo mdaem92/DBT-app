@@ -18,3 +18,10 @@ export const Container = styled.div`
        
     }
 `
+
+export const EmptyContainer = styled.div`
+    display: flex;
+    justify-self: center;
+    align-self: center;
+    margin-top: 10vh;
+`
