@@ -94,7 +94,7 @@ const ResponsiveLine = ({ xAxisTitle, yAxisTitle, min, max, data, label, domain,
                 // for custom tooltip component 
                 // content={renderTooltip}
                 />
-                <Legend formatter={legendFormatter} />
+                <Legend formatter={legendFormatter} wrapperStyle={isFriendsView?{bottom:-15}:{}} />
                 <Line type="monotone" yAxisId='left' dataKey={morningDataKey} stroke="#1890ff" activeDot={{ r: 8 }} />
                 <Line type="monotone" yAxisId='left' dataKey={eveningDataKey} stroke="#5f5f5f" activeDot={{ r: 8 }} />
 
