@@ -7,7 +7,7 @@ const useFriendJournals = (id,dateFrom=undefined,dateTo=undefined,currentPage=un
     console.log('got  ',id,dateFrom,dateTo,currentPage,pageSize,entriesPerChart);
     const getFriendLatestJournals = ()=>{
         console.log(`show date from ${dateFrom} to ${dateTo}`);
-        const collectionRef = firestore.collection(`users/${id}/journals`)
+        const collectionRef = firestore.collection(`users/${id}/journals`).orderBy('date')
 
         const unsubscribe = collectionRef.onSnapshot((querySnapshot)=>{
             const data = []
@@ -26,12 +26,14 @@ const useFriendJournals = (id,dateFrom=undefined,dateTo=undefined,currentPage=un
                 console.log(`journal date ${journal.date} match from: ${matchFrom} match to ${matchTo} moment: ${moment(journal.date)}`);
                 return matchFrom && matchTo
             })
+            // .sort((a, b) => moment(a.date) > moment(b.date) ? -1 : 1)
+
             if(typeof currentPage !=='undefined'){
                 const from = (currentPage-1)*pageSize
                 const to = from +pageSize 
                 const paginatedData = [
                     ...filteredData.splice(from,to)
-                ]
+                ].sort((a,b)=>moment(a.date)>moment(b.date)?-1:1)
                 setJournals(paginatedData)
             }else{
                 setJournals([...filteredData.slice(entriesPerChart*-1)])

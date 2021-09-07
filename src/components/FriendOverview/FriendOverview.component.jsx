@@ -6,7 +6,7 @@ import Journal from '../Journal/Journal.component'
 import UserProfile from '../User-profile/UserProfile.component'
 import { Container, EmptyContainer } from './FriendOverview.styles'
 import NewResponsiveChart from '../Responsive-Chart/ResponsiveChart'
-import { getMoodAndTensionData } from './FriendOverview.utils'
+import { getMoodData, getTensionData } from './FriendOverview.utils'
 import { connect, useSelector } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import { friendOverviewDateFromSelector, friendOverviewDateToSelector, friendOverviewPageViewSelector } from '../../Redux/friendOverviewPage/friendsOverviewPage.selectors'
@@ -29,7 +29,10 @@ const FriendOverview = ({ id, showGraph, dateFrom, dateTo , name }) => {
 
 
     useEffect(() => {
-        const { moodData: mood, tensionData: tension } = getMoodAndTensionData(chartJournals)
+        // const { moodData: mood, tensionData: tension } = getMoodAndTensionData(chartJournals)
+
+        const mood = getMoodData(chartJournals)
+        const tension = getTensionData(chartJournals)
         setmoodData(mood)
         settensionData(tension)
     }, [chartJournals])
@@ -55,8 +58,8 @@ const FriendOverview = ({ id, showGraph, dateFrom, dateTo , name }) => {
                                     <ChartPagination entriesPerChart={entriesPerChart} setEntriesPerChart={setEntriesPerChart} />
                                     <ChartsContainer>
 
-                                        {!!moodData && <NewResponsiveChart yAxisTitle={'Mood'} xAxisTitle={'Date'} data={moodData} label={'Mood'} domain={[-2, 2]} />}
-                                        {!!tensionData && <NewResponsiveChart yAxisTitle={'Tension'} xAxisTitle={'Date'} data={tensionData} label={'Tension'} domain={[0, 100]} />}
+                                        {!!moodData && <NewResponsiveChart yAxisTitle={'Mood'} xAxisTitle={'Date'} data={moodData} label={'Mood'} domain={[1, 9]} isFriendsView/>}
+                                        {!!tensionData && <NewResponsiveChart yAxisTitle={'Tension'} xAxisTitle={'Date'} data={tensionData} label={'Tension'} domain={[0, 100]} isFriendsView/>}
                                     </ChartsContainer>
                                 </div>
 

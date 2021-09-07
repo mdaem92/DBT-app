@@ -11,19 +11,11 @@ import useWindowSize from '../../hooks/useWindowSize';
 
 
 
-const ResponsiveLine = ({ xAxisTitle, yAxisTitle, min, max, data, label, domain, entriesPerChart }) => {
+const ResponsiveLine = ({ xAxisTitle, yAxisTitle, min, max, data, label, domain, entriesPerChart,isFriendsView }) => {
 
 
     const newMoodAxis = {
-        // <Option value="9">++</Option>
-        // <Option value="8">++/+</Option>
-        // <Option value="7">+</Option>
-        // <Option value="6">+/+-</Option>
-        // <Option value="5">+-</Option>
-        // <Option value="4">+-/-</Option>
-        // <Option value="3">-</Option>
-        // <Option value="2">-/--</Option>
-        // <Option value="1">--</Option>
+
         '9':'++',
         '8':'++/+',
         '7':'+',
@@ -67,7 +59,7 @@ const ResponsiveLine = ({ xAxisTitle, yAxisTitle, min, max, data, label, domain,
     return (
         <Container>
             <LineChart
-                width={width >= 800 ? width * 0.45 : width * 0.9}
+                width={width >= 800 ?( !!isFriendsView ? width * 0.4 :width * 0.45  ): width * 0.9}
                 height={400}
                 data={data}
                 margin={width >= 800 ?
