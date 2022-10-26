@@ -19,7 +19,7 @@ const GoogleLogIn = ({history,signInWithGoogle,currentUser}) => {
         :
         (
             <Container>
-                <HeadlineContainer>Welcome to DBT with Bitch and Hoe</HeadlineContainer>
+                <HeadlineContainer>Welcome to DBT therapy App</HeadlineContainer>
                 <Divider className={'divider'}>Log in to Continue</Divider>
                 <Button type={'primary'} icon={<GoogleOutlined />} onClick={signInWithGoogle}>Log in with Google</Button>
             </Container>
