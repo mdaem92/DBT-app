@@ -9,11 +9,16 @@
 # testing
 /coverage
 src/playground
+.eslintcache
+
 
 
 # production
 /build
-
+.firebase
+.github
+.firebaserc
+firebase.json
 
 # misc
 .env
